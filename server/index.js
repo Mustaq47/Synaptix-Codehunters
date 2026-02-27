@@ -20,7 +20,14 @@ function buildPrompt(lang, topic, diff) {
         hard: 'advanced-level',
         expert: 'expert / tricky edge-case',
     };
-    return `You are a programming quiz generator for ${lang.toUpperCase()} programming.
+
+    const codingSubjects = ['java', 'c', 'python'];
+    const isCoding = codingSubjects.includes(lang.toLowerCase());
+    const persona = isCoding
+        ? `programming quiz generator for ${lang.toUpperCase()} programming`
+        : `educational quiz generator for the subject of ${lang.toUpperCase()}`;
+
+    return `You are an ${persona}.
 Generate exactly ONE ${diffMap[diff] || 'intermediate'} multiple-choice question about the topic: "${topic}".
 
 Requirements:
@@ -87,10 +94,14 @@ app.post('/api/ai', async (req, res) => {
 });
 
 // Serve index.html for all other routes (SPA fallback)
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-app.listen(PORT, () => {
-    console.log(`[SERVER] Running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`[SERVER] Running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;

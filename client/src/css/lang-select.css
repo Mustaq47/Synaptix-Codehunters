@@ -31,7 +31,7 @@
 /* ── LANGUAGE GRID ── */
 .lang-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: var(--space-md);
     margin-bottom: 32px;
 }
@@ -77,7 +77,7 @@
     opacity: 1;
 }
 
-/* Language color vars */
+/* Subject color vars */
 .lang-opt.java {
     --lc: var(--java);
 }
@@ -90,8 +90,36 @@
     --lc: var(--python);
 }
 
+.lang-opt.grammar {
+    --lc: var(--grammar);
+}
+
+.lang-opt.maths {
+    --lc: var(--maths);
+}
+
+.lang-opt.reasoning {
+    --lc: var(--reasoning);
+}
+
+.lang-opt.aptitude {
+    --lc: var(--aptitude);
+}
+
+.lang-opt.gk {
+    --lc: var(--gk);
+}
+
+.lang-opt.verbal {
+    --lc: var(--verbal);
+}
+
+.lang-opt.science {
+    --lc: var(--science);
+}
+
 .lang-icon {
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     margin-bottom: 12px;
     display: block;
     line-height: 1;
@@ -99,24 +127,17 @@
 
 .lang-name {
     font-family: var(--font-display);
-    font-size: .95rem;
+    font-size: .85rem;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: white;
     margin-bottom: 6px;
     position: relative;
+    text-transform: uppercase;
 }
 
-.lang-name.java-name {
-    color: var(--java);
-}
-
-.lang-name.c-name {
-    color: var(--c);
-}
-
-.lang-name.python-name {
-    color: var(--python);
+.lang-name.sub-name {
+    color: var(--lc);
 }
 
 .lang-desc {

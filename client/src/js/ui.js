@@ -6,6 +6,12 @@
 
 import { DIFFICULTIES, LANG_META, REVISION_TIPS } from './constants.js';
 import { getScore100, getStreakMult, getRank, rankProgress, xpToNextRank } from './state.js';
+import { openRevisionModal } from './revision.js';
+
+window.toggleRightSidebar = function () {
+    const rs = document.querySelector('.right-sidebar');
+    if (rs) rs.classList.toggle('active');
+};
 
 // ──────────────────────────────────────────────────────────────
 //  MAIN UI UPDATER (center column stats)
@@ -146,9 +152,15 @@ export function updateRevisionPanel(topicStats) {
 
         const card = document.createElement('div');
         card.className = `rs-card ${urgency}`;
+        card.style.cursor = 'pointer';
+        card.onclick = () => {
+            // Close mobile sidebar if open
+            document.querySelector('.right-sidebar').classList.remove('active');
+            openRevisionModal(topic);
+        };
         card.innerHTML = `
       <div class="rs-card-topic">📖 ${topic} <span>${pct}% accuracy</span></div>
-      <div class="rs-card-tip">${tip}</div>
+      <div class="rs-card-tip">${tip} <br><br><span style="color:var(--accent);font-weight:bold;">⚡ Click for AI Revision</span></div>
       <div class="rs-card-accuracy">${s.correct}/${s.total} correct — needs revision</div>
     `;
         list.insertBefore(card, list.firstChild);

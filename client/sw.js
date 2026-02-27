@@ -3,7 +3,7 @@
  * Provides offline support by caching all app shell assets.
  */
 
-const CACHE_NAME = 'nexus-assess-v1';
+const CACHE_NAME = 'lvlup-v4';
 const SHELL_ASSETS = [
     '/',
     '/index.html',
@@ -18,6 +18,7 @@ const SHELL_ASSETS = [
     '/src/css/profile.css',
     '/src/css/completion.css',
     '/src/css/overlays.css',
+    '/src/css/layout.css',
     '/src/css/responsive.css',
     '/src/js/app.js',
     '/src/js/constants.js',
@@ -28,6 +29,7 @@ const SHELL_ASSETS = [
     '/src/js/screens.js',
     '/src/js/game.js',
     '/src/js/ui.js',
+    '/src/js/revision.js',
 ];
 
 // Cache all shell assets on install

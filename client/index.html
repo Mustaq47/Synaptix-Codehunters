@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="NEXUS ASSESS — AI Adaptive Assessment. Master Java, C & Python through gamified adaptive quizzes with XP, ranks, streaks and competency analytics.">
+        content="Lvl->Up — AI Adaptive Assessment. Master Java, C & Python through gamified adaptive quizzes with XP, ranks, streaks and competency analytics.">
     <meta name="theme-color" content="#05060f">
-    <title>NEXUS ASSESS — AI Adaptive Assessment</title>
+    <title>Lvl->Up — AI Adaptive Assessment</title>
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="src/css/overlays.css">
     <link rel="stylesheet" href="src/css/layout.css">
     <link rel="stylesheet" href="src/css/responsive.css">
+
+    <!-- ── EXTERNAL LIBS ── -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -35,7 +38,7 @@
         <div class="center-wrap">
             <div class="create-card">
                 <h2>CREATE PROFILE</h2>
-                <p class="sub">◆ Your identity in the NEXUS system ◆</p>
+                <p class="sub">◆ Your identity in the Lvl system ◆</p>
                 <label class="field-label">Callsign (Username)</label>
                 <input class="name-input" id="nameInput" type="text" maxlength="16" placeholder="Enter your callsign..."
                     autocomplete="off" />
@@ -73,6 +76,48 @@
                         <div class="lang-name python-name">PYTHON</div>
                         <div class="lang-desc">Data Structures · OOP<br>Libraries · Generators</div>
                     </div>
+                    <div class="lang-opt grammar" id="langGrammar" onclick="selectLang('grammar')">
+                        <div class="lang-check" id="checkGrammar"></div>
+                        <span class="lang-icon">📝</span>
+                        <div class="lang-name sub-name">GRAMMAR</div>
+                        <div class="lang-desc">Syntax · Tenses<br>Punctuation · Rules</div>
+                    </div>
+                    <div class="lang-opt maths" id="langMaths" onclick="selectLang('maths')">
+                        <div class="lang-check" id="checkMaths"></div>
+                        <span class="lang-icon">🔢</span>
+                        <div class="lang-name sub-name">MATHS</div>
+                        <div class="lang-desc">Algebra · Geometry<br>Arithmetic · Calculus</div>
+                    </div>
+                    <div class="lang-opt reasoning" id="langReasoning" onclick="selectLang('reasoning')">
+                        <div class="lang-check" id="checkReasoning"></div>
+                        <span class="lang-icon">🧩</span>
+                        <div class="lang-name sub-name">REASONING</div>
+                        <div class="lang-desc">Logic Puzzles · Series<br>Deductions · Syllogisms</div>
+                    </div>
+                    <div class="lang-opt aptitude" id="langAptitude" onclick="selectLang('aptitude')">
+                        <div class="lang-check" id="checkAptitude"></div>
+                        <span class="lang-icon">📈</span>
+                        <div class="lang-name sub-name">APTITUDE</div>
+                        <div class="lang-desc">Time & Work · Speed<br>Data Interpretation</div>
+                    </div>
+                    <div class="lang-opt gk" id="langGk" onclick="selectLang('gk')">
+                        <div class="lang-check" id="checkGk"></div>
+                        <span class="lang-icon">🌍</span>
+                        <div class="lang-name sub-name">GEN. KNOWLEDGE</div>
+                        <div class="lang-desc">Geography · History<br>Current Affairs · Trivia</div>
+                    </div>
+                    <div class="lang-opt verbal" id="langVerbal" onclick="selectLang('verbal')">
+                        <div class="lang-check" id="checkVerbal"></div>
+                        <span class="lang-icon">🗣️</span>
+                        <div class="lang-name sub-name">VERBAL</div>
+                        <div class="lang-desc">Vocabulary · Spelling<br>Comprehension</div>
+                    </div>
+                    <div class="lang-opt science" id="langScience" onclick="selectLang('science')">
+                        <div class="lang-check" id="checkScience"></div>
+                        <span class="lang-icon">🔬</span>
+                        <div class="lang-name sub-name">SCIENCE</div>
+                        <div class="lang-desc">Physics · Chemistry<br>Biology · Astronomy</div>
+                    </div>
                 </div>
                 <div class="topic-select-section" id="topicSelectSection">
                     <div class="topic-select-title">◆ Topics to Practice</div>
@@ -89,7 +134,7 @@
         <!-- TOP BAR (full width, above 3 columns) -->
         <div class="top-bar" style="max-width:1400px;margin:0 auto;padding:12px 16px;">
             <div class="logo-block">
-                <h1>NEXUS ASSESS</h1>
+                <h1>Lvl->Up</h1>
                 <p>AI · Adaptive · Gamified Assessment</p>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
@@ -316,11 +361,17 @@
                 <div class="rs-title">📋 LIVE REVISION PANEL</div>
                 <div id="revisionList">
                     <div class="rs-empty">Performing well! 🎯<br>Weak topics will appear here if accuracy drops below
-                        50%.</div>
+                        50%. Click a topic to revise.</div>
                 </div>
             </aside>
 
         </div><!-- /game-layout -->
+
+        <!-- MOBILE BOTTOM NAVIGATION -->
+        <div class="mobile-nav" id="mobileNav">
+            <button class="mn-btn" onclick="openProfile()">👤 Profile</button>
+            <button class="mn-btn" onclick="toggleRightSidebar()">📋 Revision</button>
+        </div>
     </div><!-- /screenGame -->
 
     <!-- ═══════ PROFILE PANEL (slide-in) ═══════ -->
@@ -408,6 +459,25 @@
         </div>
 
         <div class="panel-section">
+            <div class="panel-section-title">Performance Analytics</div>
+            <div class="charts-container"
+                style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px;margin-bottom:24px;">
+                <div class="chart-box"
+                    style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;">
+                    <div
+                        style="text-align:center;font-family:var(--font-mono);font-size:.65rem;color:var(--dim);margin-bottom:8px;letter-spacing:1px;">
+                        TOPIC ACCURACY</div>
+                    <canvas id="accuracyRadarChart" width="200" height="200"></canvas>
+                </div>
+                <div class="chart-box"
+                    style="background:var(--panel2);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;">
+                    <div
+                        style="text-align:center;font-family:var(--font-mono);font-size:.65rem;color:var(--dim);margin-bottom:8px;letter-spacing:1px;">
+                        RECENT SCORES</div>
+                    <canvas id="scoresLineChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+
             <div class="panel-section-title">Session History (Last 10)</div>
             <div class="history-list" id="historyList">
                 <div class="empty-history">No sessions yet.<br>Complete a game to see your history.</div>
@@ -426,6 +496,26 @@
             <div id="assignmentItems"></div>
         </div>
         <button class="overlay-btn" onclick="forceRestart()">ACCEPT &amp; RESTART</button>
+    </div>
+
+    <!-- ═══════ LIVE REVISION MODAL ═══════ -->
+    <div class="overlay" id="revisionModal">
+        <div class="revision-modal-content">
+            <button class="panel-close" onclick="closeRevisionModal()" style="top:15px;right:20px;">✕</button>
+            <div class="rm-header">
+                <h2 id="rmTopicTitle">Topic Revision</h2>
+                <div id="rmLoading"
+                    style="font-family:var(--font-mono);font-size:.75rem;color:var(--accent3);margin-top:8px;">⚙
+                    Generating explanation &amp; questions…</div>
+            </div>
+            <div id="rmContent" style="display:none;">
+                <div class="rm-explanation" id="rmExplanation"></div>
+                <h3
+                    style="margin:20px 0 10px;font-family:var(--font-display);color:var(--gold);font-size:.85rem;letter-spacing:2px;">
+                    PRACTICE QUESTIONS</h3>
+                <div class="rm-questions" id="rmQuestions"></div>
+            </div>
+        </div>
     </div>
 
     <!-- ═══════ JS ENTRY POINT ═══════ -->

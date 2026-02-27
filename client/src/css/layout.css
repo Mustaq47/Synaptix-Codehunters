@@ -326,3 +326,12 @@
         grid-template-columns: 220px 1fr 220px;
     }
 }
+
+/* ── MOBILE NAV BASE (Hidden on Desktop) ── */
+.mobile-nav {
+    display: none;
+}
+
+.mobile-close-btn {
+    display: none;
+}

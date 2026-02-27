@@ -151,4 +151,50 @@ export const QB = {
             { q: "What does Python's asyncio event loop do?", options: ["Creates threads", "Manages and runs coroutines cooperatively on a single thread", "A multi-process scheduler", "A garbage collector"], ans: 1, topic: "Internals", boss: true },
         ],
     },
+
+    // ══════════════════════════════════════════════════════════
+    //  NEW SUBJECTS (Fallbacks if AI generation fails)
+    // ══════════════════════════════════════════════════════════
+    grammar: {
+        easy: [{ q: "Identify the noun: 'The quick brown fox jumps.'", options: ["quick", "brown", "fox", "jumps"], ans: 2, topic: "Syntax & Rules" }],
+        medium: [{ q: "Which is grammatically correct?", options: ["She do not like apples.", "She does not like apples.", "She don't likes apples.", "She does not likes apples."], ans: 1, topic: "Syntax & Rules" }],
+        hard: [{ q: "What is a gerund?", options: ["An adjective acting as a noun", "A verb ending in -ing acting as a noun", "A prepositional phrase", "A linking verb"], ans: 1, topic: "Syntax & Rules" }],
+        expert: [{ q: "Identify the subjunctive mood:", options: ["I was there.", "If I were you, I would go.", "I am going.", "He is here."], ans: 1, topic: "Syntax & Rules", boss: true }],
+    },
+    maths: {
+        easy: [{ q: "What is 15% of 200?", options: ["15", "20", "30", "45"], ans: 2, topic: "Arithmetic" }],
+        medium: [{ q: "Solve for x: 3x - 7 = 14", options: ["5", "7", "9", "21"], ans: 1, topic: "Algebra" }],
+        hard: [{ q: "What is the derivative of x^2?", options: ["x", "2x", "x^2", "2"], ans: 1, topic: "Algebra" }],
+        expert: [{ q: "What is the integral of 1/x?", options: ["x", "ln|x|", "e^x", "-1/x^2"], ans: 1, topic: "Algebra", boss: true }],
+    },
+    reasoning: {
+        easy: [{ q: "Find the next in series: 2, 4, 8, 16, __", options: ["20", "24", "32", "64"], ans: 2, topic: "Logic Puzzles" }],
+        medium: [{ q: "If A is taller than B, and B is taller than C, who is the shortest?", options: ["A", "B", "C", "Cannot be determined"], ans: 2, topic: "Logic Puzzles" }],
+        hard: [{ q: "All dogs are animals. Some animals are cats. conclusion: Some dogs are cats.", options: ["True", "False", "Maybe", "Invalid syllogism"], ans: 1, topic: "Logic Puzzles" }],
+        expert: [{ q: "Solve the paradox of the heap (Sorites paradox).", options: ["1 grain", "10 grains", "It's a continuum fallacy", "100 grains"], ans: 2, topic: "Logic Puzzles", boss: true }],
+    },
+    aptitude: {
+        easy: [{ q: "A train running at 72km/hr crosses a pole in 10 sec. Length of train?", options: ["100m", "150m", "200m", "250m"], ans: 2, topic: "Arithmetic" }],
+        medium: [{ q: "A can do a work in 10 days, B in 15. Together?", options: ["5 days", "6 days", "8 days", "25 days"], ans: 1, topic: "Arithmetic" }],
+        hard: [{ q: "In what ratio must grocer mix two varieties of tea worth Rs 60 & 65/kg so mixture is worth Rs 62/kg?", options: ["3:2", "2:3", "3:1", "1:3"], ans: 0, topic: "Data Interpretation" }],
+        expert: [{ q: "A clock strikes once at 1, twice at 2... How many strikes in 24 hrs?", options: ["78", "156", "300", "24"], ans: 1, topic: "Logic Puzzles", boss: true }],
+    },
+    gk: {
+        easy: [{ q: "What is the capital of France?", options: ["Rome", "Berlin", "Paris", "Madrid"], ans: 2, topic: "Geography" }],
+        medium: [{ q: "Who wrote 'Romeo and Juliet'?", options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"], ans: 1, topic: "History" }],
+        hard: [{ q: "In what year did the Titanic sink?", options: ["1910", "1912", "1914", "1920"], ans: 1, topic: "History" }],
+        expert: [{ q: "What was the first artificial Earth satellite?", options: ["Apollo 11", "Vostok 1", "Sputnik 1", "Explorer 1"], ans: 2, topic: "History", boss: true }],
+    },
+    verbal: {
+        easy: [{ q: "What is a synonym for 'happy'?", options: ["Sad", "Joyful", "Angry", "Tired"], ans: 1, topic: "Vocabulary" }],
+        medium: [{ q: "What is an antonym for 'expand'?", options: ["Grow", "Deflate", "Contract", "Stretch"], ans: 2, topic: "Vocabulary" }],
+        hard: [{ q: "Choose the correct spelling:", options: ["Accommodate", "Acommodate", "Accomodate", "Acomodate"], ans: 0, topic: "Spelling" }],
+        expert: [{ q: "What does 'Eschew' mean?", options: ["To chew thoroughly", "To welcome", "To abstain from or avoid", "To seek out"], ans: 2, topic: "Vocabulary", boss: true }],
+    },
+    science: {
+        easy: [{ q: "What is the chemical symbol for Water?", options: ["O2", "H2O", "CO2", "HO"], ans: 1, topic: "Chemistry" }],
+        medium: [{ q: "What planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], ans: 1, topic: "Geography" }],
+        hard: [{ q: "What is the powerhouse of the cell?", options: ["Nucleus", "Ribosome", "Mitochondria", "Golgi Body"], ans: 2, topic: "Biology" }],
+        expert: [{ q: "What principle explains why airplanes fly?", options: ["Archimedes'", "Bernoulli's", "Newton's 3rd Law", "Pascal's"], ans: 1, topic: "Physics", boss: true }],
+    },
 };
