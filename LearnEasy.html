@@ -1,0 +1,2326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS ASSESS — AI Adaptive Assessment</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05060f;
+      --panel: #0b0d1e;
+      --panel2: #0e1128;
+      --border: #1a1f4e;
+      --accent: #00d4ff;
+      --accent2: #ff6b35;
+      --accent3: #a855f7;
+      --gold: #ffd700;
+      --green: #00ff9d;
+      --red: #ff3b5c;
+      --text: #c8d0ff;
+      --dim: #4a5080;
+      --java: #f89820;
+      --c: #a8b9cc;
+      --python: #4b8bbe;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, .04) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, .04) 0%, transparent 60%), linear-gradient(180deg, #05060f 0%, #07091a 100%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(0, 212, 255, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, .03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* ── SHARED CENTERED WRAP ── */
+    .center-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── PROFILE CREATION ── */
+    .create-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 480px;
+      width: 100%;
+      animation: slideUp .5s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .create-card h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+
+    .create-card .sub {
+      font-size: .78rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 28px;
+    }
+
+    .field-label {
+      font-size: .68rem;
+      letter-spacing: 3px;
+      color: var(--dim);
+      text-transform: uppercase;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .name-input {
+      width: 100%;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      outline: none;
+      transition: border-color .3s;
+      margin-bottom: 24px;
+    }
+
+    .name-input:focus {
+      border-color: var(--accent);
+    }
+
+    .name-input::placeholder {
+      color: var(--dim);
+      font-size: .75rem;
+      letter-spacing: 1px;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .avatar-opt {
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, .04);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+    }
+
+    .avatar-opt:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, .08);
+      transform: scale(1.1);
+    }
+
+    .avatar-opt.selected {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, .15);
+      box-shadow: 0 0 14px rgba(0, 212, 255, .25);
+    }
+
+    .title-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .title-opt {
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .75rem;
+      color: var(--dim);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .title-opt:hover {
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+
+    .title-opt.selected {
+      border-color: var(--accent3);
+      color: var(--accent3);
+      background: rgba(168, 85, 247, .1);
+    }
+
+    .create-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .create-btn:hover {
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
+    /* ══════════════════════════════════════
+   LANGUAGE SELECT SCREEN
+══════════════════════════════════════ */
+    .lang-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 560px;
+      width: 100%;
+      animation: slideUp .5s ease;
+    }
+
+    .lang-card h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3rem;
+      letter-spacing: 4px;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .lang-card .sub {
+      font-size: .78rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 32px;
+    }
+
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .lang-opt {
+      background: rgba(255, 255, 255, .03);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 16px 22px;
+      cursor: pointer;
+      transition: all .25s;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lang-opt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .lang-opt:hover {
+      transform: translateY(-3px);
+    }
+
+    .lang-opt.selected {
+      transform: translateY(-3px);
+    }
+
+    .lang-opt.java {
+      --lc: var(--java);
+    }
+
+    .lang-opt.c {
+      --lc: var(--c);
+    }
+
+    .lang-opt.python {
+      --lc: var(--python);
+    }
+
+    .lang-opt:hover {
+      border-color: var(--lc);
+    }
+
+    .lang-opt.selected {
+      border-color: var(--lc);
+      background: color-mix(in srgb, var(--lc) 8%, transparent);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--lc) 20%, transparent);
+    }
+
+    .lang-icon {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+      display: block;
+      line-height: 1;
+    }
+
+    .lang-name {
+      font-family: 'Orbitron', monospace;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .lang-desc {
+      font-size: .68rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+      line-height: 1.5;
+    }
+
+    .lang-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      transition: all .2s;
+    }
+
+    .lang-opt.selected .lang-check {
+      background: var(--lc);
+      border-color: var(--lc);
+      color: #000;
+    }
+
+    .lang-name.java-name {
+      color: var(--java);
+    }
+
+    .lang-name.c-name {
+      color: var(--c);
+    }
+
+    .lang-name.python-name {
+      color: var(--python);
+    }
+
+    .lang-start-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-size: .88rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .lang-start-btn:hover {
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
+    /* ── GAME TOP BAR ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 16px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo-block h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      font-weight: 900;
+      letter-spacing: 5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-block p {
+      font-size: .68rem;
+      color: var(--dim);
+      letter-spacing: 3px;
+      font-family: 'Share Tech Mono', monospace;
+      margin-top: 2px;
+    }
+
+    .profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 16px 8px 10px;
+      cursor: pointer;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+
+    .profile-chip:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, .06);
+    }
+
+    .chip-avatar {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .chip-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chip-name {
+      font-family: 'Orbitron', monospace;
+      font-size: .68rem;
+      letter-spacing: 2px;
+      color: white;
+    }
+
+    .chip-rank {
+      font-size: .62rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      margin-top: 1px;
+    }
+
+    /* LANGUAGE PILL in game */
+    .lang-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      border: 1px solid;
+      cursor: pointer;
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+
+    .lang-pill:hover {
+      opacity: .8;
+    }
+
+    .lang-pill.java {
+      border-color: var(--java);
+      color: var(--java);
+      background: rgba(248, 152, 32, .1);
+    }
+
+    .lang-pill.c {
+      border-color: var(--c);
+      color: var(--c);
+      background: rgba(168, 185, 204, .1);
+    }
+
+    .lang-pill.python {
+      border-color: var(--python);
+      color: var(--python);
+      background: rgba(75, 139, 190, .1);
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 0 0 14px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+    }
+
+    .stat-card.xp::before {
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+    }
+
+    .stat-card.focus::before {
+      background: linear-gradient(90deg, var(--green), var(--accent));
+    }
+
+    .stat-card.rank::before {
+      background: linear-gradient(90deg, var(--gold), var(--accent2));
+    }
+
+    .stat-label {
+      font-size: .68rem;
+      letter-spacing: 3px;
+      color: var(--dim);
+      text-transform: uppercase;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .stat-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 4px 0;
+    }
+
+    .stat-value.xp-val {
+      color: var(--accent);
+    }
+
+    .stat-value.focus-val {
+      color: var(--green);
+    }
+
+    .stat-value.rank-val {
+      color: var(--gold);
+      font-size: .95rem;
+    }
+
+    .bar-wrap {
+      height: 6px;
+      background: rgba(255, 255, 255, .05);
+      border-radius: 3px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width .5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .bar-fill.xp-bar {
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+    }
+
+    .bar-fill.focus-bar {
+      background: linear-gradient(90deg, var(--green), var(--accent));
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: .68rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      margin-top: 4px;
+    }
+
+    /* ── DIFF ROW ── */
+    .diff-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      padding: 10px 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      flex-wrap: wrap;
+    }
+
+    .diff-label {
+      font-size: .68rem;
+      letter-spacing: 3px;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .diff-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .diff-badge {
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: .68rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      text-transform: uppercase;
+      transition: all .3s;
+      opacity: .3;
+    }
+
+    .diff-badge.active {
+      opacity: 1;
+    }
+
+    .diff-badge.easy {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .diff-badge.easy.active {
+      background: rgba(0, 255, 157, .1);
+    }
+
+    .diff-badge.medium {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .diff-badge.medium.active {
+      background: rgba(0, 212, 255, .1);
+    }
+
+    .diff-badge.hard {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    .diff-badge.hard.active {
+      background: rgba(255, 107, 53, .1);
+    }
+
+    .diff-badge.expert {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .diff-badge.expert.active {
+      background: rgba(255, 59, 92, .1);
+    }
+
+    .streak-display {
+      margin-left: auto;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .8rem;
+      color: var(--gold);
+    }
+
+    /* ── TIMER RING ── */
+    .timer-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .timer-ring-container {
+      position: relative;
+      width: 72px;
+      height: 72px;
+    }
+
+    .timer-svg {
+      transform: rotate(-90deg);
+    }
+
+    .timer-track {
+      fill: none;
+      stroke: rgba(255, 255, 255, .06);
+      stroke-width: 5;
+    }
+
+    .timer-arc {
+      fill: none;
+      stroke-width: 5;
+      stroke-linecap: round;
+      transition: stroke-dashoffset .9s linear, stroke .3s;
+    }
+
+    .timer-txt {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .timer-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .62rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 3px;
+    }
+
+    /* ── SCORE PANEL ── */
+    .score-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 18px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .score-main {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .score-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .65rem;
+      color: var(--dim);
+      letter-spacing: 3px;
+    }
+
+    .score-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .score-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .score-chip-val {
+      font-family: 'Orbitron', monospace;
+      font-size: .88rem;
+      font-weight: 700;
+    }
+
+    .score-chip-lbl {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .55rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+
+    .score-chip.streak-chip .score-chip-val {
+      color: var(--gold);
+    }
+
+    .score-chip.mult-chip .score-chip-val {
+      color: var(--accent3);
+    }
+
+    .score-chip.acc-chip .score-chip-val {
+      color: var(--green);
+    }
+
+    /* ── QUESTION CARD ── */
+    .question-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: border-color .3s;
+    }
+
+    .question-card.flash-correct {
+      border-color: var(--green);
+      box-shadow: 0 0 30px rgba(0, 255, 157, .15);
+      animation: flashC .6s ease;
+    }
+
+    .question-card.flash-wrong {
+      border-color: var(--red);
+      box-shadow: 0 0 30px rgba(255, 59, 92, .15);
+      animation: flashW .6s ease;
+    }
+
+    @keyframes flashC {
+
+      0%,
+      100% {
+        background: var(--panel);
+      }
+
+      50% {
+        background: rgba(0, 255, 157, .08);
+      }
+    }
+
+    @keyframes flashW {
+
+      0%,
+      100% {
+        background: var(--panel);
+      }
+
+      50% {
+        background: rgba(255, 59, 92, .08);
+      }
+    }
+
+    .q-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .q-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .75rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+    }
+
+    .xp-badge {
+      margin-left: auto;
+      font-family: 'Orbitron', monospace;
+      font-size: .72rem;
+      color: var(--gold);
+      background: rgba(255, 215, 0, .1);
+      border: 1px solid rgba(255, 215, 0, .3);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .q-boss {
+      font-size: .68rem;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      font-family: 'Share Tech Mono', monospace;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .5;
+      }
+    }
+
+    .q-text {
+      font-size: 1.08rem;
+      line-height: 1.6;
+      color: #e0e8ff;
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 18px;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, .06);
+      color: white;
+      transform: translateX(4px);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-btn.correct {
+      border-color: var(--green);
+      background: rgba(0, 255, 157, .1);
+      color: var(--green);
+    }
+
+    .option-btn.wrong {
+      border-color: var(--red);
+      background: rgba(255, 59, 92, .1);
+      color: var(--red);
+    }
+
+    .opt-key {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      color: var(--dim);
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+      min-width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .92rem;
+      display: none;
+      animation: fadeSlide .3s ease;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feedback.correct {
+      background: rgba(0, 255, 157, .1);
+      border: 1px solid rgba(0, 255, 157, .3);
+      color: var(--green);
+    }
+
+    .feedback.wrong {
+      background: rgba(255, 59, 92, .1);
+      border: 1px solid rgba(255, 59, 92, .3);
+      color: var(--red);
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .next-btn {
+      display: none;
+      width: 100%;
+      margin-top: 14px;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+
+    .next-btn:hover {
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
+    .next-btn.show {
+      display: block;
+    }
+
+    /* ── XP POPUP ── */
+    .xp-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 900;
+      pointer-events: none;
+      z-index: 300;
+      animation: popUp 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    .xp-popup.gain {
+      color: var(--green);
+    }
+
+    .xp-popup.loss {
+      color: var(--red);
+    }
+
+    @keyframes popUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -20%);
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 1;
+        transform: translate(-50%, -80%);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -120%);
+      }
+    }
+
+    /* ── COMPLETION ── */
+    .completion {
+      display: none;
+    }
+
+    .completion.show {
+      display: block;
+    }
+
+    .radar-section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .radar-section h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: .88rem;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .topic-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .topic-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topic-name {
+      width: 140px;
+      font-size: .8rem;
+      color: var(--dim);
+      flex-shrink: 0;
+    }
+
+    .topic-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, .05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .topic-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .topic-pct {
+      width: 40px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .8rem;
+      color: var(--text);
+      text-align: right;
+    }
+
+    .final-rank {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin: 16px 0 6px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Orbitron', monospace;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.02);
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      color: white;
+    }
+
+    .action-btn.secondary {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    /* ── RESTART OVERLAY ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 15, .95);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .overlay h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+
+    .overlay p {
+      color: var(--dim);
+      font-size: 1rem;
+      max-width: 400px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .overlay-btn {
+      padding: 14px 40px;
+      background: linear-gradient(135deg, var(--accent2), var(--red));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      letter-spacing: 3px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    /* ══════════════════════════════════════
+   PROFILE PANEL
+══════════════════════════════════════ */
+    .profile-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 15, .7);
+      z-index: 150;
+      backdrop-filter: blur(4px);
+    }
+
+    .profile-backdrop.show {
+      display: block;
+    }
+
+    .profile-panel {
+      position: fixed;
+      top: 0;
+      right: -440px;
+      width: min(420px, 100vw);
+      height: 100vh;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      z-index: 160;
+      overflow-y: auto;
+      transition: right .4s cubic-bezier(.4, 0, .2, 1);
+      padding: 28px 24px 40px;
+    }
+
+    .profile-panel.open {
+      right: 0;
+    }
+
+    .panel-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--dim);
+      font-size: 1rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+    }
+
+    .panel-close:hover {
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .panel-avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 8px 0 24px;
+    }
+
+    .panel-avatar {
+      font-size: 3.5rem;
+      line-height: 1;
+      background: rgba(255, 255, 255, .05);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .panel-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: white;
+    }
+
+    .panel-title {
+      font-size: .72rem;
+      color: var(--accent3);
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    .panel-rank-badge {
+      font-size: .95rem;
+      font-family: 'Orbitron', monospace;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+
+    .divider {
+      text-align: center;
+      color: var(--border);
+      font-size: .8rem;
+      letter-spacing: 6px;
+      margin: 0 0 20px;
+    }
+
+    .panel-section {
+      margin-bottom: 24px;
+    }
+
+    .panel-section-title {
+      font-size: .62rem;
+      letter-spacing: 4px;
+      color: var(--dim);
+      text-transform: uppercase;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mini-stat {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .mini-stat-label {
+      font-size: .62rem;
+      color: var(--dim);
+      letter-spacing: 2px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .mini-stat-val {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin-top: 5px;
+    }
+
+    .mini-stat-val.gold {
+      color: var(--gold);
+    }
+
+    .mini-stat-val.green {
+      color: var(--green);
+    }
+
+    .mini-stat-val.purple {
+      color: var(--accent3);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .history-item {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hist-rank {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .hist-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hist-xp {
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      color: var(--accent);
+    }
+
+    .hist-meta {
+      font-size: .68rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hist-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .hist-acc {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .82rem;
+    }
+
+    .hist-acc.great {
+      color: var(--green);
+    }
+
+    .hist-acc.ok {
+      color: var(--gold);
+    }
+
+    .hist-acc.bad {
+      color: var(--red);
+    }
+
+    .hist-lang-tag {
+      font-size: .6rem;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 2px 7px;
+      border-radius: 10px;
+      border: 1px solid;
+      letter-spacing: 1px;
+    }
+
+    .hist-lang-tag.java {
+      color: var(--java);
+      border-color: var(--java);
+      background: rgba(248, 152, 32, .1);
+    }
+
+    .hist-lang-tag.c {
+      color: var(--c);
+      border-color: var(--c);
+      background: rgba(168, 185, 204, .1);
+    }
+
+    .hist-lang-tag.python {
+      color: var(--python);
+      border-color: var(--python);
+      background: rgba(75, 139, 190, .1);
+    }
+
+    .empty-history {
+      text-align: center;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .78rem;
+      padding: 24px 0;
+      line-height: 1.8;
+    }
+
+    .panel-reset-btn {
+      width: 100%;
+      padding: 10px;
+      background: rgba(255, 59, 92, .05);
+      border: 1px solid rgba(255, 59, 92, .2);
+      border-radius: 8px;
+      color: rgba(255, 59, 92, .6);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: all .2s;
+    }
+
+    .panel-reset-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(255, 59, 92, .1);
+    }
+
+    /* Lang stats row */
+    .lang-stats-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .lang-stat-chip {
+      flex: 1;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .lang-stat-chip .lsc-icon {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .lang-stat-chip .lsc-label {
+      font-size: .6rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+    }
+
+    .lang-stat-chip .lsc-val {
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      margin-top: 3px;
+    }
+
+    .lang-stat-chip.java .lsc-val {
+      color: var(--java);
+    }
+
+    .lang-stat-chip.c .lsc-val {
+      color: var(--c);
+    }
+
+    .lang-stat-chip.python.lsc-val {
+      color: var(--python);
+    }
+
+    .lang-stat-chip.python .lsc-val {
+      color: var(--python);
+    }
+
+    @media(max-width:600px) {
+      .status-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat-card.rank {
+        grid-column: span 2;
+      }
+
+      .avatar-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lang-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════ SCREEN: PROFILE CREATION ═══════ -->
+  <div id="screenCreate" class="screen active">
+    <div class="center-wrap">
+      <div class="create-card">
+        <h2>CREATE PROFILE</h2>
+        <p class="sub">◆ Your identity in the NEXUS system ◆</p>
+        <label class="field-label">Callsign (Username)</label>
+        <input class="name-input" id="nameInput" type="text" maxlength="16" placeholder="Enter your callsign..." />
+        <label class="field-label">Choose Avatar</label>
+        <div class="avatar-grid" id="avatarGrid"></div>
+        <label class="field-label">Choose Title</label>
+        <div class="title-grid" id="titleGrid"></div>
+        <button class="create-btn" onclick="createProfile()">◆ INITIALIZE PROFILE ◆</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN: LANGUAGE SELECT ═══════ -->
+  <div id="screenLang" class="screen">
+    <div class="center-wrap">
+      <div class="lang-card">
+        <h2>SELECT LANGUAGE</h2>
+        <p class="sub" id="langSubtitle">◆ Choose your programming battleground ◆</p>
+
+        <div class="lang-grid">
+          <div class="lang-opt java" id="langJava" onclick="selectLang('java')">
+            <div class="lang-check" id="checkJava"></div>
+            <span class="lang-icon">☕</span>
+            <div class="lang-name java-name">JAVA</div>
+            <div class="lang-desc">OOP · JVM · Collections<br>Multithreading · Spring</div>
+          </div>
+          <div class="lang-opt c" id="langC" onclick="selectLang('c')">
+            <div class="lang-check" id="checkC"></div>
+            <span class="lang-icon">🔷</span>
+            <div class="lang-name c-name">C</div>
+            <div class="lang-desc">Pointers · Memory<br>Structs · Compilation</div>
+          </div>
+          <div class="lang-opt python" id="langPython" onclick="selectLang('python')">
+            <div class="lang-check" id="checkPython"></div>
+            <span class="lang-icon">🐍</span>
+            <div class="lang-name python-name">PYTHON</div>
+            <div class="lang-desc">Data Structures · OOP<br>Libraries · Generators</div>
+          </div>
+        </div>
+
+        <button class="lang-start-btn" onclick="startGame()">▶ START ASSESSMENT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SCREEN: GAME ═══════ -->
+  <div id="screenGame" class="screen">
+    <div class="container">
+      <div class="top-bar">
+        <div class="logo-block">
+          <h1>NEXUS ASSESS</h1>
+          <p>AI · Adaptive · Gamified Assessment</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="lang-pill" id="langPill" onclick="goChangeLang()">☕ JAVA</span>
+          <div class="profile-chip" onclick="openProfile()">
+            <span class="chip-avatar" id="chipAvatar">🎮</span>
+            <div class="chip-info">
+              <span class="chip-name" id="chipName">PLAYER</span>
+              <span class="chip-rank" id="chipRank">Bronze</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <div class="stat-card xp">
+          <div class="stat-label">Experience</div>
+          <div class="stat-value xp-val" id="xpDisplay">0 XP</div>
+          <div class="bar-wrap">
+            <div class="bar-fill xp-bar" id="xpBar" style="width:0%"></div>
+          </div>
+          <div class="info-row"><span id="xpToNext">Next: 200 XP</span><span id="qCount">Q: 0</span></div>
+        </div>
+        <div class="stat-card focus">
+          <div class="stat-label">Focus Meter</div>
+          <div class="stat-value focus-val" id="focusDisplay">100%</div>
+          <div class="bar-wrap">
+            <div class="bar-fill focus-bar" id="focusBar" style="width:100%"></div>
+          </div>
+          <div class="info-row"><span>Concentration</span><span id="streakDisplay">Streak: 0</span></div>
+        </div>
+        <div class="stat-card rank">
+          <div class="stat-label">Rank</div>
+          <div class="stat-value rank-val" id="rankDisplay">🥉 BRONZE</div>
+          <div class="bar-wrap">
+            <div class="bar-fill xp-bar" id="rankBar" style="width:0%"></div>
+          </div>
+          <div class="info-row"><span id="abilityDisplay">Ability: 0.50</span><span id="mistakeDisplay">Mistakes:
+              0</span></div>
+        </div>
+      </div>
+
+      <div class="diff-row">
+        <span class="diff-label">Difficulty:</span>
+        <div class="diff-badges">
+          <span class="diff-badge easy" id="badgeEasy">Easy</span>
+          <span class="diff-badge medium active" id="badgeMedium">Medium</span>
+          <span class="diff-badge hard" id="badgeHard">Hard</span>
+          <span class="diff-badge expert" id="badgeExpert">Expert</span>
+        </div>
+        <span class="streak-display" id="streakFire"></span>
+      </div>
+
+      <!-- SCORE PANEL -->
+      <div class="score-panel" id="scorePanel">
+        <div class="score-main">
+          <span class="score-number" id="scoreDisplay">0</span>
+          <div>
+            <div class="score-label">SCORE</div>
+          </div>
+        </div>
+        <div class="score-meta">
+          <div class="score-chip streak-chip">
+            <span class="score-chip-val" id="scorePanelStreak">0🔥</span>
+            <span class="score-chip-lbl">STREAK</span>
+          </div>
+          <div class="score-chip mult-chip">
+            <span class="score-chip-val" id="scorePanelMult">×1.0</span>
+            <span class="score-chip-lbl">MULTIPLIER</span>
+          </div>
+          <div class="score-chip acc-chip">
+            <span class="score-chip-val" id="scorePanelAcc">—</span>
+            <span class="score-chip-lbl">ACCURACY</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="gameArea">
+        <div class="question-card" id="questionCard">
+          <div class="q-meta">
+            <span class="q-num" id="qNum">QUESTION 01</span>
+            <span class="q-boss" id="bossBadge" style="display:none">⚡ BOSS QUESTION</span>
+            <span class="xp-badge" id="xpReward">+20 XP</span>
+          </div>
+          <!-- TIMER -->
+          <div class="timer-wrap">
+            <div>
+              <div class="timer-ring-container">
+                <svg class="timer-svg" width="72" height="72" viewBox="0 0 72 72">
+                  <circle class="timer-track" cx="36" cy="36" r="31" />
+                  <circle class="timer-arc" id="timerArc" cx="36" cy="36" r="31"
+                    style="stroke-dasharray:194.78;stroke-dashoffset:0;" />
+                </svg>
+                <div class="timer-txt" id="timerTxt" style="color:var(--green)">30</div>
+              </div>
+              <div class="timer-label">TIME LEFT</div>
+            </div>
+          </div>
+          <div class="q-text" id="questionText">Loading...</div>
+          <div class="options" id="optionsContainer"></div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION →</button>
+        </div>
+      </div>
+
+      <div class="completion" id="completionArea">
+        <div class="radar-section">
+          <h3>◆ MISSION COMPLETE ◆</h3>
+          <div class="final-rank" id="finalRank"></div>
+          <div id="finalXP"
+            style="font-family:'Share Tech Mono',monospace;color:var(--dim);margin-bottom:24px;font-size:.82rem;"></div>
+          <h3 style="margin-bottom:16px;">COMPETENCY PROFILE</h3>
+          <div class="topic-bars" id="topicBars"></div>
+          <div class="action-row">
+            <button class="action-btn primary" onclick="goChangeLang()">↺ PLAY AGAIN</button>
+            <button class="action-btn secondary" onclick="openProfile()">👤 VIEW PROFILE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ PROFILE PANEL ═══════ -->
+  <div class="profile-backdrop" id="profileBackdrop" onclick="closeProfile()"></div>
+  <div class="profile-panel" id="profilePanel">
+    <button class="panel-close" onclick="closeProfile()">✕</button>
+    <div class="panel-avatar-row">
+      <div class="panel-avatar" id="panelAvatar">🎮</div>
+      <div>
+        <div class="panel-name" id="panelName">PLAYER</div>
+        <div class="panel-title" id="panelTitle">The Seeker</div>
+        <div class="panel-rank-badge" id="panelRank">🥉 BRONZE</div>
+      </div>
+    </div>
+    <div class="divider">· · · · ·</div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Language Progress</div>
+      <div class="lang-stats-row">
+        <div class="lang-stat-chip java">
+          <div class="lsc-icon">☕</div>
+          <div class="lsc-label">JAVA</div>
+          <div class="lsc-val" id="langStatJava">0 games</div>
+        </div>
+        <div class="lang-stat-chip c">
+          <div class="lsc-icon">🔷</div>
+          <div class="lsc-label">C</div>
+          <div class="lsc-val" id="langStatC">0 games</div>
+        </div>
+        <div class="lang-stat-chip python">
+          <div class="lsc-icon">🐍</div>
+          <div class="lsc-label">PYTHON</div>
+          <div class="lsc-val" id="langStatPython">0 games</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Career Statistics</div>
+      <div class="stats-grid">
+        <div class="mini-stat">
+          <div class="mini-stat-label">Total XP Earned</div>
+          <div class="mini-stat-val" id="statTotalXP">0</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Games Played</div>
+          <div class="mini-stat-val gold" id="statGames">0</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Best Score</div>
+          <div class="mini-stat-val green" id="statBest">0 XP</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Avg Accuracy</div>
+          <div class="mini-stat-val purple" id="statAccuracy">—</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Best Rank</div>
+          <div class="mini-stat-val gold" id="statBestRank">🥉 Bronze</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Highest Streak</div>
+          <div class="mini-stat-val" id="statStreak">0 🔥</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-section-title">Session History (Last 10)</div>
+      <div class="history-list" id="historyList">
+        <div class="empty-history">No sessions yet.<br>Complete a game to see your history.</div>
+      </div>
+    </div>
+
+    <button class="panel-reset-btn" onclick="resetProfile()">⚠ RESET PROFILE & DATA</button>
+  </div>
+
+  <!-- RESTART OVERLAY -->
+  <div class="overlay" id="restartOverlay">
+    <h2 style="color:var(--red)">⚠ CRITICAL FAILURE</h2>
+    <p id="restartMsg">Your focus has collapsed. The system demands a restart.</p>
+    <button class="overlay-btn" onclick="forceRestart()">ACCEPT & RESTART</button>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════
+    //  CONSTANTS
+    // ════════════════════════════════════════════════
+    const AVATARS = ['🧠', '🤖', '⚡', '🎯', '🔥', '🐉', '🦁', '🦊', '🐺', '💀', '👾', '🛸', '🌀', '💎', '🏆', '⚔️', '🧬', '🔬'];
+    const TITLES = ['The Seeker', 'The Analyst', 'The Strategist', 'The Challenger', 'The Scholar', 'The Overcomer', 'The Architect', 'The Phantom'];
+    const RANKS = [
+      { name: '🥉 BRONZE', emoji: '🥉', min: 0, max: 200 },
+      { name: '🥈 SILVER', emoji: '🥈', min: 200, max: 500 },
+      { name: '🥇 GOLD', emoji: '🥇', min: 500, max: 800 },
+      { name: '💎 PLATINUM', emoji: '💎', min: 800, max: 1200 },
+      { name: '👑 MASTER', emoji: '👑', min: 1200, max: 2000 },
+    ];
+    const XP_T = { easy: 10, medium: 20, hard: 40, expert: 60 };
+    const PEN_T = { easy: 5, medium: 10, hard: 20, expert: 30 };
+
+    const LANG_META = {
+      java: { icon: '☕', label: 'JAVA', cls: 'java', color: 'var(--java)' },
+      c: { icon: '🔷', label: 'C', cls: 'c', color: 'var(--c)' },
+      python: { icon: '🐍', label: 'PYTHON', cls: 'python', color: 'var(--python)' },
+    };
+
+    // ════════════════════════════════════════════════
+    //  QUESTION BANKS — per language, 4 difficulties
+    // ════════════════════════════════════════════════
+    const QB = {
+      java: {
+        easy: [
+          { q: "Which keyword is used to define a class in Java?", options: ["class", "define", "object", "struct"], ans: 0, topic: "Syntax" },
+          { q: "What is the default value of an int in Java?", options: ["null", "undefined", "0", "-1"], ans: 2, topic: "Data Types" },
+          { q: "Which method is the entry point of a Java program?", options: ["start()", "run()", "main()", "init()"], ans: 2, topic: "Syntax" },
+          { q: "What does 'System.out.println()' do?", options: ["Reads input", "Prints to console", "Creates a file", "Exits program"], ans: 1, topic: "I/O" },
+          { q: "Which of these is NOT a primitive data type in Java?", options: ["int", "boolean", "String", "double"], ans: 2, topic: "Data Types" },
+        ],
+        medium: [
+          { q: "What is the difference between '==' and '.equals()' in Java?", options: ["No difference", "'==' compares references; .equals() compares content", "'==' compares content; .equals() compares references", "Both compare content"], ans: 1, topic: "OOP" },
+          { q: "Which Java collection maintains insertion order and allows duplicates?", options: ["HashSet", "TreeSet", "ArrayList", "HashMap"], ans: 2, topic: "Collections" },
+          { q: "What is method overloading in Java?", options: ["Extending a superclass method", "Multiple methods with same name but different parameters", "Overriding an interface method", "Calling a method recursively"], ans: 1, topic: "OOP" },
+          { q: "What does the 'final' keyword do when applied to a variable?", options: ["Makes it static", "Makes it immutable after initialization", "Makes it private", "Deletes it after use"], ans: 1, topic: "Keywords" },
+          { q: "Which interface must be implemented to sort a custom class in Java?", options: ["Sortable", "Orderable", "Comparable", "Serializable"], ans: 2, topic: "Collections" },
+        ],
+        hard: [
+          { q: "What is the time complexity of HashMap.get() in average case?", options: ["O(n)", "O(log n)", "O(1)", "O(n²)"], ans: 2, topic: "Collections" },
+          { q: "What is a checked exception in Java?", options: ["An exception caught at compile time", "An exception the compiler forces you to handle or declare", "A NullPointerException", "A RuntimeException"], ans: 1, topic: "Exceptions" },
+          { q: "What does the 'volatile' keyword guarantee in Java threading?", options: ["Thread safety via locking", "Visibility of changes across threads without caching", "Atomic operations", "Prevents deadlocks"], ans: 1, topic: "Concurrency" },
+          { q: "What is the difference between an abstract class and an interface in Java 8+?", options: ["No difference", "Interfaces can have default methods; abstract classes can have constructors", "Abstract classes cannot have any implementation", "Interfaces support multiple inheritance; abstract classes do not support any inheritance"], ans: 1, topic: "OOP" },
+          { q: "What is autoboxing in Java?", options: ["Automatic memory management", "Auto-conversion between primitive types and their wrapper objects", "Converting strings to numbers", "Automatic garbage collection"], ans: 1, topic: "Data Types" },
+        ],
+        expert: [
+          { q: "What is the contract between hashCode() and equals() in Java?", options: ["They're independent", "If a.equals(b) is true, a.hashCode() must equal b.hashCode()", "If a.hashCode()==b.hashCode(), a.equals(b) must be true", "They must always return different values"], ans: 1, topic: "OOP", boss: true },
+          { q: "What memory area in JVM stores class metadata?", options: ["Heap", "Stack", "Metaspace (PermGen in older JVMs)", "Code Cache"], ans: 2, topic: "JVM", boss: true },
+          { q: "In Java, what is a 'happens-before' relationship?", options: ["A scheduling priority", "A guarantee that memory writes in one thread are visible to another specific thread", "A compile-time optimization", "A garbage collection trigger"], ans: 1, topic: "Concurrency", boss: true },
+          { q: "What design pattern does Java's InputStream hierarchy exemplify?", options: ["Singleton", "Decorator", "Observer", "Factory"], ans: 1, topic: "Design Patterns", boss: true },
+        ]
+      },
+
+      c: {
+        easy: [
+          { q: "What does 'printf' do in C?", options: ["Reads input", "Prints formatted output", "Allocates memory", "Creates a pointer"], ans: 1, topic: "I/O" },
+          { q: "Which symbol is used to dereference a pointer in C?", options: ["&", "*", "->", "#"], ans: 1, topic: "Pointers" },
+          { q: "What is the correct way to declare an integer variable in C?", options: ["integer x;", "var x;", "int x;", "num x;"], ans: 2, topic: "Syntax" },
+          { q: "What does 'scanf' do in C?", options: ["Prints text", "Reads formatted input", "Scans files", "Allocates memory"], ans: 1, topic: "I/O" },
+          { q: "Which operator is used to get the address of a variable in C?", options: ["*", "->", "&", "#"], ans: 2, topic: "Pointers" },
+        ],
+        medium: [
+          { q: "What is a null pointer in C?", options: ["A pointer to zero memory address", "A pointer that holds no valid address (typically 0/NULL)", "An uninitialized pointer", "A pointer to a string"], ans: 1, topic: "Pointers" },
+          { q: "What is the purpose of 'malloc' in C?", options: ["Free memory", "Dynamically allocate memory on the heap", "Declare a variable", "Copy memory blocks"], ans: 1, topic: "Memory" },
+          { q: "What is the difference between 'struct' and 'union' in C?", options: ["No difference", "In a union all members share the same memory space; struct members have their own", "Structs are only for integers", "Unions support inheritance"], ans: 1, topic: "Structs" },
+          { q: "What does '#include' do in C?", options: ["Defines a macro", "Inserts the contents of a file into the source code", "Creates a pointer", "Imports a class"], ans: 1, topic: "Preprocessor" },
+          { q: "What is a segmentation fault in C?", options: ["Compilation error", "A program accessing memory it doesn't have permission to access", "Stack overflow", "Integer division by zero"], ans: 1, topic: "Memory" },
+        ],
+        hard: [
+          { q: "What is the difference between 'calloc' and 'malloc'?", options: ["No difference", "calloc initializes allocated memory to zero; malloc does not", "malloc is faster", "calloc works on the stack"], ans: 1, topic: "Memory" },
+          { q: "What is a dangling pointer in C?", options: ["An uninitialized pointer", "A pointer that still points to memory that has been freed", "A null pointer", "A function pointer"], ans: 1, topic: "Pointers" },
+          { q: "What does the 'static' keyword mean for a local variable in C?", options: ["It's shared across files", "Its value persists across function calls", "It cannot be modified", "It's stored on the heap"], ans: 1, topic: "Storage" },
+          { q: "What is a function pointer in C and what is it used for?", options: ["A pointer that can't be modified", "A pointer storing the address of a function, enabling callbacks", "A macro", "A struct member"], ans: 1, topic: "Pointers" },
+          { q: "What is 'undefined behavior' in C?", options: ["A compile error", "Behavior not defined by the C standard — the program can do anything", "A runtime warning", "A segfault"], ans: 1, topic: "Syntax" },
+        ],
+        expert: [
+          { q: "What is the difference between 'const int *p' and 'int * const p' in C?", options: ["No difference", "const int *p: pointer to const int; int * const p: const pointer to int", "Both mean the same const pointer", "const int *p means const pointer"], ans: 1, topic: "Pointers", boss: true },
+          { q: "What is memory alignment in C and why does it matter?", options: ["A garbage collection strategy", "Data being stored at memory addresses that are multiples of its size, for CPU performance", "Sorting data in memory", "Stack management"], ans: 1, topic: "Memory", boss: true },
+          { q: "What does 'volatile' tell the C compiler about a variable?", options: ["It's a constant", "Its value can change unexpectedly (e.g. hardware register), so don't optimize reads/writes", "It's thread-safe", "It must be initialized"], ans: 1, topic: "Keywords", boss: true },
+          { q: "What is the purpose of 'restrict' keyword in C99?", options: ["A loop optimizer hint", "Tells the compiler that a pointer is the only way to access that memory, enabling optimization", "Makes pointer const", "Prevents aliasing errors at runtime"], ans: 1, topic: "Keywords", boss: true },
+        ]
+      },
+
+      python: {
+        easy: [
+          { q: "Which function prints output in Python?", options: ["echo()", "console.log()", "print()", "output()"], ans: 2, topic: "Syntax" },
+          { q: "How do you create a comment in Python?", options: ["//", "/* */", "#", "--"], ans: 2, topic: "Syntax" },
+          { q: "What data type is the result of 10 / 3 in Python 3?", options: ["int", "float", "double", "fraction"], ans: 1, topic: "Data Types" },
+          { q: "Which keyword defines a function in Python?", options: ["function", "func", "define", "def"], ans: 3, topic: "Syntax" },
+          { q: "What is the output of len([1, 2, 3])?", options: ["2", "3", "4", "Error"], ans: 1, topic: "Data Structures" },
+        ],
+        medium: [
+          { q: "What is the difference between a list and a tuple in Python?", options: ["No difference", "Lists are mutable; tuples are immutable", "Tuples allow duplicates; lists do not", "Lists are faster"], ans: 1, topic: "Data Structures" },
+          { q: "What does the 'self' parameter represent in a Python class method?", options: ["The class itself", "The current instance of the class", "A static reference", "A global variable"], ans: 1, topic: "OOP" },
+          { q: "What does a Python decorator do?", options: ["Creates a class", "Wraps a function to add behavior without modifying its code", "Decorates output strings", "Defines a property"], ans: 1, topic: "Functions" },
+          { q: "What is a Python generator?", options: ["A function that creates lists", "A function that yields values lazily using 'yield'", "A built-in class", "A way to import modules"], ans: 1, topic: "Functions" },
+          { q: "What is the difference between 'is' and '==' in Python?", options: ["No difference", "'is' checks identity (same object); '==' checks value equality", "'is' checks value; '==' checks identity", "'is' only works for numbers"], ans: 1, topic: "Operators" },
+        ],
+        hard: [
+          { q: "What is the Global Interpreter Lock (GIL) in CPython?", options: ["A security feature", "A mutex that allows only one thread to execute Python bytecode at a time", "A garbage collector", "A memory allocator"], ans: 1, topic: "Internals" },
+          { q: "What is the time complexity of Python dict lookup on average?", options: ["O(n)", "O(log n)", "O(1)", "O(n²)"], ans: 2, topic: "Data Structures" },
+          { q: "What does '__slots__' do in a Python class?", options: ["Defines abstract methods", "Restricts instance attributes, reducing memory usage", "Creates class variables", "Enables operator overloading"], ans: 1, topic: "OOP" },
+          { q: "What is a metaclass in Python?", options: ["A parent class", "A class that defines the behavior of other classes", "A class with no methods", "A singleton class"], ans: 1, topic: "OOP" },
+          { q: "What is the difference between 'deepcopy' and 'copy' in Python?", options: ["No difference", "deepcopy recursively copies nested objects; copy only copies the top-level object", "copy is faster and does the same thing", "deepcopy only works on lists"], ans: 1, topic: "Memory" },
+        ],
+        expert: [
+          { q: "What is the MRO (Method Resolution Order) in Python and which algorithm does it use?", options: ["A random order", "Left-to-right depth-first search", "C3 linearization algorithm for consistent ordering in multiple inheritance", "Alphabetical method ordering"], ans: 2, topic: "OOP", boss: true },
+          { q: "What happens when you iterate over a dict in Python 3.7+?", options: ["Random order", "Sorted by key", "Insertion order is preserved (guaranteed by spec)", "Sorted by value"], ans: 2, topic: "Data Structures", boss: true },
+          { q: "What is the difference between __getattr__ and __getattribute__ in Python?", options: ["No difference", "__getattr__ is called only when attribute not found normally; __getattribute__ is called for every attribute access", "__getattribute__ is called only on failure", "__getattr__ is faster"], ans: 1, topic: "OOP", boss: true },
+          { q: "What is a Python descriptor and how does it relate to @property?", options: ["A docstring tool", "An object defining __get__, __set__, __delete__ that controls attribute access; @property is a built-in descriptor", "A debug utility", "A metaclass feature"], ans: 1, topic: "OOP", boss: true },
+        ]
+      }
+    };
+
+    // ════════════════════════════════════════════════
+    //  STORAGE
+    // ════════════════════════════════════════════════
+    async function saveProfile(d) { try { await window.storage.set('nexus-profile', JSON.stringify(d)); } catch (e) { } }
+    async function loadProfile() { try { const r = await window.storage.get('nexus-profile'); return r ? JSON.parse(r.value) : null; } catch (e) { return null; } }
+    async function saveHistory(h) { try { await window.storage.set('nexus-history', JSON.stringify(h)); } catch (e) { } }
+    async function loadHistory() { try { const r = await window.storage.get('nexus-history'); return r ? JSON.parse(r.value) : []; } catch (e) { return []; } }
+
+    // ════════════════════════════════════════════════
+    //  PROFILE CREATION
+    // ════════════════════════════════════════════════
+    let selAvatar = AVATARS[0], selTitle = TITLES[0];
+
+    function buildCreateScreen() {
+      const ag = document.getElementById('avatarGrid'); ag.innerHTML = '';
+      AVATARS.forEach((a, i) => { const el = document.createElement('div'); el.className = 'avatar-opt' + (i === 0 ? ' selected' : ''); el.textContent = a; el.onclick = () => { document.querySelectorAll('.avatar-opt').forEach(x => x.classList.remove('selected')); el.classList.add('selected'); selAvatar = a; }; ag.appendChild(el); });
+      const tg = document.getElementById('titleGrid'); tg.innerHTML = '';
+      TITLES.forEach((t, i) => { const el = document.createElement('div'); el.className = 'title-opt' + (i === 0 ? ' selected' : ''); el.textContent = t; el.onclick = () => { document.querySelectorAll('.title-opt').forEach(x => x.classList.remove('selected')); el.classList.add('selected'); selTitle = t; }; tg.appendChild(el); });
+    }
+
+    async function createProfile() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) { document.getElementById('nameInput').focus(); return; }
+      const p = { name: name.toUpperCase(), avatar: selAvatar, title: selTitle, createdAt: Date.now(), totalXP: 0, gamesPlayed: 0, bestXP: 0, bestRank: RANKS[0].name, totalCorrect: 0, totalAnswered: 0, highestStreak: 0, langGames: { java: 0, c: 0, python: 0 } };
+      await saveProfile(p);
+      showLangScreen(p);
+    }
+
+    // ════════════════════════════════════════════════
+    //  LANGUAGE SELECTION
+    // ════════════════════════════════════════════════
+    let currentLang = 'java';
+
+    function selectLang(lang) {
+      currentLang = lang;
+      ['java', 'c', 'python'].forEach(l => {
+        document.getElementById('lang' + l.charAt(0).toUpperCase() + l.slice(1)).classList.toggle('selected', l === lang);
+        document.getElementById('check' + l.charAt(0).toUpperCase() + l.slice(1)).textContent = l === lang ? '✓' : '';
+      });
+    }
+
+    function showLangScreen(profile, isReturn = false) {
+      hideAll();
+      document.getElementById('screenLang').classList.add('active');
+      if (profile) { updateChip(profile); }
+      if (isReturn) {
+        document.getElementById('langSubtitle').textContent = '◆ Switch language or replay the same ◆';
+      } else {
+        document.getElementById('langSubtitle').textContent = '◆ Choose your programming battleground ◆';
+      }
+      selectLang(currentLang);
+    }
+
+    function startGame() {
+      hideAll();
+      document.getElementById('screenGame').classList.add('active');
+      // Update lang pill
+      const m = LANG_META[currentLang];
+      const pill = document.getElementById('langPill');
+      pill.textContent = m.icon + ' ' + m.label;
+      pill.className = 'lang-pill ' + m.cls;
+      initGame();
+    }
+
+    function goChangeLang() {
+      loadProfile().then(p => showLangScreen(p, true));
+    }
+
+    // ════════════════════════════════════════════════
+    //  SCREEN HELPERS
+    // ════════════════════════════════════════════════
+    function hideAll() { ['screenCreate', 'screenLang', 'screenGame'].forEach(id => document.getElementById(id).classList.remove('active')); }
+    function showCreateScreen() { hideAll(); document.getElementById('screenCreate').classList.add('active'); buildCreateScreen(); }
+    function updateChip(p) { document.getElementById('chipAvatar').textContent = p.avatar; document.getElementById('chipName').textContent = p.name; document.getElementById('chipRank').textContent = getRank(p.totalXP).name; }
+
+    // ════════════════════════════════════════════════
+    //  GAME STATE
+    // ════════════════════════════════════════════════
+    let state = {}, usedQ = { easy: [], medium: [], hard: [], expert: [] }, topicStats = {}, qNum = 0, curQ = null, answered = false;
+    let timerInterval = null, timerSec = 30, timerMax = 30;
+    const TIMER_SEC = { easy: 30, medium: 25, hard: 20, expert: 15 };
+    // Score is separate from XP — pure points based on difficulty × streak multiplier
+    const SCORE_BASE = { easy: 100, medium: 200, hard: 400, expert: 700 };
+
+    function initGame() {
+      state = { xp: 0, focus: 100, ability: .5, streak: 0, mistakeStreak: 0, totalMistakes: 0, difficulty: 'medium', questionsAnswered: 0, highestStreak: 0, score: 0 };
+      usedQ = { easy: [], medium: [], hard: [], expert: [] };
+      topicStats = {}; qNum = 0; answered = false;
+      document.getElementById('restartOverlay').classList.remove('show');
+      document.getElementById('gameArea').style.display = 'block';
+      document.getElementById('completionArea').classList.remove('show');
+      updateUI(); loadQuestion();
+    }
+
+    function getRank(xp) { for (let i = RANKS.length - 1; i >= 0; i--)if (xp >= RANKS[i].min) return RANKS[i]; return RANKS[0]; }
+
+    function updateUI() {
+      const rank = getRank(state.xp), ri = RANKS.findIndex(r => r.name === rank.name), next = RANKS[Math.min(ri + 1, RANKS.length - 1)];
+      const xpPct = next.min > rank.min ? Math.min(((state.xp - rank.min) / (next.min - rank.min)) * 100, 100) : 100;
+      document.getElementById('xpDisplay').textContent = state.xp + ' XP';
+      document.getElementById('xpBar').style.width = xpPct + '%';
+      document.getElementById('xpToNext').textContent = 'Next: ' + next.min + ' XP';
+      document.getElementById('qCount').textContent = 'Q: ' + qNum;
+      document.getElementById('focusDisplay').textContent = Math.round(state.focus) + '%';
+      document.getElementById('focusBar').style.width = state.focus + '%';
+      document.getElementById('focusBar').style.background = state.focus > 50 ? 'linear-gradient(90deg,var(--green),var(--accent))' : state.focus > 25 ? 'linear-gradient(90deg,var(--gold),var(--accent2))' : 'linear-gradient(90deg,var(--red),var(--accent2))';
+      document.getElementById('rankDisplay').textContent = rank.name;
+      document.getElementById('rankBar').style.width = (ri / (RANKS.length - 1) * 100) + '%';
+      document.getElementById('abilityDisplay').textContent = 'Ability: ' + state.ability.toFixed(2);
+      document.getElementById('mistakeDisplay').textContent = 'Mistakes: ' + state.totalMistakes;
+      document.getElementById('streakDisplay').textContent = 'Streak: ' + state.streak;
+      document.getElementById('streakFire').textContent = state.streak >= 3 ? '🔥 x' + state.streak + ' STREAK' : '';
+      ['easy', 'medium', 'hard', 'expert'].forEach(d => document.getElementById('badge' + d[0].toUpperCase() + d.slice(1)).classList.toggle('active', state.difficulty === d));
+      // Score panel
+      const mult = getStreakMult(state.streak);
+      document.getElementById('scoreDisplay').textContent = state.score.toLocaleString();
+      document.getElementById('scorePanelStreak').textContent = state.streak + '🔥';
+      document.getElementById('scorePanelMult').textContent = '×' + mult.toFixed(1);
+      const answered2 = state.questionsAnswered;
+      const accNow = answered2 > 0 ? Math.round(((answered2 - state.totalMistakes) / answered2) * 100) : 0;
+      document.getElementById('scorePanelAcc').textContent = answered2 > 0 ? accNow + '%' : '—';
+    }
+
+    function pickQ() {
+      const d = state.difficulty, pool = QB[currentLang][d].filter((_, i) => !usedQ[d].includes(i));
+      if (!pool.length) { usedQ[d] = []; return QB[currentLang][d][Math.floor(Math.random() * QB[currentLang][d].length)]; }
+      const idx = Math.floor(Math.random() * pool.length), qi = QB[currentLang][d].indexOf(pool[idx]);
+      usedQ[d].push(qi); return pool[idx];
+    }
+
+    function getStreakMult(streak) {
+      if (streak >= 10) return 3.0;
+      if (streak >= 5) return 2.0;
+      if (streak >= 3) return 1.5;
+      return 1.0;
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerSec = TIMER_SEC[state.difficulty] || 25;
+      timerMax = timerSec;
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        timerSec--;
+        updateTimerUI();
+        if (timerSec <= 0) {
+          clearInterval(timerInterval);
+          if (!answered) timeUp();
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      const r = 31, circ = 2 * Math.PI * r; // ≈194.78
+      const pct = timerSec / timerMax;
+      const offset = circ * (1 - pct);
+      const arc = document.getElementById('timerArc');
+      const txt = document.getElementById('timerTxt');
+      arc.style.strokeDashoffset = offset;
+      if (pct > 0.5) { arc.style.stroke = 'var(--green)'; txt.style.color = 'var(--green)'; }
+      else if (pct > 0.25) { arc.style.stroke = 'var(--gold)'; txt.style.color = 'var(--gold)'; }
+      else { arc.style.stroke = 'var(--red)'; txt.style.color = 'var(--red)'; }
+      txt.textContent = timerSec;
+    }
+
+    function timeUp() {
+      // Treat as wrong answer — find any not-disabled button
+      const btns = document.querySelectorAll('.option-btn');
+      // Pass -1 so no option matches correct
+      handleAnswer(-1, null, true);
+    }
+
+    function loadQuestion() {
+      answered = false; qNum++; curQ = pickQ();
+      document.getElementById('questionCard').className = 'question-card';
+      document.getElementById('qNum').textContent = 'QUESTION ' + String(qNum).padStart(2, '0');
+      const isBoss = curQ.boss && state.difficulty === 'expert';
+      document.getElementById('bossBadge').style.display = isBoss ? 'inline' : 'none';
+      const mult = getStreakMult(state.streak);
+      const xpAmt = XP_T[state.difficulty] * mult * (isBoss ? 2 : 1);
+      document.getElementById('xpReward').textContent = '+' + Math.round(xpAmt) + ' XP';
+      document.getElementById('questionText').textContent = curQ.q;
+      const opts = document.getElementById('optionsContainer'); opts.innerHTML = '';
+      ['A', 'B', 'C', 'D'].forEach((k, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerHTML = `<span class="opt-key">${k}</span>${curQ.options[i]}`; btn.onclick = () => handleAnswer(i, btn); opts.appendChild(btn); });
+      document.getElementById('feedback').className = 'feedback';
+      document.getElementById('nextBtn').className = 'next-btn';
+      startTimer();
+      updateUI();
+    }
+
+    function handleAnswer(chosen, btn, timedOut = false) {
+      if (answered) return; answered = true;
+      clearInterval(timerInterval);
+      const correct = !timedOut && chosen === curQ.ans, diff = state.difficulty, isBoss = curQ.boss && diff === 'expert';
+      const mult = getStreakMult(state.streak), bb = isBoss ? 2 : 1;
+      // Disable all buttons and reveal correct
+      document.querySelectorAll('.option-btn').forEach((b, i) => {
+        b.disabled = true;
+        if (i === curQ.ans) b.classList.add('correct');
+        if (!correct && b === btn) b.classList.add('wrong');
+      });
+      if (!topicStats[curQ.topic]) topicStats[curQ.topic] = { correct: 0, total: 0 };
+      topicStats[curQ.topic].total++;
+      let msg = '';
+      if (correct) {
+        const xpGained = Math.round(XP_T[diff] * mult * bb);
+        // Score: base × time bonus (faster = more) × streak mult × boss mult
+        const timeFrac = timerSec / timerMax; // remaining time fraction
+        const timeBonus = 1 + timeFrac * 0.5;   // up to 1.5× for instant answer
+        const scoreGained = Math.round(SCORE_BASE[diff] * mult * bb * timeBonus);
+        state.xp += xpGained;
+        state.score += scoreGained;
+        state.focus = Math.min(100, state.focus + 5);
+        state.streak++; state.highestStreak = Math.max(state.highestStreak, state.streak);
+        state.mistakeStreak = 0;
+        topicStats[curQ.topic].correct++; state.ability = Math.min(1, state.ability + .05);
+        const newMult = getStreakMult(state.streak);
+        showPop('+' + scoreGained + ' pts', 'gain');
+        document.getElementById('questionCard').classList.add('flash-correct');
+        msg = `✓ Correct! +${xpGained} XP  |  +${scoreGained} pts`;
+        if (state.streak >= 3) msg += `  🔥 ×${newMult.toFixed(1)}`;
+        if (state.streak >= 2) { if (diff === 'easy') state.difficulty = 'medium'; else if (diff === 'medium') state.difficulty = 'hard'; else if (diff === 'hard') state.difficulty = 'expert'; }
+        document.getElementById('feedback').className = 'feedback correct show';
+      } else {
+        state.mistakeStreak++; state.totalMistakes++; state.streak = 0; state.ability = Math.max(0, state.ability - .07);
+        const pen = Math.round(PEN_T[diff] * state.mistakeStreak);
+        const scorePen = Math.round(SCORE_BASE[diff] * 0.5 * state.mistakeStreak);
+        state.xp = Math.max(0, state.xp - pen);
+        state.score = Math.max(0, state.score - scorePen);
+        state.focus -= (diff === 'hard' || diff === 'expert') ? 25 : 15;
+        showPop('-' + scorePen + ' pts', 'loss');
+        document.getElementById('questionCard').classList.add('flash-wrong');
+        if (timedOut) msg = `⏱ Time's Up! -${scorePen} pts — correct was highlighted`;
+        else msg = `✗ Wrong! -${pen} XP / -${scorePen} pts (${state.mistakeStreak}× penalty)`;
+        if (diff === 'expert') state.difficulty = 'hard'; else if (diff === 'hard') state.difficulty = 'medium';
+        document.getElementById('feedback').className = 'feedback wrong show';
+      }
+      document.getElementById('feedback').textContent = msg;
+      document.getElementById('nextBtn').className = 'next-btn show';
+      state.questionsAnswered++; updateUI();
+      if (state.focus <= 0 || (state.mistakeStreak >= 3 && (diff === 'hard' || diff === 'expert'))) { setTimeout(triggerRestart, 1200); return; }
+      if (state.questionsAnswered >= 12) setTimeout(showCompletion, 1200);
+    }
+
+    function nextQuestion() { clearInterval(timerInterval); state.questionsAnswered >= 12 ? showCompletion() : loadQuestion(); }
+    function showPop(text, type) { const el = document.createElement('div'); el.className = 'xp-popup ' + type; el.textContent = text; document.body.appendChild(el); setTimeout(() => el.remove(), 1300); }
+    function triggerRestart() { const msgs = ["Your focus meter reached zero. Reflect and try again.", "3 consecutive mistakes at high difficulty. Session reset.", "Critical failure. Revision recommended."]; document.getElementById('restartMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)]; document.getElementById('restartOverlay').classList.add('show'); }
+    function forceRestart() { initGame(); }
+
+    async function showCompletion() {
+      document.getElementById('gameArea').style.display = 'none';
+      document.getElementById('completionArea').classList.add('show');
+      const rank = getRank(state.xp);
+      document.getElementById('finalRank').textContent = rank.name;
+      document.getElementById('finalRank').style.color = rank.name.includes('MASTER') ? 'var(--gold)' : rank.name.includes('PLATINUM') ? 'var(--accent3)' : rank.name.includes('GOLD') ? 'var(--gold)' : rank.name.includes('SILVER') ? 'var(--text)' : 'var(--accent2)';
+      const acc = Math.round(((state.questionsAnswered - state.totalMistakes) / state.questionsAnswered) * 100);
+      const m = LANG_META[currentLang];
+      document.getElementById('finalXP').textContent = `${m.icon} ${m.label}  ·  XP: ${state.xp}  ·  Score: ${state.score.toLocaleString()} pts  ·  Accuracy: ${acc}%  ·  Best Streak: ${state.highestStreak}🔥`;
+      const colors = ['var(--accent)', 'var(--accent3)', 'var(--green)', 'var(--gold)', 'var(--accent2)'];
+      const tb = document.getElementById('topicBars'); tb.innerHTML = '';
+      Object.entries(topicStats).forEach(([topic, s], i) => { const pct = Math.round((s.correct / s.total) * 100); tb.innerHTML += `<div class="topic-row"><span class="topic-name">${topic}</span><div class="topic-bar-wrap"><div class="topic-bar-fill" style="width:${pct}%;background:${colors[i % colors.length]}"></div></div><span class="topic-pct">${pct}%</span></div>`; });
+      await persistSession(state.xp, acc, rank.name, state.highestStreak, state.questionsAnswered, state.totalMistakes, currentLang);
+    }
+
+    async function persistSession(xp, acc, rankName, hiStreak, totalQ, totalMistakes, lang) {
+      const p = await loadProfile(); if (!p) return;
+      p.gamesPlayed++; p.totalXP += xp; p.bestXP = Math.max(p.bestXP, xp);
+      p.totalCorrect += (totalQ - totalMistakes); p.totalAnswered += totalQ;
+      p.highestStreak = Math.max(p.highestStreak || 0, hiStreak);
+      if (!p.langGames) p.langGames = { java: 0, c: 0, python: 0 };
+      p.langGames[lang] = (p.langGames[lang] || 0) + 1;
+      const ro = RANKS.map(r => r.name);
+      if (ro.indexOf(rankName) > ro.indexOf(p.bestRank)) p.bestRank = rankName;
+      await saveProfile(p);
+      const history = await loadHistory();
+      history.unshift({ xp, accuracy: acc, rankName, highestStreak: hiStreak, date: Date.now(), lang });
+      if (history.length > 10) history.pop();
+      await saveHistory(history);
+      updateChip(p);
+    }
+
+    // ════════════════════════════════════════════════
+    //  PROFILE PANEL
+    // ════════════════════════════════════════════════
+    async function openProfile() {
+      document.getElementById('profileBackdrop').classList.add('show');
+      document.getElementById('profilePanel').classList.add('open');
+      const p = await loadProfile(); if (!p) return;
+      document.getElementById('panelAvatar').textContent = p.avatar;
+      document.getElementById('panelName').textContent = p.name;
+      document.getElementById('panelTitle').textContent = p.title;
+      document.getElementById('panelRank').textContent = getRank(p.totalXP).name;
+      document.getElementById('statTotalXP').textContent = (p.totalXP || 0).toLocaleString() + ' XP';
+      document.getElementById('statGames').textContent = p.gamesPlayed || 0;
+      document.getElementById('statBest').textContent = (p.bestXP || 0) + ' XP';
+      document.getElementById('statAccuracy').textContent = p.totalAnswered > 0 ? Math.round((p.totalCorrect / p.totalAnswered) * 100) + '%' : '—';
+      document.getElementById('statBestRank').textContent = p.bestRank || RANKS[0].name;
+      document.getElementById('statStreak').textContent = (p.highestStreak || 0) + ' 🔥';
+      const lg = p.langGames || { java: 0, c: 0, python: 0 };
+      document.getElementById('langStatJava').textContent = lg.java + ' game' + (lg.java !== 1 ? 's' : '');
+      document.getElementById('langStatC').textContent = lg.c + ' game' + (lg.c !== 1 ? 's' : '');
+      document.getElementById('langStatPython').textContent = lg.python + ' game' + (lg.python !== 1 ? 's' : '');
+      const history = await loadHistory();
+      const hl = document.getElementById('historyList');
+      if (!history.length) {
+        hl.innerHTML = '<div class="empty-history">No sessions yet.<br>Complete a game to see your history.</div>';
+      } else {
+        hl.innerHTML = history.map(h => {
+          const cls = h.accuracy >= 80 ? 'great' : h.accuracy >= 50 ? 'ok' : 'bad';
+          const d = new Date(h.date), ds = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+          const langCls = h.lang || 'java';
+          const langLabel = (LANG_META[langCls] || LANG_META.java).icon + ' ' + (LANG_META[langCls] || LANG_META.java).label;
+          return `<div class="history-item"><span class="hist-rank">${h.rankName.split(' ')[0]}</span><div class="hist-info"><div class="hist-xp">${h.xp} XP</div><div class="hist-meta">${h.rankName.replace(/^.\s/, '')} · ${ds} · 🔥${h.highestStreak}</div></div><div class="hist-right"><span class="hist-acc ${cls}">${h.accuracy}%</span><span class="hist-lang-tag ${langCls}">${langLabel}</span></div></div>`;
+        }).join('');
+      }
+    }
+    function closeProfile() { document.getElementById('profileBackdrop').classList.remove('show'); document.getElementById('profilePanel').classList.remove('open'); }
+
+    async function resetProfile() {
+      if (!confirm('Reset your profile and all history? This cannot be undone.')) return;
+      try { await window.storage.delete('nexus-profile'); await window.storage.delete('nexus-history'); } catch (e) { }
+      closeProfile(); showCreateScreen();
+    }
+
+    // ════════════════════════════════════════════════
+    //  BOOT
+    // ════════════════════════════════════════════════
+    (async function () {
+      buildCreateScreen();
+      const p = await loadProfile();
+      if (p) { updateChip(p); showLangScreen(p, true); }
+    })();
+  </script>
+</body>
+
+</html>
