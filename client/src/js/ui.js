@@ -281,7 +281,85 @@ Use plain HTML (<b>, <br>, <i>) for formatting. No markdown. No code blocks. Kee
 export function hideAnswerExplanation() {
     const panel = document.getElementById('explanationPanel');
     if (panel) {
-        panel.style.display = 'none';
-        panel.classList.remove('pop');
     }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  ASSESSMENT SUMMARY REPORT RENDERER
+// ─────────────────────────────────────────────────────────────
+
+export function renderReportScreen(stats, profile) {
+    document.getElementById('screenGame').classList.remove('active');
+    document.getElementById('reportArea').style.display = 'block';
+
+    // Header Info
+    document.getElementById('repAvatar').textContent = profile?.avatar || '🎮';
+    document.getElementById('repName').textContent = profile?.name || 'NEXUS Candidate';
+    document.getElementById('repTitle').textContent = profile?.title || 'Initiate';
+    document.getElementById('repSubject').textContent = (stats.lang || 'ASSESSMENT').toUpperCase();
+    document.getElementById('repDate').textContent = new Date().toLocaleString();
+
+    // Core Metrics
+    document.getElementById('repScore').textContent = `${stats.score100}/100`;
+    document.getElementById('repAccuracy').textContent = `${stats.acc}%`;
+    document.getElementById('repXp').textContent = `+${stats.xp}`;
+    document.getElementById('repStreak').textContent = `${stats.hiStreak}🔥`;
+
+    // Topic Performance Bars
+    const colors = ['var(--accent)', 'var(--accent3)', 'var(--green)', 'var(--gold)', 'var(--accent2)'];
+    const tb = document.getElementById('repTopicBars');
+    tb.innerHTML = '';
+
+    if (Object.keys(stats.topicStats).length === 0) {
+        tb.innerHTML = '<div style="color:var(--dim); font-style:italic">No topics attempted.</div>';
+    } else {
+        Object.entries(stats.topicStats).forEach(([topic, s], i) => {
+            const pct = s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0;
+            tb.innerHTML += `
+                <div class="topic-row" style="margin-bottom:12px; display:flex; align-items:center; gap:15px;">
+                    <span style="font-family:var(--font-mono); font-size:0.8rem; width:120px; text-transform:uppercase">${topic}</span>
+                    <div style="flex:1; height:8px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;">
+                        <div style="height:100%; width:${pct}%; background:${colors[i % colors.length]}; border-radius:4px;"></div>
+                    </div>
+                    <span style="font-family:var(--font-display); font-size:0.9rem; font-weight:700; width:45px; text-align:right">${pct}%</span>
+                </div>`;
+        });
+    }
+
+    // Strengths and Weaknesses
+    const container = document.getElementById('repSwSection');
+    const strengths = [];
+    const weaknesses = [];
+
+    Object.entries(stats.topicStats).forEach(([topic, s]) => {
+        if (s.total === 0) return;
+        const pct = Math.round((s.correct / s.total) * 100);
+        if (pct >= 70) strengths.push({ topic, pct });
+        else if (pct < 50) weaknesses.push({ topic, pct });
+    });
+
+    strengths.sort((a, b) => b.pct - a.pct);
+    weaknesses.sort((a, b) => a.pct - b.pct);
+
+    let html = '<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">';
+
+    // Strengths Column
+    html += '<div style="background:rgba(0,255,157,0.03); border:1px solid rgba(0,255,157,0.2); padding:15px; border-radius:8px;">';
+    html += '<div style="font-family:var(--font-display); color:var(--green); letter-spacing:2px; margin-bottom:15px; font-size:0.8rem">💪 STRONG TOPICS (>70%)</div>';
+    if (strengths.length === 0) html += '<p style="color:var(--dim); font-size:0.85rem">No strong topics yet.</p>';
+    strengths.forEach(({ topic, pct }) => {
+        html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; padding:8px; background:rgba(0,255,157,0.1); border-radius:4px; font-size:0.85rem"><span>${topic}</span><span style="font-weight:700; color:var(--green)">${pct}%</span></div>`;
+    });
+    html += '</div>';
+
+    // Weaknesses Column
+    html += '<div style="background:rgba(255,59,92,0.03); border:1px solid rgba(255,59,92,0.2); padding:15px; border-radius:8px;">';
+    html += '<div style="font-family:var(--font-display); color:var(--red); letter-spacing:2px; margin-bottom:15px; font-size:0.8rem">📖 NEEDS REVISION (<50%)</div>';
+    if (weaknesses.length === 0) html += '<p style="color:var(--dim); font-size:0.85rem">No weak spots!</p>';
+    weaknesses.forEach(({ topic, pct }) => {
+        html += `<div style="display:flex; justify-content:space-between; margin-bottom:8px; padding:8px; background:rgba(255,59,92,0.1); border-radius:4px; font-size:0.85rem"><span>${topic}</span><span style="font-weight:700; color:var(--red)">${pct}%</span></div>`;
+    });
+    html += '</div></div>';
+
+    container.innerHTML = html;
 }

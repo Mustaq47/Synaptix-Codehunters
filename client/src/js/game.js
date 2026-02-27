@@ -13,7 +13,7 @@ import { LANG_META } from './constants.js';
 import {
     updateUI, updateTopicProgressUI, showPop,
     updateRevisionPanel, resetRevisionPanel, initLeftSidebar, updateLeftSidebar,
-    showAnswerExplanation, hideAnswerExplanation,
+    showAnswerExplanation, hideAnswerExplanation, renderReportScreen
 } from './ui.js';
 import { refreshProfilePanel } from './profile.js';
 import { generateQuestion, AI_ENABLED } from './ai.js';

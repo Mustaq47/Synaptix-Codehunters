@@ -265,6 +265,45 @@
     text-transform: uppercase;
 }
 
+/* ── QUIT BUTTON ── */
+.quit-btn {
+    background: rgba(255, 59, 92, 0.1);
+    color: var(--red);
+    border: 1px solid rgba(255, 59, 92, 0.3);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.quit-btn:hover {
+    background: var(--red);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 59, 92, 0.4);
+}
+
+/* ── REPORT AREA STAT BOXES ── */
+.stat-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ── REPORT HEADER ── */
+.report-header {
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.05), transparent);
+    padding: 20px;
+    border-radius: var(--radius-md);
+}
+
 /* Loading state animation */
 .expl-loading {
     display: inline-block;

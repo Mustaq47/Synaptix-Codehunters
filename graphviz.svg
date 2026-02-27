@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="916pt" height="307pt" viewBox="0.00 0.00 916.44 307.21">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 303.21)">
+<title>SystemArchitecture</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-303.21 912.44,-303.21 912.44,4 -4,4"/>
+<!-- Frontend -->
+<g id="node1" class="node">
+<title>Frontend</title>
+<path fill="none" stroke="black" d="M193.38,-173.14C193.38,-173.14 103,-173.14 103,-173.14 97,-173.14 91,-167.14 91,-161.14 91,-161.14 91,-97.94 91,-97.94 91,-91.94 97,-85.94 103,-85.94 103,-85.94 193.38,-85.94 193.38,-85.94 199.38,-85.94 205.38,-91.94 205.38,-97.94 205.38,-97.94 205.38,-161.14 205.38,-161.14 205.38,-167.14 199.38,-173.14 193.38,-173.14"/>
+<text text-anchor="middle" x="148.19" y="-159.24" font-family="Times,serif" font-size="11.00">Frontend UI</text>
+<text text-anchor="middle" x="148.19" y="-146.04" font-family="Times,serif" font-size="11.00">(http://localhost:3030)</text>
+<text text-anchor="middle" x="148.19" y="-132.84" font-family="Times,serif" font-size="11.00">- Profile</text>
+<text text-anchor="middle" x="148.19" y="-119.64" font-family="Times,serif" font-size="11.00">- Language Selection</text>
+<text text-anchor="middle" x="148.19" y="-106.44" font-family="Times,serif" font-size="11.00">- Game Dashboard</text>
+<text text-anchor="middle" x="148.19" y="-93.24" font-family="Times,serif" font-size="11.00">- Timer &amp; Score UI</text>
+</g>
+<!-- GameEngine -->
+<g id="node2" class="node">
+<title>GameEngine</title>
+<path fill="none" stroke="black" d="M445.91,-173.14C445.91,-173.14 333.87,-173.14 333.87,-173.14 327.87,-173.14 321.87,-167.14 321.87,-161.14 321.87,-161.14 321.87,-97.94 321.87,-97.94 321.87,-91.94 327.87,-85.94 333.87,-85.94 333.87,-85.94 445.91,-85.94 445.91,-85.94 451.91,-85.94 457.91,-91.94 457.91,-97.94 457.91,-97.94 457.91,-161.14 457.91,-161.14 457.91,-167.14 451.91,-173.14 445.91,-173.14"/>
+<text text-anchor="middle" x="389.89" y="-159.24" font-family="Times,serif" font-size="11.00">Game Engine (Core Logic)</text>
+<text text-anchor="middle" x="389.89" y="-146.04" font-family="Times,serif" font-size="11.00">- Adaptive Difficulty</text>
+<text text-anchor="middle" x="389.89" y="-132.84" font-family="Times,serif" font-size="11.00">- XP &amp; Rank System</text>
+<text text-anchor="middle" x="389.89" y="-119.64" font-family="Times,serif" font-size="11.00">- Focus Meter</text>
+<text text-anchor="middle" x="389.89" y="-106.44" font-family="Times,serif" font-size="11.00">- Penalty System</text>
+<text text-anchor="middle" x="389.89" y="-93.24" font-family="Times,serif" font-size="11.00">- Weak Topic Analyzer</text>
+</g>
+<!-- Frontend&#45;&gt;GameEngine -->
+<g id="edge2" class="edge">
+<title>Frontend-&gt;GameEngine</title>
+<path fill="none" stroke="black" d="M205.69,-129.54C236.9,-129.54 276.16,-129.54 310.32,-129.54"/>
+<polygon fill="black" stroke="black" points="310.18,-133.04 320.18,-129.54 310.18,-126.04 310.18,-133.04"/>
+<text text-anchor="middle" x="263.62" y="-133.74" font-family="Times,serif" font-size="14.00">Send Answers</text>
+</g>
+<!-- QuestionBank -->
+<g id="node3" class="node">
+<title>QuestionBank</title>
+<path fill="none" stroke="black" d="M767.08,-81.34C767.08,-81.34 638.85,-81.34 638.85,-81.34 632.85,-81.34 626.85,-75.34 626.85,-69.34 626.85,-69.34 626.85,-45.74 626.85,-45.74 626.85,-39.74 632.85,-33.74 638.85,-33.74 638.85,-33.74 767.08,-33.74 767.08,-33.74 773.08,-33.74 779.08,-39.74 779.08,-45.74 779.08,-45.74 779.08,-69.34 779.08,-69.34 779.08,-75.34 773.08,-81.34 767.08,-81.34"/>
+<text text-anchor="middle" x="702.97" y="-67.44" font-family="Times,serif" font-size="11.00">Openai apiQuestion Bank</text>
+<text text-anchor="middle" x="702.97" y="-54.24" font-family="Times,serif" font-size="11.00">(Language→Topic→Difficulty)</text>
+<text text-anchor="middle" x="702.97" y="-41.04" font-family="Times,serif" font-size="11.00">Easy/Medium/Hard/Expert</text>
+</g>
+<!-- GameEngine&#45;&gt;QuestionBank -->
+<g id="edge3" class="edge">
+<title>GameEngine-&gt;QuestionBank</title>
+<path fill="none" stroke="black" d="M458.16,-112.97C464.16,-111.53 470.14,-110.1 475.91,-108.74 521.93,-97.9 573.33,-86.23 615.47,-76.77"/>
+<polygon fill="black" stroke="black" points="616.07,-80.22 625.06,-74.62 614.54,-73.39 616.07,-80.22"/>
+<text text-anchor="middle" x="542.38" y="-112.94" font-family="Times,serif" font-size="14.00">Fetch Questions</text>
+</g>
+<!-- LocalStorage -->
+<g id="node4" class="node">
+<title>LocalStorage</title>
+<path fill="none" stroke="black" d="M749.22,-251.54C749.22,-251.54 656.72,-251.54 656.72,-251.54 650.72,-251.54 644.72,-245.54 644.72,-239.54 644.72,-239.54 644.72,-189.54 644.72,-189.54 644.72,-183.54 650.72,-177.54 656.72,-177.54 656.72,-177.54 749.22,-177.54 749.22,-177.54 755.22,-177.54 761.22,-183.54 761.22,-189.54 761.22,-189.54 761.22,-239.54 761.22,-239.54 761.22,-245.54 755.22,-251.54 749.22,-251.54"/>
+<text text-anchor="middle" x="702.97" y="-237.64" font-family="Times,serif" font-size="11.00">Client Storage</text>
+<text text-anchor="middle" x="702.97" y="-224.44" font-family="Times,serif" font-size="11.00">(window.localStorage)</text>
+<text text-anchor="middle" x="702.97" y="-211.24" font-family="Times,serif" font-size="11.00">- User Profile</text>
+<text text-anchor="middle" x="702.97" y="-198.04" font-family="Times,serif" font-size="11.00">- Stats</text>
+<text text-anchor="middle" x="702.97" y="-184.84" font-family="Times,serif" font-size="11.00">- Session History</text>
+</g>
+<!-- GameEngine&#45;&gt;LocalStorage -->
+<g id="edge4" class="edge">
+<title>GameEngine-&gt;LocalStorage</title>
+<path fill="none" stroke="black" d="M458.39,-147.99C510.19,-162.14 581.41,-181.6 633.46,-195.83"/>
+<polygon fill="black" stroke="black" points="632.23,-199.12 642.8,-198.38 634.08,-192.37 632.23,-199.12"/>
+<text text-anchor="middle" x="542.38" y="-191.25" font-family="Times,serif" font-size="14.00">Save Progress</text>
+</g>
+<!-- ReportGenerator -->
+<g id="node5" class="node">
+<title>ReportGenerator</title>
+<path fill="none" stroke="black" d="M744.64,-159.94C744.64,-159.94 661.3,-159.94 661.3,-159.94 655.3,-159.94 649.3,-153.94 649.3,-147.94 649.3,-147.94 649.3,-111.14 649.3,-111.14 649.3,-105.14 655.3,-99.14 661.3,-99.14 661.3,-99.14 744.64,-99.14 744.64,-99.14 750.64,-99.14 756.64,-105.14 756.64,-111.14 756.64,-111.14 756.64,-147.94 756.64,-147.94 756.64,-153.94 750.64,-159.94 744.64,-159.94"/>
+<text text-anchor="middle" x="702.97" y="-146.04" font-family="Times,serif" font-size="11.00">Report Generator</text>
+<text text-anchor="middle" x="702.97" y="-132.84" font-family="Times,serif" font-size="11.00">- Final Score</text>
+<text text-anchor="middle" x="702.97" y="-119.64" font-family="Times,serif" font-size="11.00">- Strength/Weakness</text>
+<text text-anchor="middle" x="702.97" y="-106.44" font-family="Times,serif" font-size="11.00">- Topic Accuracy</text>
+</g>
+<!-- GameEngine&#45;&gt;ReportGenerator -->
+<g id="edge5" class="edge">
+<title>GameEngine-&gt;ReportGenerator</title>
+<path fill="none" stroke="black" d="M458.39,-129.54C511.55,-129.54 585.17,-129.54 637.53,-129.54"/>
+<polygon fill="black" stroke="black" points="637.51,-133.04 647.51,-129.54 637.51,-126.04 637.51,-133.04"/>
+<text text-anchor="middle" x="542.38" y="-133.74" font-family="Times,serif" font-size="14.00">Send Performance Data</text>
+</g>
+<!-- PDFExport -->
+<g id="node6" class="node">
+<title>PDFExport</title>
+<path fill="none" stroke="black" d="M884.7,-263.54C884.7,-263.54 839.83,-263.54 839.83,-263.54 833.83,-263.54 827.83,-257.54 827.83,-251.54 827.83,-251.54 827.83,-239.54 827.83,-239.54 827.83,-233.54 833.83,-227.54 839.83,-227.54 839.83,-227.54 884.7,-227.54 884.7,-227.54 890.7,-227.54 896.7,-233.54 896.7,-239.54 896.7,-239.54 896.7,-251.54 896.7,-251.54 896.7,-257.54 890.7,-263.54 884.7,-263.54"/>
+<text text-anchor="middle" x="862.26" y="-242.24" font-family="Times,serif" font-size="11.00">PDF Export</text>
+</g>
+<!-- ReportGenerator&#45;&gt;PDFExport -->
+<g id="edge6" class="edge">
+<title>ReportGenerator-&gt;PDFExport</title>
+<path fill="none" stroke="black" d="M756.78,-154.61C764.46,-158.93 772.12,-163.62 779.08,-168.54 800.15,-183.45 821.34,-203.46 836.92,-219.34"/>
+<polygon fill="black" stroke="black" points="834.02,-221.37 843.48,-226.13 839.05,-216.51 834.02,-221.37"/>
+</g>
+<!-- CSVExport -->
+<g id="node7" class="node">
+<title>CSVExport</title>
+<path fill="none" stroke="black" d="M885.3,-185.54C885.3,-185.54 839.22,-185.54 839.22,-185.54 833.22,-185.54 827.22,-179.54 827.22,-173.54 827.22,-173.54 827.22,-161.54 827.22,-161.54 827.22,-155.54 833.22,-149.54 839.22,-149.54 839.22,-149.54 885.3,-149.54 885.3,-149.54 891.3,-149.54 897.3,-155.54 897.3,-161.54 897.3,-161.54 897.3,-173.54 897.3,-173.54 897.3,-179.54 891.3,-185.54 885.3,-185.54"/>
+<text text-anchor="middle" x="862.26" y="-164.24" font-family="Times,serif" font-size="11.00">CSV Export</text>
+</g>
+<!-- ReportGenerator&#45;&gt;CSVExport -->
+<g id="edge7" class="edge">
+<title>ReportGenerator-&gt;CSVExport</title>
+<path fill="none" stroke="black" d="M756.78,-142.3C776,-146.95 797.53,-152.15 816.03,-156.62"/>
+<polygon fill="black" stroke="black" points="815.1,-159.99 825.64,-158.94 816.74,-153.19 815.1,-159.99"/>
+</g>
+<!-- XMLExport -->
+<g id="node8" class="node">
+<title>XMLExport</title>
+<path fill="none" stroke="black" d="M886.83,-118.54C886.83,-118.54 837.7,-118.54 837.7,-118.54 831.7,-118.54 825.7,-112.54 825.7,-106.54 825.7,-106.54 825.7,-94.54 825.7,-94.54 825.7,-88.54 831.7,-82.54 837.7,-82.54 837.7,-82.54 886.83,-82.54 886.83,-82.54 892.83,-82.54 898.83,-88.54 898.83,-94.54 898.83,-94.54 898.83,-106.54 898.83,-106.54 898.83,-112.54 892.83,-118.54 886.83,-118.54"/>
+<text text-anchor="middle" x="862.26" y="-97.24" font-family="Times,serif" font-size="11.00">XML Export</text>
+</g>
+<!-- ReportGenerator&#45;&gt;XMLExport -->
+<g id="edge8" class="edge">
+<title>ReportGenerator-&gt;XMLExport</title>
+<path fill="none" stroke="black" d="M756.78,-119.81C775.32,-116.39 796.01,-112.57 814.06,-109.25"/>
+<polygon fill="black" stroke="black" points="814.51,-112.72 823.71,-107.47 813.24,-105.84 814.51,-112.72"/>
+</g>
+<!-- ShareModule -->
+<g id="node9" class="node">
+<title>ShareModule</title>
+<path fill="none" stroke="black" d="M896.44,-37.54C896.44,-37.54 828.08,-37.54 828.08,-37.54 822.08,-37.54 816.08,-31.54 816.08,-25.54 816.08,-25.54 816.08,-13.54 816.08,-13.54 816.08,-7.54 822.08,-1.54 828.08,-1.54 828.08,-1.54 896.44,-1.54 896.44,-1.54 902.44,-1.54 908.44,-7.54 908.44,-13.54 908.44,-13.54 908.44,-25.54 908.44,-25.54 908.44,-31.54 902.44,-37.54 896.44,-37.54"/>
+<text text-anchor="middle" x="862.26" y="-22.84" font-family="Times,serif" font-size="11.00">Share Module</text>
+<text text-anchor="middle" x="862.26" y="-9.64" font-family="Times,serif" font-size="11.00">(Web Share API)</text>
+</g>
+<!-- ReportGenerator&#45;&gt;ShareModule -->
+<g id="edge9" class="edge">
+<title>ReportGenerator-&gt;ShareModule</title>
+<path fill="none" stroke="black" d="M757,-104C764.58,-99.78 772.15,-95.24 779.08,-90.54 798.83,-77.15 819.14,-59.65 834.63,-45.37"/>
+<polygon fill="black" stroke="black" points="836.69,-48.24 841.6,-38.85 831.9,-43.13 836.69,-48.24"/>
+</g>
+<!-- PDFExport&#45;&gt;Frontend -->
+<g id="edge10" class="edge">
+<title>PDFExport-&gt;Frontend</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M827.92,-263.89C813.38,-270.89 795.85,-278.03 779.08,-281.54 578.54,-323.54 517.49,-283.48 321.87,-222.54 277.07,-208.59 264.48,-207.17 223.38,-184.54 220.55,-182.99 217.7,-181.33 214.86,-179.61"/>
+<polygon fill="black" stroke="black" points="216.85,-176.73 206.53,-174.32 213.1,-182.63 216.85,-176.73"/>
+</g>
+<!-- CSVExport&#45;&gt;Frontend -->
+<g id="edge11" class="edge">
+<title>CSVExport-&gt;Frontend</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M844.94,-185.95C836.34,-195.64 825.64,-207.73 816.08,-218.54 799.61,-237.19 801.75,-250.3 779.08,-260.54 717.42,-288.4 693.98,-268.99 626.85,-260.54 477.03,-241.69 307.98,-187.06 216.59,-154.61"/>
+<polygon fill="black" stroke="black" points="217.86,-151.34 207.26,-151.27 215.5,-157.93 217.86,-151.34"/>
+</g>
+<!-- XMLExport&#45;&gt;Frontend -->
+<g id="edge12" class="edge">
+<title>XMLExport-&gt;Frontend</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M848.28,-82.31C833.83,-63.75 808.58,-36.09 779.08,-24.54 716.08,0.12 694.27,-18.84 626.85,-24.54 489.84,-36.14 455.65,-44.75 321.87,-76.54 286.8,-84.88 248.41,-96.41 216.75,-106.6"/>
+<polygon fill="black" stroke="black" points="215.72,-103.25 207.29,-109.67 217.88,-109.91 215.72,-103.25"/>
+</g>
+<!-- ShareModule&#45;&gt;Frontend -->
+<g id="edge13" class="edge">
+<title>ShareModule-&gt;Frontend</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M815.73,-12.35C803.83,-10.77 791,-9.34 779.08,-8.54 575.8,5 519.93,6.21 321.87,-41.54 276.56,-52.47 264.7,-55.99 223.38,-77.54 220.72,-78.93 218.05,-80.39 215.39,-81.92"/>
+<polygon fill="black" stroke="black" points="213.84,-78.77 207.06,-86.91 217.44,-84.77 213.84,-78.77"/>
+</g>
+<!-- User -->
+<g id="node10" class="node">
+<title>User</title>
+<path fill="none" stroke="black" d="M42,-147.54C42,-147.54 12,-147.54 12,-147.54 6,-147.54 0,-141.54 0,-135.54 0,-135.54 0,-123.54 0,-123.54 0,-117.54 6,-111.54 12,-111.54 12,-111.54 42,-111.54 42,-111.54 48,-111.54 54,-117.54 54,-123.54 54,-123.54 54,-135.54 54,-135.54 54,-141.54 48,-147.54 42,-147.54"/>
+<text text-anchor="middle" x="27" y="-126.24" font-family="Times,serif" font-size="11.00">User</text>
+</g>
+<!-- User&#45;&gt;Frontend -->
+<g id="edge1" class="edge">
+<title>User-&gt;Frontend</title>
+<path fill="none" stroke="black" d="M54.45,-129.54C61.89,-129.54 70.34,-129.54 79.04,-129.54"/>
+<polygon fill="black" stroke="black" points="79.04,-133.04 89.04,-129.54 79.04,-126.04 79.04,-133.04"/>
+</g>
+</g>
+</svg>

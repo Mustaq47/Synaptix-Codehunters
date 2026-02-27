@@ -13,6 +13,9 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="assets/icon-192.png">
 
+    <!-- jsPDF for Report Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <!-- ── CSS MODULES ── -->
     <link rel="stylesheet" href="src/css/variables.css">
     <link rel="stylesheet" href="src/css/base.css">
@@ -138,6 +141,7 @@
                 <p>AI · Adaptive · Gamified Assessment</p>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
+                <button class="quit-btn" onclick="promptQuit()" title="Quit Assessment">🚪 QUIT</button>
                 <span class="lang-pill java" id="langPill" onclick="goChangeLang()" title="Change language">☕
                     JAVA</span>
                 <div class="profile-chip" onclick="openProfile()">
@@ -354,6 +358,83 @@
                             <button class="action-btn lvlup" onclick="goChangeLang()">⚡ LVL→UP</button>
                             <button class="action-btn primary" onclick="goChangeLang()">↺ PLAY AGAIN</button>
                             <button class="action-btn secondary" onclick="openProfile()">👤 VIEW PROFILE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── ASSESSMENT SUMMARY REPORT AREA ── -->
+                <div class="completion" id="reportArea" style="display:none;">
+                    <div class="radar-section" style="max-width: 800px; padding: 40px;">
+                        <h2
+                            style="color:var(--accent); letter-spacing:4px; margin-bottom:10px; font-family:var(--font-display)">
+                            ASSESSMENT SUMMARY REPORT</h2>
+
+                        <div class="report-header"
+                            style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--border); padding-bottom:20px; margin-bottom:30px;">
+                            <div>
+                                <div style="font-size:2rem; margin-bottom:5px;" id="repAvatar">🎮</div>
+                                <div style="font-size:1.5rem; font-weight:700" id="repName">Student Name</div>
+                                <div style="color:var(--dim); font-family:var(--font-mono)" id="repTitle">Title</div>
+                            </div>
+                            <div style="text-align:right">
+                                <div style="color:var(--accent); font-weight:700" id="repSubject">JAVA MODULE</div>
+                                <div style="color:var(--dim); font-size:0.85rem" id="repDate">Date</div>
+                            </div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:15px; margin-bottom:30px;">
+                            <div class="stat-box"
+                                style="background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+                                <div style="font-size:0.8rem; color:var(--dim); margin-bottom:5px;">SCORE</div>
+                                <div style="font-size:1.8rem; font-weight:700; color:var(--green)" id="repScore">0/100
+                                </div>
+                            </div>
+                            <div class="stat-box"
+                                style="background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+                                <div style="font-size:0.8rem; color:var(--dim); margin-bottom:5px;">ACCURACY</div>
+                                <div style="font-size:1.8rem; font-weight:700; color:var(--accent)" id="repAccuracy">0%
+                                </div>
+                            </div>
+                            <div class="stat-box"
+                                style="background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+                                <div style="font-size:0.8rem; color:var(--dim); margin-bottom:5px;">XP EARNED</div>
+                                <div style="font-size:1.8rem; font-weight:700; color:var(--gold)" id="repXp">0</div>
+                            </div>
+                            <div class="stat-box"
+                                style="background:rgba(255,255,255,0.03); padding:15px; border-radius:8px; border:1px solid var(--border); text-align:center;">
+                                <div style="font-size:0.8rem; color:var(--dim); margin-bottom:5px;">MAX STREAK</div>
+                                <div style="font-size:1.8rem; font-weight:700; color:var(--accent2)" id="repStreak">0🔥
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-bottom:16px; border-left:4px solid var(--accent); padding-left:10px;">TOPIC
+                            PERFORMANCE</h3>
+                        <div class="topic-bars" id="repTopicBars" style="margin-bottom:30px;"></div>
+
+                        <div id="repSwSectionWrap" style="margin-top:24px; margin-bottom:40px;">
+                            <h3 style="margin-bottom:14px; border-left:4px solid var(--green); padding-left:10px;">
+                                STRENGTHS & WEAKNESSES</h3>
+                            <div id="repSwSection"></div>
+                        </div>
+
+                        <div style="border-top:1px solid var(--border); padding-top:24px;">
+                            <h4 style="color:var(--dim); margin-bottom:15px; font-size:0.85rem">EXPORT REPORT</h4>
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <button class="action-btn secondary" style="flex:1" onclick="exportReport('pdf')">📄
+                                    PDF</button>
+                                <button class="action-btn secondary" style="flex:1" onclick="exportReport('csv')">📊
+                                    CSV</button>
+                                <button class="action-btn secondary" style="flex:1" onclick="exportReport('xml')">📁
+                                    XML</button>
+                                <button class="action-btn secondary"
+                                    style="flex:1; background:rgba(0,212,255,0.1); border-color:var(--accent); color:var(--accent)"
+                                    onclick="shareReport()">📤 SHARE</button>
+                            </div>
+
+                            <div class="action-row" style="margin-top:24px;">
+                                <button class="action-btn primary" onclick="goChangeLang()">↺ NEW ASSESSMENT</button>
+                            </div>
                         </div>
                     </div>
                 </div>
