@@ -13,6 +13,7 @@ import { LANG_META } from './constants.js';
 import {
     updateUI, updateTopicProgressUI, showPop,
     updateRevisionPanel, resetRevisionPanel, initLeftSidebar, updateLeftSidebar,
+    showAnswerExplanation, hideAnswerExplanation,
 } from './ui.js';
 import { refreshProfilePanel } from './profile.js';
 import { generateQuestion, AI_ENABLED } from './ai.js';
@@ -105,6 +106,7 @@ async function pickQ() {
 export async function loadQuestion() {
     answered = false;
     selectedOptIdx = -1;
+    hideAnswerExplanation();
     qNum++;
 
     document.getElementById('questionCard').className = 'question-card';
@@ -234,6 +236,7 @@ export function handleAnswer(chosen, btn, timedOut = false) {
             ? `⏱ Time's Up! -${pen} XP — correct was highlighted`
             : `✗ Wrong! -${pen} XP (${state.mistakeStreak}× penalty)`;
         document.getElementById('feedback').className = 'feedback wrong show';
+        showAnswerExplanation(curQ, chosen);
     }
     document.getElementById('feedback').textContent = msg;
 

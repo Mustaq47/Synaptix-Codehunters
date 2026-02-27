@@ -208,3 +208,80 @@ export function showPop(text, type) {
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 1300);
 }
+
+// ─────────────────────────────────────────────────────────────
+//  WRONG ANSWER EXPLANATION PANEL  (AI-powered, async)
+// ─────────────────────────────────────────────────────────────
+
+export async function showAnswerExplanation(question, chosenIdx) {
+    const panel = document.getElementById('explanationPanel');
+    const correctEl = document.getElementById('explCorrectAns');
+    const bodyEl = document.getElementById('explBody');
+    if (!panel || !question) return;
+
+    // ── Show panel immediately with loading state ──
+    const correctText = question.options[question.ans];
+    const wrongText = chosenIdx != null ? question.options[chosenIdx] : 'your answer';
+
+    correctEl.textContent = `✓  ${correctText}`;
+    bodyEl.innerHTML = `<span class="expl-loading">⚙ Fetching explanation from AI…</span>`;
+
+    panel.style.display = 'block';
+    panel.classList.remove('pop');
+    void panel.offsetWidth;
+    panel.classList.add('pop');
+
+    const rs = document.querySelector('.right-sidebar');
+    if (rs) {
+        rs.scrollTop = 0;
+        if (window.innerWidth <= 1200) rs.classList.add('active');
+    }
+
+    // ── Build a rich prompt for Gemini/Groq ──
+    const optionsList = question.options.map((o, i) => `  ${String.fromCharCode(65 + i)}. ${o}`).join('\n');
+
+    const prompt = `You are a friendly, clear educational tutor.
+
+A student got this question WRONG. Give a detailed explanation.
+
+**Question:** ${question.q}
+
+**Options:**
+${optionsList}
+
+**Student chose:** "${wrongText}" ❌
+**Correct answer:** "${correctText}" ✅
+
+Structure your response as:
+1. **Why "${wrongText}" is incorrect** — 2-3 sentences with specific reasoning.
+2. **Why "${correctText}" is correct** — 2-3 sentences with clear explanation.
+3. **💡 Key Takeaway** — one short memorable tip.
+
+Use plain HTML (<b>, <br>, <i>) for formatting. No markdown. No code blocks. Keep it educational and beginner-friendly.`;
+
+    try {
+        const res = await fetch('/api/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, topic: question.topic }),
+        });
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+        const explanation = data?.content?.trim();
+        if (!explanation) throw new Error('Empty response');
+
+        bodyEl.innerHTML = explanation;
+    } catch (_) {
+        const tip = REVISION_TIPS[question.topic] ||
+            `Review the fundamentals of <b>${question.topic}</b> to avoid similar mistakes.`;
+        bodyEl.innerHTML = `<i>(AI unavailable)</i><br><br>${tip}`;
+    }
+}
+
+export function hideAnswerExplanation() {
+    const panel = document.getElementById('explanationPanel');
+    if (panel) {
+        panel.style.display = 'none';
+        panel.classList.remove('pop');
+    }
+}

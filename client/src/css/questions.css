@@ -310,3 +310,82 @@ kbd {
     font-size: .6rem;
     background: rgba(255, 255, 255, .04);
 }
+
+/* ── INLINE WRONG-ANSWER EXPLANATION ── */
+.inline-expl {
+    margin-top: 12px;
+    background: linear-gradient(135deg, rgba(255, 59, 92, .07), rgba(168, 85, 247, .06));
+    border: 1px solid rgba(255, 59, 92, .3);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    animation: slideUp .35s ease;
+}
+
+.inline-expl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-family: var(--font-display);
+    font-size: .65rem;
+    letter-spacing: 2px;
+    color: var(--accent3);
+}
+
+.inline-expl-close {
+    background: none;
+    border: none;
+    color: var(--dim);
+    cursor: pointer;
+    font-size: .85rem;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast);
+}
+
+.inline-expl-close:hover {
+    color: var(--red);
+}
+
+.inline-expl-correct {
+    font-family: var(--font-body);
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--green);
+    background: rgba(0, 255, 157, .07);
+    border-left: 3px solid var(--green);
+    padding: 7px 12px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.inline-expl-body {
+    font-family: var(--font-body);
+    font-size: .85rem;
+    line-height: 1.75;
+    color: var(--text);
+}
+
+/* ── LVL→UP BUTTON (Completion Screen) ── */
+.action-btn.lvlup {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    border: none;
+    color: white;
+    font-family: var(--font-display);
+    font-size: .82rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    padding: 14px 28px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 0 28px rgba(168, 85, 247, .35);
+    transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.action-btn.lvlup:hover {
+    opacity: .88;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(168, 85, 247, .55);
+}

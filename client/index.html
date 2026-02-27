@@ -321,6 +321,9 @@
                         <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">✓ SUBMIT ANSWER</button>
                         <div class="feedback" id="feedback"></div>
                         <div class="weak-topic-alert" id="weakTopicAlert"></div>
+
+
+
                         <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION →</button>
                         <div class="keyboard-hint">
                             Press <kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> to select &nbsp;·&nbsp;
@@ -348,6 +351,7 @@
                         </div>
 
                         <div class="action-row" style="margin-top:24px;">
+                            <button class="action-btn lvlup" onclick="goChangeLang()">⚡ LVL→UP</button>
                             <button class="action-btn primary" onclick="goChangeLang()">↺ PLAY AGAIN</button>
                             <button class="action-btn secondary" onclick="openProfile()">👤 VIEW PROFILE</button>
                         </div>
@@ -359,6 +363,20 @@
             <!-- ── RIGHT: REVISION SIDEBAR ── -->
             <aside class="right-sidebar">
                 <div class="rs-title">📋 LIVE REVISION PANEL</div>
+
+                <!-- WRONG ANSWER EXPLANATION PANEL (hidden by default) -->
+                <div class="rs-explanation-panel inline-expl" id="explanationPanel"
+                    style="display:none; margin: 0 0 16px 0; border-radius: 8px;">
+                    <div class="inline-expl-header" style="margin-top:0">
+                        <span>💡 WHY WAS I WRONG?</span>
+                        <button class="inline-expl-close"
+                            onclick="document.getElementById('explanationPanel').style.display='none'"
+                            title="Dismiss">✕</button>
+                    </div>
+                    <div class="inline-expl-correct" id="explCorrectAns"></div>
+                    <div class="inline-expl-body" id="explBody"></div>
+                </div>
+
                 <div id="revisionList">
                     <div class="rs-empty">Performing well! 🎯<br>Weak topics will appear here if accuracy drops below
                         50%. Click a topic to revise.</div>
