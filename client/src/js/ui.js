@@ -289,7 +289,13 @@ export function hideAnswerExplanation() {
 // ─────────────────────────────────────────────────────────────
 
 export function renderReportScreen(stats, profile) {
-    document.getElementById('screenGame').classList.remove('active');
+    // Hide game area and completion area, keep the main layout active
+    const gameArea = document.getElementById('gameArea');
+    if (gameArea) gameArea.style.display = 'none';
+
+    const completionArea = document.getElementById('completionArea');
+    if (completionArea) completionArea.classList.remove('show');
+
     document.getElementById('reportArea').style.display = 'block';
 
     // Header Info

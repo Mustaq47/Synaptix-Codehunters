@@ -3,7 +3,7 @@
  * Provides offline support by caching all app shell assets.
  */
 
-const CACHE_NAME = 'lvlup-v10';
+const CACHE_NAME = 'lvlup-v11';
 const SHELL_ASSETS = [
     '/',
     '/index.html',

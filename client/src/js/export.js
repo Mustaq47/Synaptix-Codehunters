@@ -63,12 +63,12 @@ export function downloadPDF(stats, profile) {
         doc.text("No topics attempted.", 20, y);
     } else {
         // Table header
-        doc.setFontStyle('bold');
+        doc.setFont("helvetica", "bold");
         doc.text("Topic", 20, y);
         doc.text("Accuracy", 80, y);
         doc.text("Status", 120, y);
         doc.text("Correct/Total", 160, y);
-        doc.setFontStyle('normal');
+        doc.setFont("helvetica", "normal");
         y += 8;
 
         tblData.forEach(row => {

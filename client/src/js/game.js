@@ -514,3 +514,103 @@ function shuffle(arr) {
     }
     return arr;
 }
+
+// ──────────────────────────────────────────────────
+//  QUIT ASSESSMENT
+// ──────────────────────────────────────────────────
+
+function promptQuit() {
+    const modal = document.getElementById('quitModal');
+    if (!modal) return;
+
+    // Populate live stats before showing
+    const score100 = getScore100();
+    const acc = state.questionsAnswered > 0
+        ? Math.round((state.correctTotal / state.questionsAnswered) * 100) + '%'
+        : '—%';
+    const qmsScore = document.getElementById('qmsScore');
+    const qmsXp = document.getElementById('qmsXp');
+    const qmsAcc = document.getElementById('qmsAcc');
+    if (qmsScore) qmsScore.textContent = score100;
+    if (qmsXp) qmsXp.textContent = state.xp || 0;
+    if (qmsAcc) qmsAcc.textContent = acc;
+
+    modal.classList.add('active');
+}
+
+function cancelQuit() {
+    const modal = document.getElementById('quitModal');
+    if (modal) modal.classList.remove('active');
+}
+
+async function confirmQuit() {
+    // 1. Close modal, freeze game
+    cancelQuit();
+    clearInterval(timerInterval);
+    answered = true;
+
+    // 2. Evaluate Performance so far
+    const score100 = getScore100();
+    const acc = state.questionsAnswered > 0
+        ? Math.round((state.correctTotal / state.questionsAnswered) * 100) : 0;
+
+    const RANKS_LOCAL = [
+        { min: 0, name: 'BRONZE III' }, { min: 300, name: 'BRONZE II' }, { min: 600, name: 'BRONZE I' },
+        { min: 1000, name: 'SILVER III' }, { min: 1500, name: 'SILVER II' }, { min: 2100, name: 'SILVER I' },
+        { min: 2800, name: 'GOLD III' }, { min: 3600, name: 'GOLD II' }, { min: 4500, name: 'GOLD I' },
+        { min: 5500, name: 'PLATINUM III' }, { min: 6600, name: 'PLATINUM II' }, { min: 7800, name: 'PLATINUM I' },
+        { min: 9200, name: 'MASTER' }, { min: 12000, name: 'GRANDMASTER' }
+    ];
+    let rankName = RANKS_LOCAL[0].name;
+    for (let i = RANKS_LOCAL.length - 1; i >= 0; i--) {
+        if (state.xp >= RANKS_LOCAL[i].min) { rankName = RANKS_LOCAL[i].name; break; }
+    }
+
+    // 3. Build stats payload
+    const reportStats = {
+        score100,
+        acc,
+        xp: state.xp,
+        hiStreak: state.highestStreak || 0,
+        topicStats: { ...topicStats },
+        lang: currentLang,
+        rankName,
+        totalAnswered: state.questionsAnswered || 0,
+        totalCorrect: state.correctTotal || 0,
+    };
+
+    // 4. Save to history
+    try {
+        await persistSession(state.xp, score100, acc, rankName, state.highestStreak, state.questionsAnswered, state.totalMistakes, currentLang);
+    } catch (_) { /* non-critical */ }
+
+    const { loadProfile } = await import('./storage.js');
+    const profile = await loadProfile().catch(() => null);
+
+    window.currentReportStats = reportStats;
+    window.currentReportProfile = profile;
+
+    // 5. Show report
+    renderReportScreen(reportStats, profile);
+}
+
+async function exportReport(format) {
+    if (!window.currentReportStats) { alert('No report data available.'); return; }
+    const mod = await import('./export.js');
+    if (format === 'pdf') mod.downloadPDF(window.currentReportStats, window.currentReportProfile);
+    if (format === 'csv') mod.downloadCSV(window.currentReportStats, window.currentReportProfile);
+    if (format === 'xml') mod.downloadXML(window.currentReportStats, window.currentReportProfile);
+}
+
+async function shareReport() {
+    if (!window.currentReportStats) { alert('No report data available.'); return; }
+    const { doShareReport } = await import('./export.js');
+    doShareReport(window.currentReportStats, window.currentReportProfile);
+}
+
+// Expose to global scope (called from HTML onclick attributes)
+window.promptQuit = promptQuit;
+window.cancelQuit = cancelQuit;
+window.confirmQuit = confirmQuit;
+window.exportReport = exportReport;
+window.shareReport = shareReport;

@@ -597,6 +597,34 @@
         <button class="overlay-btn" onclick="forceRestart()">ACCEPT &amp; RESTART</button>
     </div>
 
+    <!-- ═══════ QUIT CONFIRMATION MODAL ═══════ -->
+    <div class="quit-modal-backdrop" id="quitModal">
+        <div class="quit-modal">
+            <div class="quit-modal-icon">⚠️</div>
+            <div class="quit-modal-title">QUIT ASSESSMENT?</div>
+            <div class="quit-modal-sub">Your current progress will be saved and an<br>Assessment Summary Report will be
+                generated.</div>
+            <div class="quit-modal-stats">
+                <div class="qms-item">
+                    <span class="qms-val" id="qmsScore">0</span>
+                    <span class="qms-lbl">SCORE</span>
+                </div>
+                <div class="qms-item">
+                    <span class="qms-val" id="qmsXp">0</span>
+                    <span class="qms-lbl">XP</span>
+                </div>
+                <div class="qms-item">
+                    <span class="qms-val" id="qmsAcc">—%</span>
+                    <span class="qms-lbl">ACCURACY</span>
+                </div>
+            </div>
+            <div class="quit-modal-btns">
+                <button class="quit-cancel-btn" onclick="cancelQuit()">↩ CONTINUE</button>
+                <button class="quit-confirm-btn" onclick="confirmQuit()">✕ END SESSION</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══════ LIVE REVISION MODAL ═══════ -->
     <div class="overlay" id="revisionModal">
         <div class="revision-modal-content">
@@ -618,7 +646,7 @@
     </div>
 
     <!-- ═══════ JS ENTRY POINT ═══════ -->
-    <script type="module" src="src/js/app.js"></script>
+    <script type="module" src="src/js/app.js?v=2"></script>
 
 </body>
 

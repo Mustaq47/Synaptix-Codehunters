@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssessmentReport>
+  <Student>
+    <Name>Test</Name>
+    <Title>Tester</Title>
+  </Student>
+  <Metrics>
+    <Subject>JAVA</Subject>
+    <Score>85</Score>
+    <Accuracy>90</Accuracy>
+    <XP>1500</XP>
+    <MaxStreak>5</MaxStreak>
+  </Metrics>
+  <Topics>
+    <Topic>
+      <Name>Arrays</Name>
+      <Accuracy>100</Accuracy>
+      <Status>Strong</Status>
+      <Correct>5</Correct>
+      <Total>5</Total>
+    </Topic>
+    <Topic>
+      <Name>Loops</Name>
+      <Accuracy>40</Accuracy>
+      <Status>Weak</Status>
+      <Correct>2</Correct>
+      <Total>5</Total>
+    </Topic>
+  </Topics>
+</AssessmentReport>
