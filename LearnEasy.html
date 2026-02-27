@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -970,6 +970,21 @@
       color: var(--red);
     }
 
+    /* Option selected (before submit) */
+    .option-btn.selected-opt {
+      border-color: var(--accent);
+      background: rgba(0, 212, 255, .12);
+      color: white;
+      box-shadow: 0 0 14px rgba(0, 212, 255, .25);
+      transform: translateX(6px);
+    }
+
+    .option-btn.selected-opt .opt-key {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
     .opt-key {
       font-family: 'Share Tech Mono', monospace;
       font-size: .72rem;
@@ -1046,6 +1061,105 @@
 
     .next-btn.show {
       display: block;
+    }
+
+    /* SUBMIT ANSWER button */
+    .submit-btn {
+      display: none;
+      width: 100%;
+      margin-top: 12px;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--green), var(--accent));
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-family: 'Orbitron', monospace;
+      font-size: .82rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 0 20px rgba(0, 255, 157, .2);
+    }
+
+    .submit-btn:hover {
+      opacity: .88;
+      transform: translateY(-2px);
+    }
+
+    .submit-btn.show {
+      display: block;
+    }
+
+    /* Shake on wrong */
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      15% {
+        transform: translateX(-8px);
+      }
+
+      45% {
+        transform: translateX(8px);
+      }
+
+      75% {
+        transform: translateX(-4px);
+      }
+    }
+
+    .shake {
+      animation: shake .45s ease;
+    }
+
+    /* Live session bar in profile panel */
+    .session-live-bar {
+      background: var(--panel2);
+      border: 1px solid rgba(0, 212, 255, .2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .slb-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .slb-val {
+      font-family: 'Orbitron', monospace;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .slb-lbl {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .55rem;
+      color: var(--dim);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .slb-item.green .slb-val {
+      color: var(--green);
+    }
+
+    .slb-item.gold .slb-val {
+      color: var(--gold);
+    }
+
+    .slb-item.red .slb-val {
+      color: var(--red);
     }
 
     /* ── XP POPUP ── */
@@ -1585,6 +1699,223 @@
       color: var(--python);
     }
 
+    /* ── TOPIC CHIPS (lang select screen) ── */
+    .topic-select-section {
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .topic-select-title {
+      font-size: .62rem;
+      letter-spacing: 3px;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .topic-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .topic-chip {
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .03);
+      color: var(--dim);
+      font-size: .68rem;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
+    }
+
+    .topic-chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0, 212, 255, .1);
+    }
+
+    .topic-chip.locked {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    /* ── TOPIC PROGRESS (in game) ── */
+    .topic-progress-bar {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tp-label {
+      font-size: .62rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 2px;
+    }
+
+    .tp-topic {
+      font-family: 'Orbitron', monospace;
+      font-size: .78rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+
+    .tp-level-dots {
+      display: flex;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .tp-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .06);
+      transition: background .3s;
+    }
+
+    .tp-dot.done {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .tp-dot.current {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    .tp-dot.fail {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    /* ── WEAK TOPIC BANNER ── */
+    .weak-topic-alert {
+      margin-top: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: rgba(255, 107, 53, .08);
+      border: 1px solid rgba(255, 107, 53, .3);
+      color: var(--accent2);
+      font-size: .82rem;
+      font-weight: 600;
+      display: none;
+      animation: fadeSlide .3s ease;
+    }
+
+    .weak-topic-alert.show {
+      display: block;
+    }
+
+    /* ── ASSIGNMENT CARD (in restart overlay) ── */
+    .assignment-card {
+      background: var(--panel);
+      border: 1px solid rgba(255, 107, 53, .4);
+      border-radius: 12px;
+      padding: 24px 28px;
+      max-width: 480px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .assignment-card h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: .9rem;
+      letter-spacing: 3px;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+
+    .assignment-item {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .assignment-item .a-topic {
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .assignment-item .a-tip {
+      font-size: .78rem;
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      line-height: 1.5;
+    }
+
+    /* ── LEVEL BADGE (profile) ── */
+    .level-badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-family: 'Orbitron', monospace;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    .level-badge.beginner {
+      background: rgba(0, 255, 157, .1);
+      color: var(--green);
+      border: 1px solid rgba(0, 255, 157, .3);
+    }
+
+    .level-badge.intermediate {
+      background: rgba(0, 212, 255, .1);
+      color: var(--accent);
+      border: 1px solid rgba(0, 212, 255, .3);
+    }
+
+    .level-badge.advanced {
+      background: rgba(168, 85, 247, .1);
+      color: var(--accent3);
+      border: 1px solid rgba(168, 85, 247, .3);
+    }
+
+    .level-badge.expert {
+      background: rgba(255, 215, 0, .1);
+      color: var(--gold);
+      border: 1px solid rgba(255, 215, 0, .3);
+    }
+
+    .level-badge.master {
+      background: rgba(255, 107, 53, .1);
+      color: var(--accent2);
+      border: 1px solid rgba(255, 107, 53, .3);
+    }
+
+    /* Score out of 100 in panel */
+    .score-out-of {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .65rem;
+      color: var(--dim);
+      margin-left: 2px;
+    }
+
     @media(max-width:600px) {
       .status-bar {
         grid-template-columns: 1fr 1fr;
@@ -1604,6 +1935,76 @@
 
       .lang-grid {
         grid-template-columns: 1fr;
+      }
+
+      .score-panel {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .score-meta {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .top-bar {
+        gap: 8px;
+      }
+
+      .diff-row {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .topic-progress-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .create-card,
+      .lang-card {
+        padding: 24px 16px;
+      }
+
+      .container {
+        padding: 12px;
+      }
+
+      .question-card {
+        padding: 18px 14px;
+      }
+
+      .action-row {
+        flex-direction: column;
+      }
+    }
+
+    @media(max-width:400px) {
+      .status-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card.rank {
+        grid-column: span 1;
+      }
+
+      .lang-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .score-number {
+        font-size: 1.5rem;
+      }
+
+      .timer-ring-container {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    @media(min-width:1024px) {
+      .container {
+        max-width: 860px;
       }
     }
   </style>
@@ -1720,10 +2121,22 @@
         <span class="streak-display" id="streakFire"></span>
       </div>
 
+      <!-- TOPIC PROGRESS BAR -->
+      <div class="topic-progress-bar" id="topicProgressBar">
+        <span class="tp-label">TOPIC:</span>
+        <span class="tp-topic" id="tpTopic">—</span>
+        <div class="tp-level-dots" id="tpDots">
+          <div class="tp-dot" id="dot0" title="Easy"></div>
+          <div class="tp-dot" id="dot1" title="Medium"></div>
+          <div class="tp-dot" id="dot2" title="Hard"></div>
+          <div class="tp-dot" id="dot3" title="Expert"></div>
+        </div>
+      </div>
+
       <!-- SCORE PANEL -->
       <div class="score-panel" id="scorePanel">
         <div class="score-main">
-          <span class="score-number" id="scoreDisplay">0</span>
+          <span class="score-number" id="scoreDisplay">0</span><span class="score-out-of">/ 100</span>
           <div>
             <div class="score-label">SCORE</div>
           </div>
@@ -1767,7 +2180,9 @@
           </div>
           <div class="q-text" id="questionText">Loading...</div>
           <div class="options" id="optionsContainer"></div>
+          <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">✓ SUBMIT ANSWER</button>
           <div class="feedback" id="feedback"></div>
+          <div class="weak-topic-alert" id="weakTopicAlert"></div>
           <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION →</button>
         </div>
       </div>
@@ -1799,9 +2214,30 @@
         <div class="panel-name" id="panelName">PLAYER</div>
         <div class="panel-title" id="panelTitle">The Seeker</div>
         <div class="panel-rank-badge" id="panelRank">🥉 BRONZE</div>
+        <div class="level-badge beginner" id="panelLevel">BEGINNER</div>
       </div>
     </div>
     <div class="divider">· · · · ·</div>
+
+    <!-- LIVE SESSION BAR -->
+    <div class="session-live-bar" id="sessionLiveBar" style="display:none">
+      <div class="slb-item green">
+        <span class="slb-val" id="slbScore">0/100</span>
+        <span class="slb-lbl">SCORE</span>
+      </div>
+      <div class="slb-item gold">
+        <span class="slb-val" id="slbStreak">0🔥</span>
+        <span class="slb-lbl">STREAK</span>
+      </div>
+      <div class="slb-item">
+        <span class="slb-val" id="slbAcc">—</span>
+        <span class="slb-lbl">ACCURACY</span>
+      </div>
+      <div class="slb-item red">
+        <span class="slb-val" id="slbFocus">100%</span>
+        <span class="slb-lbl">FOCUS</span>
+      </div>
+    </div>
 
     <div class="panel-section">
       <div class="panel-section-title">Language Progress</div>
@@ -1836,8 +2272,8 @@
           <div class="mini-stat-val gold" id="statGames">0</div>
         </div>
         <div class="mini-stat">
-          <div class="mini-stat-label">Best Score</div>
-          <div class="mini-stat-val green" id="statBest">0 XP</div>
+          <div class="mini-stat-label">Best Score / 100</div>
+          <div class="mini-stat-val green" id="statBest">0</div>
         </div>
         <div class="mini-stat">
           <div class="mini-stat-label">Avg Accuracy</div>
@@ -1848,8 +2284,16 @@
           <div class="mini-stat-val gold" id="statBestRank">🥉 Bronze</div>
         </div>
         <div class="mini-stat">
-          <div class="mini-stat-label">Highest Streak</div>
-          <div class="mini-stat-val" id="statStreak">0 🔥</div>
+          <div class="mini-stat-label">Highest Streak 🔥</div>
+          <div class="mini-stat-val" id="statStreak">0</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Current Level</div>
+          <div class="mini-stat-val purple" id="statLevel">Beginner</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Current Score</div>
+          <div class="mini-stat-val green" id="statSessionScore">— / 100</div>
         </div>
       </div>
     </div>
@@ -1868,6 +2312,10 @@
   <div class="overlay" id="restartOverlay">
     <h2 style="color:var(--red)">⚠ CRITICAL FAILURE</h2>
     <p id="restartMsg">Your focus has collapsed. The system demands a restart.</p>
+    <div class="assignment-card" id="assignmentCard" style="display:none">
+      <h3>📋 REVISION ASSIGNMENT</h3>
+      <div id="assignmentItems"></div>
+    </div>
     <button class="overlay-btn" onclick="forceRestart()">ACCEPT & RESTART</button>
   </div>
 
@@ -2011,9 +2459,65 @@
     async function createProfile() {
       const name = document.getElementById('nameInput').value.trim();
       if (!name) { document.getElementById('nameInput').focus(); return; }
-      const p = { name: name.toUpperCase(), avatar: selAvatar, title: selTitle, createdAt: Date.now(), totalXP: 0, gamesPlayed: 0, bestXP: 0, bestRank: RANKS[0].name, totalCorrect: 0, totalAnswered: 0, highestStreak: 0, langGames: { java: 0, c: 0, python: 0 } };
+      const p = { name: name.toUpperCase(), avatar: selAvatar, title: selTitle, createdAt: Date.now(), totalXP: 0, gamesPlayed: 0, bestScore: 0, bestRank: RANKS[0].name, totalCorrect: 0, totalAnswered: 0, highestStreak: 0, langGames: { java: 0, c: 0, python: 0 } };
       await saveProfile(p);
       showLangScreen(p);
+    }
+
+    // ════════════════════════════════════════════════
+    //  LEVEL SYSTEM
+    // ════════════════════════════════════════════════
+    const LEVELS = [
+      { label: 'BEGINNER', cls: 'beginner', min: 0 },
+      { label: 'INTERMEDIATE', cls: 'intermediate', min: 300 },
+      { label: 'ADVANCED', cls: 'advanced', min: 700 },
+      { label: 'EXPERT', cls: 'expert', min: 1200 },
+      { label: 'MASTER', cls: 'master', min: 2000 },
+    ];
+    function getLevel(xp) { for (let i = LEVELS.length - 1; i >= 0; i--) if (xp >= LEVELS[i].min) return LEVELS[i]; return LEVELS[0]; }
+
+    // ════════════════════════════════════════════════
+    //  TOPIC SELECT / DESELECT
+    // ════════════════════════════════════════════════
+    let enabledTopics = new Set();
+
+    function getAllTopics(lang) {
+      const topics = new Set();
+      ['easy', 'medium', 'hard', 'expert'].forEach(d => QB[lang][d].forEach(q => topics.add(q.topic)));
+      return [...topics];
+    }
+
+    function buildTopicChips(lang) {
+      const wrap = document.getElementById('topicChipsWrap');
+      wrap.innerHTML = '';
+      const topics = getAllTopics(lang);
+      // Enable all topics by default
+      enabledTopics = new Set(topics);
+      topics.forEach(topic => {
+        const chip = document.createElement('div');
+        chip.className = 'topic-chip active';
+        chip.textContent = topic;
+        chip.dataset.topic = topic;
+        chip.onclick = () => toggleTopic(chip, topic, topics.length);
+        wrap.appendChild(chip);
+      });
+    }
+
+    function toggleTopic(chip, topic, total) {
+      const isActive = chip.classList.contains('active');
+      if (isActive && enabledTopics.size === 1) {
+        // Can't deselect last one
+        chip.classList.add('locked');
+        setTimeout(() => chip.classList.remove('locked'), 600);
+        return;
+      }
+      if (isActive) {
+        enabledTopics.delete(topic);
+        chip.classList.remove('active');
+      } else {
+        enabledTopics.add(topic);
+        chip.classList.add('active');
+      }
     }
 
     // ════════════════════════════════════════════════
@@ -2027,6 +2531,7 @@
         document.getElementById('lang' + l.charAt(0).toUpperCase() + l.slice(1)).classList.toggle('selected', l === lang);
         document.getElementById('check' + l.charAt(0).toUpperCase() + l.slice(1)).textContent = l === lang ? '✓' : '';
       });
+      buildTopicChips(lang);
     }
 
     function showLangScreen(profile, isReturn = false) {
@@ -2042,9 +2547,10 @@
     }
 
     function startGame() {
+      // Auto-populate all topics from the current language's question bank
+      enabledTopics = new Set(getAllTopics(currentLang));
       hideAll();
       document.getElementById('screenGame').classList.add('active');
-      // Update lang pill
       const m = LANG_META[currentLang];
       const pill = document.getElementById('langPill');
       pill.textContent = m.icon + ' ' + m.label;
@@ -2064,25 +2570,54 @@
     function updateChip(p) { document.getElementById('chipAvatar').textContent = p.avatar; document.getElementById('chipName').textContent = p.name; document.getElementById('chipRank').textContent = getRank(p.totalXP).name; }
 
     // ════════════════════════════════════════════════
-    //  GAME STATE
+    //  GAME STATE — Topic-Level Flow
     // ════════════════════════════════════════════════
-    let state = {}, usedQ = { easy: [], medium: [], hard: [], expert: [] }, topicStats = {}, qNum = 0, curQ = null, answered = false;
+    const DIFFICULTIES = ['easy', 'medium', 'hard', 'expert'];
+    const QUESTIONS_PER_LEVEL = 3;   // questions per difficulty per topic
+    const PASS_THRESHOLD = 0.6;       // 60% to advance to next level
+
+    let state = {}, topicStats = {}, qNum = 0, curQ = null, answered = false;
     let timerInterval = null, timerSec = 30, timerMax = 30;
     const TIMER_SEC = { easy: 30, medium: 25, hard: 20, expert: 15 };
-    // Score is separate from XP — pure points based on difficulty × streak multiplier
-    const SCORE_BASE = { easy: 100, medium: 200, hard: 400, expert: 700 };
+
+    // Topic-level assessment state
+    let topicQueue = [];          // ordered list of enabled topics
+    let currentTopicIdx = 0;     // index in topicQueue
+    let currentDiffIdx = 0;      // index in DIFFICULTIES (0=easy ... 3=expert)
+    let levelQCount = 0;         // questions answered in current level
+    let levelCorrect = 0;        // correct in current level
+    let topicLevelResults = {};  // { topicName: ['pass','fail','pass',...] }
 
     function initGame() {
-      state = { xp: 0, focus: 100, ability: .5, streak: 0, mistakeStreak: 0, totalMistakes: 0, difficulty: 'medium', questionsAnswered: 0, highestStreak: 0, score: 0 };
-      usedQ = { easy: [], medium: [], hard: [], expert: [] };
+      state = { xp: 0, focus: 100, ability: .5, streak: 0, mistakeStreak: 0, totalMistakes: 0, questionsAnswered: 0, highestStreak: 0, correctTotal: 0 };
       topicStats = {}; qNum = 0; answered = false;
+
+      // Build topic queue from enabled topics only
+      topicQueue = [...enabledTopics];
+      currentTopicIdx = 0;
+      currentDiffIdx = 0;
+      levelQCount = 0;
+      levelCorrect = 0;
+      topicLevelResults = {};
+      topicQueue.forEach(t => { topicLevelResults[t] = []; });
+
       document.getElementById('restartOverlay').classList.remove('show');
+      document.getElementById('assignmentCard').style.display = 'none';
+      document.getElementById('assignmentItems').innerHTML = '';
       document.getElementById('gameArea').style.display = 'block';
       document.getElementById('completionArea').classList.remove('show');
-      updateUI(); loadQuestion();
+      updateTopicProgressUI();
+      updateUI();
+      loadQuestion();
     }
 
-    function getRank(xp) { for (let i = RANKS.length - 1; i >= 0; i--)if (xp >= RANKS[i].min) return RANKS[i]; return RANKS[0]; }
+    function getRank(xp) { for (let i = RANKS.length - 1; i >= 0; i--) if (xp >= RANKS[i].min) return RANKS[i]; return RANKS[0]; }
+
+    // Score /100 = percentage of correct answers out of total questions answered
+    function getScore100() {
+      if (state.questionsAnswered === 0) return 0;
+      return Math.min(100, Math.round((state.correctTotal / state.questionsAnswered) * 100));
+    }
 
     function updateUI() {
       const rank = getRank(state.xp), ri = RANKS.findIndex(r => r.name === rank.name), next = RANKS[Math.min(ri + 1, RANKS.length - 1)];
@@ -2100,22 +2635,46 @@
       document.getElementById('mistakeDisplay').textContent = 'Mistakes: ' + state.totalMistakes;
       document.getElementById('streakDisplay').textContent = 'Streak: ' + state.streak;
       document.getElementById('streakFire').textContent = state.streak >= 3 ? '🔥 x' + state.streak + ' STREAK' : '';
-      ['easy', 'medium', 'hard', 'expert'].forEach(d => document.getElementById('badge' + d[0].toUpperCase() + d.slice(1)).classList.toggle('active', state.difficulty === d));
-      // Score panel
-      const mult = getStreakMult(state.streak);
-      document.getElementById('scoreDisplay').textContent = state.score.toLocaleString();
+      const curDiff = DIFFICULTIES[currentDiffIdx] || 'easy';
+      ['easy', 'medium', 'hard', 'expert'].forEach(d => document.getElementById('badge' + d[0].toUpperCase() + d.slice(1)).classList.toggle('active', curDiff === d));
+      // Score panel — score out of 100
+      const score100 = getScore100();
+      document.getElementById('scoreDisplay').textContent = score100;
       document.getElementById('scorePanelStreak').textContent = state.streak + '🔥';
-      document.getElementById('scorePanelMult').textContent = '×' + mult.toFixed(1);
-      const answered2 = state.questionsAnswered;
-      const accNow = answered2 > 0 ? Math.round(((answered2 - state.totalMistakes) / answered2) * 100) : 0;
-      document.getElementById('scorePanelAcc').textContent = answered2 > 0 ? accNow + '%' : '—';
+      document.getElementById('scorePanelMult').textContent = '×' + getStreakMult(state.streak).toFixed(1);
+      const accNow = state.questionsAnswered > 0 ? Math.round((state.correctTotal / state.questionsAnswered) * 100) : 0;
+      document.getElementById('scorePanelAcc').textContent = state.questionsAnswered > 0 ? accNow + '%' : '—';
     }
 
+    function updateTopicProgressUI() {
+      const topic = topicQueue[currentTopicIdx] || '—';
+      document.getElementById('tpTopic').textContent = topic;
+      const dots = ['dot0', 'dot1', 'dot2', 'dot3'];
+      const results = topicLevelResults[topic] || [];
+      dots.forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.className = 'tp-dot';
+        if (i < results.length) {
+          el.classList.add(results[i] === 'pass' ? 'done' : 'fail');
+        } else if (i === currentDiffIdx && i < DIFFICULTIES.length) {
+          el.classList.add('current');
+        }
+      });
+    }
+
+    // Pick question for current topic + difficulty, filtered by enabled topics
     function pickQ() {
-      const d = state.difficulty, pool = QB[currentLang][d].filter((_, i) => !usedQ[d].includes(i));
-      if (!pool.length) { usedQ[d] = []; return QB[currentLang][d][Math.floor(Math.random() * QB[currentLang][d].length)]; }
-      const idx = Math.floor(Math.random() * pool.length), qi = QB[currentLang][d].indexOf(pool[idx]);
-      usedQ[d].push(qi); return pool[idx];
+      const topic = topicQueue[currentTopicIdx];
+      const diff = DIFFICULTIES[currentDiffIdx] || 'easy';
+      // Filter pool: must match current topic
+      const pool = QB[currentLang][diff].filter(q => q.topic === topic);
+      if (!pool.length) {
+        // Fallback: pick any enabled topic question at this difficulty
+        const fallback = QB[currentLang][diff].filter(q => enabledTopics.has(q.topic));
+        if (!fallback.length) return QB[currentLang][diff][0];
+        return fallback[Math.floor(Math.random() * fallback.length)];
+      }
+      return pool[Math.floor(Math.random() * pool.length)];
     }
 
     function getStreakMult(streak) {
@@ -2127,7 +2686,8 @@
 
     function startTimer() {
       clearInterval(timerInterval);
-      timerSec = TIMER_SEC[state.difficulty] || 25;
+      const diff = DIFFICULTIES[currentDiffIdx] || 'easy';
+      timerSec = TIMER_SEC[diff] || 25;
       timerMax = timerSec;
       updateTimerUI();
       timerInterval = setInterval(() => {
@@ -2141,7 +2701,7 @@
     }
 
     function updateTimerUI() {
-      const r = 31, circ = 2 * Math.PI * r; // ≈194.78
+      const r = 31, circ = 2 * Math.PI * r;
       const pct = timerSec / timerMax;
       const offset = circ * (1 - pct);
       const arc = document.getElementById('timerArc');
@@ -2154,108 +2714,295 @@
     }
 
     function timeUp() {
-      // Treat as wrong answer — find any not-disabled button
-      const btns = document.querySelectorAll('.option-btn');
-      // Pass -1 so no option matches correct
+      // Auto-submit: clear selected state and hide submit btn
+      selectedOptIdx = -1;
+      document.getElementById('submitBtn').className = 'submit-btn';
       handleAnswer(-1, null, true);
     }
 
+    let selectedOptIdx = -1; // tracks currently selected option
+
     function loadQuestion() {
-      answered = false; qNum++; curQ = pickQ();
+      answered = false;
+      selectedOptIdx = -1;
+      qNum++;
+      curQ = pickQ();
       document.getElementById('questionCard').className = 'question-card';
       document.getElementById('qNum').textContent = 'QUESTION ' + String(qNum).padStart(2, '0');
-      const isBoss = curQ.boss && state.difficulty === 'expert';
+      const diff = DIFFICULTIES[currentDiffIdx] || 'easy';
+      const isBoss = curQ.boss && diff === 'expert';
       document.getElementById('bossBadge').style.display = isBoss ? 'inline' : 'none';
       const mult = getStreakMult(state.streak);
-      const xpAmt = XP_T[state.difficulty] * mult * (isBoss ? 2 : 1);
+      const xpAmt = XP_T[diff] * mult * (isBoss ? 2 : 1);
       document.getElementById('xpReward').textContent = '+' + Math.round(xpAmt) + ' XP';
       document.getElementById('questionText').textContent = curQ.q;
       const opts = document.getElementById('optionsContainer'); opts.innerHTML = '';
-      ['A', 'B', 'C', 'D'].forEach((k, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerHTML = `<span class="opt-key">${k}</span>${curQ.options[i]}`; btn.onclick = () => handleAnswer(i, btn); opts.appendChild(btn); });
+      ['A', 'B', 'C', 'D'].forEach((k, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="opt-key">${k}</span>${curQ.options[i]}`;
+        btn.dataset.idx = i;
+        btn.onclick = () => selectOption(i, btn);
+        opts.appendChild(btn);
+      });
       document.getElementById('feedback').className = 'feedback';
+      document.getElementById('weakTopicAlert').className = 'weak-topic-alert';
+      document.getElementById('submitBtn').className = 'submit-btn'; // hidden
       document.getElementById('nextBtn').className = 'next-btn';
       startTimer();
       updateUI();
+      updateTopicProgressUI();
+    }
+
+    // Select / deselect an MCQ option
+    function selectOption(idx, btn) {
+      if (answered) return;
+      const btns = document.querySelectorAll('.option-btn');
+      if (selectedOptIdx === idx) {
+        // Deselect
+        btn.classList.remove('selected-opt');
+        selectedOptIdx = -1;
+        document.getElementById('submitBtn').className = 'submit-btn'; // hide
+      } else {
+        // Select
+        btns.forEach(b => b.classList.remove('selected-opt'));
+        btn.classList.add('selected-opt');
+        selectedOptIdx = idx;
+        document.getElementById('submitBtn').className = 'submit-btn show';
+      }
+    }
+
+    // Submit the selected answer
+    function submitAnswer() {
+      if (answered || selectedOptIdx === -1) return;
+      document.getElementById('submitBtn').className = 'submit-btn'; // hide submit
+      const btn = document.querySelector(`.option-btn[data-idx="${selectedOptIdx}"]`);
+      handleAnswer(selectedOptIdx, btn, false);
     }
 
     function handleAnswer(chosen, btn, timedOut = false) {
       if (answered) return; answered = true;
       clearInterval(timerInterval);
-      const correct = !timedOut && chosen === curQ.ans, diff = state.difficulty, isBoss = curQ.boss && diff === 'expert';
+      const diff = DIFFICULTIES[currentDiffIdx] || 'easy';
+      const correct = !timedOut && chosen === curQ.ans;
+      const isBoss = curQ.boss && diff === 'expert';
       const mult = getStreakMult(state.streak), bb = isBoss ? 2 : 1;
-      // Disable all buttons and reveal correct
+
       document.querySelectorAll('.option-btn').forEach((b, i) => {
         b.disabled = true;
+        b.classList.remove('selected-opt');
         if (i === curQ.ans) b.classList.add('correct');
         if (!correct && b === btn) b.classList.add('wrong');
       });
+
       if (!topicStats[curQ.topic]) topicStats[curQ.topic] = { correct: 0, total: 0 };
       topicStats[curQ.topic].total++;
+
       let msg = '';
       if (correct) {
         const xpGained = Math.round(XP_T[diff] * mult * bb);
-        // Score: base × time bonus (faster = more) × streak mult × boss mult
-        const timeFrac = timerSec / timerMax; // remaining time fraction
-        const timeBonus = 1 + timeFrac * 0.5;   // up to 1.5× for instant answer
-        const scoreGained = Math.round(SCORE_BASE[diff] * mult * bb * timeBonus);
         state.xp += xpGained;
-        state.score += scoreGained;
+        state.correctTotal++;
         state.focus = Math.min(100, state.focus + 5);
         state.streak++; state.highestStreak = Math.max(state.highestStreak, state.streak);
         state.mistakeStreak = 0;
-        topicStats[curQ.topic].correct++; state.ability = Math.min(1, state.ability + .05);
+        topicStats[curQ.topic].correct++;
+        state.ability = Math.min(1, state.ability + .05);
+        levelCorrect++;
         const newMult = getStreakMult(state.streak);
-        showPop('+' + scoreGained + ' pts', 'gain');
+        showPop('+' + getScore100() + '/100', 'gain');
         document.getElementById('questionCard').classList.add('flash-correct');
-        msg = `✓ Correct! +${xpGained} XP  |  +${scoreGained} pts`;
+        msg = `✓ Correct! +${xpGained} XP`;
         if (state.streak >= 3) msg += `  🔥 ×${newMult.toFixed(1)}`;
-        if (state.streak >= 2) { if (diff === 'easy') state.difficulty = 'medium'; else if (diff === 'medium') state.difficulty = 'hard'; else if (diff === 'hard') state.difficulty = 'expert'; }
         document.getElementById('feedback').className = 'feedback correct show';
       } else {
-        state.mistakeStreak++; state.totalMistakes++; state.streak = 0; state.ability = Math.max(0, state.ability - .07);
+        state.mistakeStreak++; state.totalMistakes++; state.streak = 0;
+        state.ability = Math.max(0, state.ability - .07);
         const pen = Math.round(PEN_T[diff] * state.mistakeStreak);
-        const scorePen = Math.round(SCORE_BASE[diff] * 0.5 * state.mistakeStreak);
         state.xp = Math.max(0, state.xp - pen);
-        state.score = Math.max(0, state.score - scorePen);
         state.focus -= (diff === 'hard' || diff === 'expert') ? 25 : 15;
-        showPop('-' + scorePen + ' pts', 'loss');
-        document.getElementById('questionCard').classList.add('flash-wrong');
-        if (timedOut) msg = `⏱ Time's Up! -${scorePen} pts — correct was highlighted`;
-        else msg = `✗ Wrong! -${pen} XP / -${scorePen} pts (${state.mistakeStreak}× penalty)`;
-        if (diff === 'expert') state.difficulty = 'hard'; else if (diff === 'hard') state.difficulty = 'medium';
+        showPop(getScore100() + '/100', 'loss');
+        // Shake animation
+        const qc = document.getElementById('questionCard');
+        qc.classList.add('flash-wrong', 'shake');
+        setTimeout(() => qc.classList.remove('shake'), 500);
+        if (timedOut) msg = `⏱ Time's Up! -${pen} XP — correct was highlighted`;
+        else msg = `✗ Wrong! -${pen} XP (${state.mistakeStreak}× penalty)`;
         document.getElementById('feedback').className = 'feedback wrong show';
       }
       document.getElementById('feedback').textContent = msg;
+
+      // Weak topic detection
+      const ts = topicStats[curQ.topic];
+      if (!correct && ts.total >= 2 && (ts.correct / ts.total) < 0.5) {
+        const wa = document.getElementById('weakTopicAlert');
+        wa.textContent = `⚠ Weak Topic: "${curQ.topic}" — below 50% accuracy. Needs revision!`;
+        wa.className = 'weak-topic-alert show';
+      }
+
       document.getElementById('nextBtn').className = 'next-btn show';
-      state.questionsAnswered++; updateUI();
-      if (state.focus <= 0 || (state.mistakeStreak >= 3 && (diff === 'hard' || diff === 'expert'))) { setTimeout(triggerRestart, 1200); return; }
-      if (state.questionsAnswered >= 12) setTimeout(showCompletion, 1200);
+      state.questionsAnswered++;
+      levelQCount++;
+      updateUI();
+      // Live refresh profile panel if it's open
+      refreshProfilePanel();
+
+      // Critical failure check
+      if (state.focus <= 0 || (state.mistakeStreak >= 3 && (diff === 'hard' || diff === 'expert'))) {
+        setTimeout(triggerRestart, 1200);
+        return;
+      }
+
+      // Check if level is complete
+      if (levelQCount >= QUESTIONS_PER_LEVEL) {
+        const passed = (levelCorrect / levelQCount) >= PASS_THRESHOLD;
+        const topic = topicQueue[currentTopicIdx];
+        if (topicLevelResults[topic]) topicLevelResults[topic].push(passed ? 'pass' : 'fail');
+
+        if (passed) {
+          if (currentDiffIdx < DIFFICULTIES.length - 1) {
+            currentDiffIdx++;
+            levelQCount = 0; levelCorrect = 0;
+            setTimeout(() => { showPop('Level Up! ▶', 'gain'); updateTopicProgressUI(); }, 200);
+          } else {
+            advanceTopic();
+          }
+        } else {
+          setTimeout(() => { showPop('Topic: Next ▶', 'loss'); advanceTopic(); }, 200);
+        }
+      }
+
+      // Check total completion
+      const totalLevels = topicQueue.length * DIFFICULTIES.length;
+      const doneLevels = Object.values(topicLevelResults).reduce((sum, arr) => sum + arr.length, 0);
+      if (doneLevels >= totalLevels) { setTimeout(showCompletion, 1400); }
     }
 
-    function nextQuestion() { clearInterval(timerInterval); state.questionsAnswered >= 12 ? showCompletion() : loadQuestion(); }
+    // ── LIVE PROFILE REFRESH ──
+    function refreshProfilePanel() {
+      const panel = document.getElementById('profilePanel');
+      if (!panel.classList.contains('open')) return; // only refresh if open
+      const lb = document.getElementById('sessionLiveBar');
+      lb.style.display = 'flex';
+      document.getElementById('slbScore').textContent = getScore100() + '/100';
+      document.getElementById('slbStreak').textContent = state.streak + '🔥';
+      const acc = state.questionsAnswered > 0
+        ? Math.round((state.correctTotal / state.questionsAnswered) * 100) + '%' : '—';
+      document.getElementById('slbAcc').textContent = acc;
+      document.getElementById('slbFocus').textContent = Math.round(state.focus) + '%';
+      // Update rank badge live
+      document.getElementById('panelRank').textContent = getRank(state.xp).name;
+      // Update level badge live
+      const lv = getLevel(state.xp);
+      const lb2 = document.getElementById('panelLevel');
+      lb2.textContent = lv.label; lb2.className = 'level-badge ' + lv.cls;
+      // Update session score stat
+      const ss = document.getElementById('statSessionScore');
+      if (ss) ss.textContent = getScore100() + ' / 100';
+    }
+
+    function advanceTopic() {
+      currentTopicIdx++;
+      currentDiffIdx = 0;
+      levelQCount = 0; levelCorrect = 0;
+      if (currentTopicIdx >= topicQueue.length) {
+        setTimeout(showCompletion, 800);
+      } else {
+        updateTopicProgressUI();
+      }
+    }
+
+    function nextQuestion() {
+      clearInterval(timerInterval);
+      // Check if all topics done
+      const totalLevels = topicQueue.length * DIFFICULTIES.length;
+      const doneLevels = Object.values(topicLevelResults).reduce((sum, arr) => sum + arr.length, 0);
+      if (currentTopicIdx >= topicQueue.length || doneLevels >= totalLevels) {
+        showCompletion();
+      } else {
+        loadQuestion();
+      }
+    }
+
     function showPop(text, type) { const el = document.createElement('div'); el.className = 'xp-popup ' + type; el.textContent = text; document.body.appendChild(el); setTimeout(() => el.remove(), 1300); }
-    function triggerRestart() { const msgs = ["Your focus meter reached zero. Reflect and try again.", "3 consecutive mistakes at high difficulty. Session reset.", "Critical failure. Revision recommended."]; document.getElementById('restartMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)]; document.getElementById('restartOverlay').classList.add('show'); }
+
+    // Revision tips per topic
+    const REVISION_TIPS = {
+      'Syntax': 'Review language syntax rules, keywords, and code structure fundamentals.',
+      'Data Types': 'Study primitive vs reference types, type conversions, and wrapper classes.',
+      'OOP': 'Revisit classes, objects, inheritance, polymorphism, encapsulation, and abstraction.',
+      'Collections': 'Practice with List, Set, Map implementations and time complexities.',
+      'Exceptions': 'Review checked vs unchecked exceptions and try-catch-finally blocks.',
+      'Concurrency': 'Study threading models, synchronization, locks, and race conditions.',
+      'JVM': 'Explore JVM memory model: heap, stack, metaspace, and GC.',
+      'Design Patterns': 'Revisit Singleton, Factory, Observer, Decorator patterns.',
+      'Keywords': 'Review special language keywords and their precise semantics.',
+      'I/O': 'Practice input/output streams, formatting, and file operations.',
+      'Pointers': 'Study pointer arithmetic, dereferencing, and pointer pitfalls.',
+      'Memory': 'Review memory allocation, deallocation, leaks, and alignment.',
+      'Structs': 'Practice struct vs union differences and memory layout.',
+      'Preprocessor': 'Revise macros, #include, #define, and conditional compilation.',
+      'Storage': 'Review storage classes: auto, static, extern, register.',
+      'Functions': 'Study function signatures, decorators, generators, and closures.',
+      'Operators': 'Revisit operator precedence, identity vs equality, bitwise ops.',
+      'Data Structures': 'Practice with lists, dicts, sets, stacks, queues and complexity.',
+      'Internals': 'Explore interpreter/runtime internals like GIL, bytecode, ref counting.',
+      'Memory (Python)': 'Review deepcopy vs copy, garbage collection, and __slots__.',
+    };
+
+    function triggerRestart() {
+      const msgs = ["Your focus meter reached zero. Reflect and try again.", "3 consecutive mistakes at high difficulty. Session reset.", "Critical failure. Revision recommended."];
+      document.getElementById('restartMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+
+      // Build assignment from weakest topics
+      const weak = Object.entries(topicStats)
+        .filter(([, s]) => s.total >= 1)
+        .map(([topic, s]) => ({ topic, pct: s.total > 0 ? s.correct / s.total : 0 }))
+        .sort((a, b) => a.pct - b.pct)
+        .slice(0, 3);
+
+      if (weak.length > 0) {
+        const card = document.getElementById('assignmentCard');
+        const items = document.getElementById('assignmentItems');
+        items.innerHTML = '';
+        weak.forEach(({ topic, pct }) => {
+          const tip = REVISION_TIPS[topic] || 'Review the core concepts for this topic carefully.';
+          items.innerHTML += `<div class="assignment-item"><div class="a-topic">📖 ${topic} — ${Math.round(pct * 100)}% accuracy</div><div class="a-tip">${tip}</div></div>`;
+        });
+        card.style.display = 'block';
+      }
+
+      document.getElementById('restartOverlay').classList.add('show');
+    }
+
     function forceRestart() { initGame(); }
 
     async function showCompletion() {
       document.getElementById('gameArea').style.display = 'none';
       document.getElementById('completionArea').classList.add('show');
       const rank = getRank(state.xp);
+      const score100 = getScore100();
       document.getElementById('finalRank').textContent = rank.name;
       document.getElementById('finalRank').style.color = rank.name.includes('MASTER') ? 'var(--gold)' : rank.name.includes('PLATINUM') ? 'var(--accent3)' : rank.name.includes('GOLD') ? 'var(--gold)' : rank.name.includes('SILVER') ? 'var(--text)' : 'var(--accent2)';
-      const acc = Math.round(((state.questionsAnswered - state.totalMistakes) / state.questionsAnswered) * 100);
       const m = LANG_META[currentLang];
-      document.getElementById('finalXP').textContent = `${m.icon} ${m.label}  ·  XP: ${state.xp}  ·  Score: ${state.score.toLocaleString()} pts  ·  Accuracy: ${acc}%  ·  Best Streak: ${state.highestStreak}🔥`;
+      document.getElementById('finalXP').textContent = `${m.icon} ${m.label}  ·  XP: ${state.xp}  ·  Score: ${score100}/100  ·  Best Streak: ${state.highestStreak}🔥`;
       const colors = ['var(--accent)', 'var(--accent3)', 'var(--green)', 'var(--gold)', 'var(--accent2)'];
       const tb = document.getElementById('topicBars'); tb.innerHTML = '';
-      Object.entries(topicStats).forEach(([topic, s], i) => { const pct = Math.round((s.correct / s.total) * 100); tb.innerHTML += `<div class="topic-row"><span class="topic-name">${topic}</span><div class="topic-bar-wrap"><div class="topic-bar-fill" style="width:${pct}%;background:${colors[i % colors.length]}"></div></div><span class="topic-pct">${pct}%</span></div>`; });
-      await persistSession(state.xp, acc, rank.name, state.highestStreak, state.questionsAnswered, state.totalMistakes, currentLang);
+      Object.entries(topicStats).forEach(([topic, s], i) => {
+        const pct = Math.round((s.correct / s.total) * 100);
+        tb.innerHTML += `<div class="topic-row"><span class="topic-name">${topic}</span><div class="topic-bar-wrap"><div class="topic-bar-fill" style="width:${pct}%;background:${colors[i % colors.length]}"></div></div><span class="topic-pct">${pct}%</span></div>`;
+      });
+      const acc = state.questionsAnswered > 0 ? Math.round((state.correctTotal / state.questionsAnswered) * 100) : 0;
+      await persistSession(state.xp, score100, acc, rank.name, state.highestStreak, state.questionsAnswered, state.totalMistakes, currentLang);
     }
 
-    async function persistSession(xp, acc, rankName, hiStreak, totalQ, totalMistakes, lang) {
+    async function persistSession(xp, score100, acc, rankName, hiStreak, totalQ, totalMistakes, lang) {
       const p = await loadProfile(); if (!p) return;
-      p.gamesPlayed++; p.totalXP += xp; p.bestXP = Math.max(p.bestXP, xp);
-      p.totalCorrect += (totalQ - totalMistakes); p.totalAnswered += totalQ;
+      p.gamesPlayed++;
+      p.totalXP += xp;
+      p.bestScore = Math.max(p.bestScore || 0, score100);
+      p.totalCorrect += (totalQ - totalMistakes);
+      p.totalAnswered += totalQ;
       p.highestStreak = Math.max(p.highestStreak || 0, hiStreak);
       if (!p.langGames) p.langGames = { java: 0, c: 0, python: 0 };
       p.langGames[lang] = (p.langGames[lang] || 0) + 1;
@@ -2263,7 +3010,7 @@
       if (ro.indexOf(rankName) > ro.indexOf(p.bestRank)) p.bestRank = rankName;
       await saveProfile(p);
       const history = await loadHistory();
-      history.unshift({ xp, accuracy: acc, rankName, highestStreak: hiStreak, date: Date.now(), lang });
+      history.unshift({ xp, score100, accuracy: acc, rankName, highestStreak: hiStreak, date: Date.now(), lang });
       if (history.length > 10) history.pop();
       await saveHistory(history);
       updateChip(p);
@@ -2276,20 +3023,46 @@
       document.getElementById('profileBackdrop').classList.add('show');
       document.getElementById('profilePanel').classList.add('open');
       const p = await loadProfile(); if (!p) return;
+      const levelInfo = getLevel(p.totalXP || 0);
       document.getElementById('panelAvatar').textContent = p.avatar;
       document.getElementById('panelName').textContent = p.name;
       document.getElementById('panelTitle').textContent = p.title;
       document.getElementById('panelRank').textContent = getRank(p.totalXP).name;
+      // Level badge
+      const lb = document.getElementById('panelLevel');
+      lb.textContent = levelInfo.label;
+      lb.className = 'level-badge ' + levelInfo.cls;
+
       document.getElementById('statTotalXP').textContent = (p.totalXP || 0).toLocaleString() + ' XP';
       document.getElementById('statGames').textContent = p.gamesPlayed || 0;
-      document.getElementById('statBest').textContent = (p.bestXP || 0) + ' XP';
+      document.getElementById('statBest').textContent = (p.bestScore || 0);
       document.getElementById('statAccuracy').textContent = p.totalAnswered > 0 ? Math.round((p.totalCorrect / p.totalAnswered) * 100) + '%' : '—';
       document.getElementById('statBestRank').textContent = p.bestRank || RANKS[0].name;
-      document.getElementById('statStreak').textContent = (p.highestStreak || 0) + ' 🔥';
+      document.getElementById('statStreak').textContent = (p.highestStreak || 0);
+      document.getElementById('statLevel').textContent = levelInfo.label;
+
+      // Live session bar — show when game is active
+      const gameActive = document.getElementById('gameArea').style.display !== 'none'
+        && document.getElementById('screenGame').classList.contains('active');
+      const liveBar = document.getElementById('sessionLiveBar');
+      if (gameActive) {
+        liveBar.style.display = 'flex';
+        document.getElementById('slbScore').textContent = getScore100() + '/100';
+        document.getElementById('slbStreak').textContent = state.streak + '🔥';
+        const acc = state.questionsAnswered > 0 ? Math.round((state.correctTotal / state.questionsAnswered) * 100) + '%' : '—';
+        document.getElementById('slbAcc').textContent = acc;
+        document.getElementById('slbFocus').textContent = Math.round(state.focus) + '%';
+      } else {
+        liveBar.style.display = 'none';
+      }
+      const ss = document.getElementById('statSessionScore');
+      if (ss) ss.textContent = gameActive ? getScore100() + ' / 100' : '— / 100';
+
       const lg = p.langGames || { java: 0, c: 0, python: 0 };
       document.getElementById('langStatJava').textContent = lg.java + ' game' + (lg.java !== 1 ? 's' : '');
       document.getElementById('langStatC').textContent = lg.c + ' game' + (lg.c !== 1 ? 's' : '');
       document.getElementById('langStatPython').textContent = lg.python + ' game' + (lg.python !== 1 ? 's' : '');
+
       const history = await loadHistory();
       const hl = document.getElementById('historyList');
       if (!history.length) {
@@ -2300,7 +3073,8 @@
           const d = new Date(h.date), ds = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
           const langCls = h.lang || 'java';
           const langLabel = (LANG_META[langCls] || LANG_META.java).icon + ' ' + (LANG_META[langCls] || LANG_META.java).label;
-          return `<div class="history-item"><span class="hist-rank">${h.rankName.split(' ')[0]}</span><div class="hist-info"><div class="hist-xp">${h.xp} XP</div><div class="hist-meta">${h.rankName.replace(/^.\s/, '')} · ${ds} · 🔥${h.highestStreak}</div></div><div class="hist-right"><span class="hist-acc ${cls}">${h.accuracy}%</span><span class="hist-lang-tag ${langCls}">${langLabel}</span></div></div>`;
+          const scoreStr = h.score100 != null ? ` · ${h.score100}/100` : '';
+          return `<div class="history-item"><span class="hist-rank">${h.rankName.split(' ')[0]}</span><div class="hist-info"><div class="hist-xp">${h.xp} XP${scoreStr}</div><div class="hist-meta">${h.rankName.replace(/^.\s/, '')} · ${ds} · 🔥${h.highestStreak}</div></div><div class="hist-right"><span class="hist-acc ${cls}">${h.accuracy}%</span><span class="hist-lang-tag ${langCls}">${langLabel}</span></div></div>`;
         }).join('');
       }
     }
