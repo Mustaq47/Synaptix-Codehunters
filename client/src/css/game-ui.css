@@ -1,0 +1,497 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Game Screen UI Components
+   (TopBar, LangPill, StatCards, DiffRow, Timer, ScorePanel, TopicProgress)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── GAME TOP BAR ── */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0 16px;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.logo-block h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    font-weight: 900;
+    letter-spacing: 5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-block p {
+    font-size: .68rem;
+    color: var(--dim);
+    letter-spacing: 3px;
+    font-family: var(--font-mono);
+    margin-top: 2px;
+}
+
+/* ── PROFILE CHIP ── */
+.profile-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 8px 16px 8px 10px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.profile-chip:hover {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, .06);
+    box-shadow: 0 0 16px rgba(0, 212, 255, .12);
+}
+
+.chip-avatar {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.chip-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.chip-name {
+    font-family: var(--font-display);
+    font-size: .68rem;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.chip-rank {
+    font-size: .62rem;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    margin-top: 1px;
+}
+
+/* ── LANGUAGE PILL ── */
+.lang-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.lang-pill:hover {
+    opacity: .8;
+    transform: scale(1.03);
+}
+
+.lang-pill.java {
+    border-color: var(--java);
+    color: var(--java);
+    background: rgba(248, 152, 32, .1);
+}
+
+.lang-pill.c {
+    border-color: var(--c);
+    color: var(--c);
+    background: rgba(168, 185, 204, .1);
+}
+
+.lang-pill.python {
+    border-color: var(--python);
+    color: var(--python);
+    background: rgba(75, 139, 190, .1);
+}
+
+/* ── STATUS BAR ── */
+.status-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 0 0 14px;
+}
+
+.stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color var(--transition-fast);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+
+.stat-card.xp::before {
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+}
+
+.stat-card.focus::before {
+    background: linear-gradient(90deg, var(--green), var(--accent));
+}
+
+.stat-card.rank::before {
+    background: linear-gradient(90deg, var(--gold), var(--accent2));
+}
+
+.stat-label {
+    font-size: .68rem;
+    letter-spacing: 3px;
+    color: var(--dim);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+}
+
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 4px 0;
+}
+
+.stat-value.xp-val {
+    color: var(--accent);
+}
+
+.stat-value.focus-val {
+    color: var(--green);
+}
+
+.stat-value.rank-val {
+    color: var(--gold);
+    font-size: .95rem;
+}
+
+.bar-wrap {
+    height: 6px;
+    background: rgba(255, 255, 255, .05);
+    border-radius: 3px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .5s cubic-bezier(.4, 0, .2, 1);
+}
+
+.bar-fill.xp-bar {
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+}
+
+.bar-fill.focus-bar {
+    background: linear-gradient(90deg, var(--green), var(--accent));
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: .68rem;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+}
+
+/* ── DIFFICULTY ROW ── */
+.diff-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    padding: 10px 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    flex-wrap: wrap;
+}
+
+.diff-label {
+    font-size: .68rem;
+    letter-spacing: 3px;
+    color: var(--dim);
+    font-family: var(--font-mono);
+}
+
+.diff-badges {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.diff-badge {
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: .68rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    transition: all var(--transition-normal);
+    opacity: .3;
+}
+
+.diff-badge.active {
+    opacity: 1;
+}
+
+.diff-badge.easy {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.diff-badge.easy.active {
+    background: rgba(0, 255, 157, .1);
+}
+
+.diff-badge.medium {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.diff-badge.medium.active {
+    background: rgba(0, 212, 255, .1);
+}
+
+.diff-badge.hard {
+    border-color: var(--accent2);
+    color: var(--accent2);
+}
+
+.diff-badge.hard.active {
+    background: rgba(255, 107, 53, .1);
+}
+
+.diff-badge.expert {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.diff-badge.expert.active {
+    background: rgba(255, 59, 92, .1);
+}
+
+.streak-display {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    color: var(--gold);
+}
+
+/* ── TIMER RING ── */
+.timer-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.timer-ring-container {
+    position: relative;
+    width: 72px;
+    height: 72px;
+}
+
+.timer-svg {
+    transform: rotate(-90deg);
+}
+
+.timer-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, .06);
+    stroke-width: 5;
+}
+
+.timer-arc {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset .9s linear, stroke .3s;
+}
+
+.timer-txt {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.timer-label {
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 3px;
+}
+
+/* Timer urgency pulse */
+.timer-ring-container.urgent {
+    animation: glow .8s ease infinite;
+}
+
+/* ── SCORE PANEL ── */
+.score-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 10px 18px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.score-main {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+}
+
+.score-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.score-label {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--dim);
+    letter-spacing: 3px;
+}
+
+.score-out-of {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--dim);
+    margin-left: 2px;
+}
+
+.score-meta {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.score-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-chip-val {
+    font-family: var(--font-display);
+    font-size: .88rem;
+    font-weight: 700;
+}
+
+.score-chip-lbl {
+    font-family: var(--font-mono);
+    font-size: .55rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-top: 2px;
+}
+
+.score-chip.streak-chip .score-chip-val {
+    color: var(--gold);
+}
+
+.score-chip.mult-chip .score-chip-val {
+    color: var(--accent3);
+}
+
+.score-chip.acc-chip .score-chip-val {
+    color: var(--green);
+}
+
+/* ── TOPIC PROGRESS BAR ── */
+.topic-progress-bar {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.tp-label {
+    font-size: .62rem;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    letter-spacing: 2px;
+}
+
+.tp-topic {
+    font-family: var(--font-display);
+    font-size: .78rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+}
+
+.tp-level-dots {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.tp-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .06);
+    transition: background var(--transition-normal);
+}
+
+.tp-dot.done {
+    background: var(--green);
+    border-color: var(--green);
+}
+
+.tp-dot.current {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+}
+
+.tp-dot.fail {
+    background: var(--red);
+    border-color: var(--red);
+}

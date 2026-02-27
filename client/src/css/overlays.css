@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Overlays (Restart, Assignment Card)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── RESTART OVERLAY ── */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 15, .95);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.overlay.show {
+    display: flex;
+    animation: fadeSlide .3s ease;
+}
+
+.overlay h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.overlay p {
+    color: var(--dim);
+    font-size: 1rem;
+    max-width: 400px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-family: var(--font-mono);
+}
+
+.overlay-btn {
+    padding: 14px 40px;
+    background: linear-gradient(135deg, var(--accent2), var(--red));
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-family: var(--font-display);
+    font-size: .85rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.overlay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 59, 92, .4);
+}
+
+/* ── ASSIGNMENT CARD ── */
+.assignment-card {
+    background: var(--panel);
+    border: 1px solid rgba(255, 107, 53, .4);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    max-width: 480px;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.assignment-card h3 {
+    font-family: var(--font-display);
+    font-size: .9rem;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    margin-bottom: 14px;
+}
+
+.assignment-item {
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-sm);
+}
+
+.assignment-item .a-topic {
+    font-family: var(--font-display);
+    font-size: .75rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.assignment-item .a-tip {
+    font-size: .78rem;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    line-height: 1.5;
+}

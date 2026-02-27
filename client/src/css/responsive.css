@@ -1,0 +1,155 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Responsive / Media Queries
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── TABLET / SMALL SCREENS ── */
+@media (max-width: 600px) {
+    .status-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-card.rank {
+        grid-column: span 2;
+    }
+
+    .avatar-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lang-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .score-panel {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .score-meta {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .top-bar {
+        gap: var(--space-sm);
+    }
+
+    .diff-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .topic-progress-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tp-level-dots {
+        margin-left: 0;
+    }
+
+    .create-card,
+    .lang-card {
+        padding: 24px 16px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .question-card {
+        padding: 18px 14px;
+    }
+
+    .action-row {
+        flex-direction: column;
+    }
+
+    .logo-block h1 {
+        font-size: 1.1rem;
+    }
+}
+
+/* ── EXTRA SMALL SCREENS ── */
+@media (max-width: 400px) {
+    .status-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card.rank {
+        grid-column: span 1;
+    }
+
+    .lang-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .score-number {
+        font-size: 1.5rem;
+    }
+
+    .timer-ring-container {
+        width: 56px;
+        height: 56px;
+    }
+
+    .avatar-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .title-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lang-stats-row {
+        flex-direction: column;
+    }
+}
+
+/* ── LARGE SCREENS ── */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 860px;
+    }
+
+    .question-card {
+        padding: 32px;
+    }
+}
+
+/* ── WIDESCREEN ── */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1000px;
+    }
+}
+
+/* ── PRINT ── */
+@media print {
+
+    .top-bar,
+    .diff-row,
+    .timer-wrap,
+    .submit-btn,
+    .next-btn,
+    .profile-chip,
+    .lang-pill {
+        display: none !important;
+    }
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

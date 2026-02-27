@@ -1,0 +1,22 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Screen Layout & Center Wrap
+   ═══════════════════════════════════════════════════════════ */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* ── SHARED CENTERED WRAP ── */
+.center-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    z-index: var(--z-base);
+}

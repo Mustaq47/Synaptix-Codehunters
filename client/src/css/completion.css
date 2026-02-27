@@ -1,0 +1,249 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Completion Screen
+   ═══════════════════════════════════════════════════════════ */
+
+.completion {
+    display: none;
+}
+
+.completion.show {
+    display: block;
+}
+
+/* ── RADAR SECTION ── */
+.radar-section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: var(--space-md);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.radar-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3), var(--gold));
+}
+
+.radar-section h3 {
+    font-family: var(--font-display);
+    font-size: .88rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+/* ── FINAL RANK ── */
+.final-rank {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 16px 0 6px;
+    text-shadow: 0 0 30px currentColor;
+}
+
+/* ── TOPIC BARS ── */
+.topic-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.topic-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topic-name {
+    width: 140px;
+    font-size: .8rem;
+    color: var(--dim);
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+}
+
+.topic-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, .05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.topic-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s cubic-bezier(.4, 0, .2, 1);
+}
+
+.topic-pct {
+    width: 40px;
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    color: var(--text);
+    text-align: right;
+}
+
+/* ── ACTION ROW ── */
+.action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 13px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-display);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.action-btn:hover {
+    transform: scale(1.02);
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, .25);
+}
+
+.action-btn.primary:hover {
+    box-shadow: 0 8px 25px rgba(0, 212, 255, .4);
+}
+
+.action-btn.secondary {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.action-btn.secondary:hover {
+    border-color: var(--accent);
+    color: white;
+}
+
+/* ── STRENGTHS & WEAKNESSES ── */
+#swSectionWrap h3 {
+    color: var(--accent);
+    text-align: center;
+}
+
+.sw-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: left;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+    .sw-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sw-header {
+    font-family: var(--font-display);
+    font-size: .72rem;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.strength-header {
+    color: var(--green);
+}
+
+.weakness-header {
+    color: var(--accent2);
+}
+
+.sw-empty {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--dim);
+    font-style: italic;
+    padding: 8px 0;
+}
+
+.sw-chip {
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border: 1px solid;
+    animation: fadeSlide .4s ease;
+}
+
+.sw-chip.strength {
+    background: rgba(0, 255, 157, .06);
+    border-color: rgba(0, 255, 157, .3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sw-chip.weakness {
+    background: rgba(255, 107, 53, .06);
+    border-color: rgba(255, 107, 53, .25);
+}
+
+.sw-chip-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.sw-chip-topic {
+    font-family: var(--font-display);
+    font-size: .75rem;
+    letter-spacing: 1px;
+}
+
+.sw-chip.strength .sw-chip-topic {
+    color: var(--green);
+}
+
+.sw-chip.weakness .sw-chip-topic {
+    color: var(--accent2);
+}
+
+.sw-chip-pct {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.sw-chip.strength .sw-chip-pct {
+    color: var(--green);
+}
+
+.sw-chip.weakness .sw-chip-pct {
+    color: var(--accent2);
+}
+
+.sw-chip-tip {
+    font-size: .7rem;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    line-height: 1.5;
+}

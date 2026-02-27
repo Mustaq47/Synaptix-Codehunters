@@ -1,0 +1,18 @@
+{
+  "name": "synaptix",
+  "version": "1.0.0",
+  "description": "> **Gamified adaptive programming quiz engine for Java, C & Python**",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}

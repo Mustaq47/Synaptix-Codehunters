@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="NEXUS ASSESS — AI Adaptive Assessment. Master Java, C & Python through gamified adaptive quizzes with XP, ranks, streaks and competency analytics.">
+    <meta name="theme-color" content="#05060f">
+    <title>NEXUS ASSESS — AI Adaptive Assessment</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+    <!-- ── CSS MODULES ── -->
+    <link rel="stylesheet" href="src/css/variables.css">
+    <link rel="stylesheet" href="src/css/base.css">
+    <link rel="stylesheet" href="src/css/screens.css">
+    <link rel="stylesheet" href="src/css/create.css">
+    <link rel="stylesheet" href="src/css/lang-select.css">
+    <link rel="stylesheet" href="src/css/game-ui.css">
+    <link rel="stylesheet" href="src/css/questions.css">
+    <link rel="stylesheet" href="src/css/profile.css">
+    <link rel="stylesheet" href="src/css/completion.css">
+    <link rel="stylesheet" href="src/css/overlays.css">
+    <link rel="stylesheet" href="src/css/layout.css">
+    <link rel="stylesheet" href="src/css/responsive.css">
+</head>
+
+<body>
+
+    <!-- ═══════ SCREEN: PROFILE CREATION ═══════ -->
+    <div id="screenCreate" class="screen active">
+        <div class="center-wrap">
+            <div class="create-card">
+                <h2>CREATE PROFILE</h2>
+                <p class="sub">◆ Your identity in the NEXUS system ◆</p>
+                <label class="field-label">Callsign (Username)</label>
+                <input class="name-input" id="nameInput" type="text" maxlength="16" placeholder="Enter your callsign..."
+                    autocomplete="off" />
+                <label class="field-label">Choose Avatar</label>
+                <div class="avatar-grid" id="avatarGrid"></div>
+                <label class="field-label">Choose Title</label>
+                <div class="title-grid" id="titleGrid"></div>
+                <button class="create-btn" onclick="createProfile()">◆ INITIALIZE PROFILE ◆</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ SCREEN: LANGUAGE SELECT ═══════ -->
+    <div id="screenLang" class="screen">
+        <div class="center-wrap">
+            <div class="lang-card">
+                <h2>SELECT LANGUAGE</h2>
+                <p class="sub" id="langSubtitle">◆ Choose your programming battleground ◆</p>
+                <div class="lang-grid">
+                    <div class="lang-opt java" id="langJava" onclick="selectLang('java')">
+                        <div class="lang-check" id="checkJava"></div>
+                        <span class="lang-icon">☕</span>
+                        <div class="lang-name java-name">JAVA</div>
+                        <div class="lang-desc">OOP · JVM · Collections<br>Multithreading · Design Patterns</div>
+                    </div>
+                    <div class="lang-opt c" id="langC" onclick="selectLang('c')">
+                        <div class="lang-check" id="checkC"></div>
+                        <span class="lang-icon">🔷</span>
+                        <div class="lang-name c-name">C</div>
+                        <div class="lang-desc">Pointers · Memory<br>Structs · Compilation</div>
+                    </div>
+                    <div class="lang-opt python" id="langPython" onclick="selectLang('python')">
+                        <div class="lang-check" id="checkPython"></div>
+                        <span class="lang-icon">🐍</span>
+                        <div class="lang-name python-name">PYTHON</div>
+                        <div class="lang-desc">Data Structures · OOP<br>Libraries · Generators</div>
+                    </div>
+                </div>
+                <div class="topic-select-section" id="topicSelectSection">
+                    <div class="topic-select-title">◆ Topics to Practice</div>
+                    <div class="topic-chips-wrap" id="topicChipsWrap"></div>
+                </div>
+                <button class="lang-start-btn" onclick="startGame()">▶ START ASSESSMENT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ SCREEN: GAME (3-column layout) ═══════ -->
+    <div id="screenGame" class="screen">
+
+        <!-- TOP BAR (full width, above 3 columns) -->
+        <div class="top-bar" style="max-width:1400px;margin:0 auto;padding:12px 16px;">
+            <div class="logo-block">
+                <h1>NEXUS ASSESS</h1>
+                <p>AI · Adaptive · Gamified Assessment</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span class="lang-pill java" id="langPill" onclick="goChangeLang()" title="Change language">☕
+                    JAVA</span>
+                <div class="profile-chip" onclick="openProfile()">
+                    <span class="chip-avatar" id="chipAvatar">🎮</span>
+                    <div class="chip-info">
+                        <span class="chip-name" id="chipName">PLAYER</span>
+                        <span class="chip-rank" id="chipRank">🥉 Bronze</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-COLUMN LAYOUT -->
+        <div class="game-layout">
+
+            <!-- ── LEFT: PROFILE SIDEBAR ── -->
+            <aside class="left-sidebar">
+                <div class="ls-avatar" id="lsAvatar">🎮</div>
+                <div class="ls-name" id="lsName">PLAYER</div>
+                <div class="ls-title" id="lsTitle">The Seeker</div>
+                <div class="ls-rank" id="lsRank">🥉 BRONZE</div>
+                <div class="ls-level">
+                    <span class="level-badge beginner" id="lsLevel">BEGINNER</span>
+                </div>
+
+                <div class="ls-score-chip">
+                    <div>
+                        <div class="ls-score-val" id="lsScore">0/100</div>
+                        <div class="ls-score-lbl">SCORE</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="ls-score-val" id="lsStreak"
+                            style="font-size:.85rem;color:var(--accent2);min-height:22px;"></div>
+                        <div class="ls-score-lbl">STREAK</div>
+                    </div>
+                </div>
+
+                <div class="ls-stat-row">
+                    <div class="ls-stat">
+                        <div class="ls-stat-label">EXPERIENCE<span id="lsXpVal">0 XP</span></div>
+                        <div class="ls-bar-wrap">
+                            <div class="ls-bar-fill xp" id="lsXpBar" style="width:0%"></div>
+                        </div>
+                    </div>
+                    <div class="ls-stat">
+                        <div class="ls-stat-label">FOCUS<span id="lsFocusVal">100%</span></div>
+                        <div class="ls-bar-wrap">
+                            <div class="ls-bar-fill focus" id="lsFocusBar" style="width:100%"></div>
+                        </div>
+                    </div>
+                    <div class="ls-stat">
+                        <div class="ls-stat-label">RANK PROGRESS<span></span></div>
+                        <div class="ls-bar-wrap">
+                            <div class="ls-bar-fill rank" id="lsRankBar" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="ls-divider">
+
+                <div class="ls-mini-grid">
+                    <div class="ls-mini">
+                        <div class="ls-mini-val" id="lsMistakes">0</div>
+                        <div class="ls-mini-lbl">MISTAKES</div>
+                    </div>
+                    <div class="ls-mini">
+                        <div class="ls-mini-val" id="scorePanelAcc2">—</div>
+                        <div class="ls-mini-lbl">ACCURACY</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ── CENTER: GAME AREA ── -->
+            <div class="game-center">
+
+                <!-- STATUS BAR -->
+                <div class="status-bar">
+                    <div class="stat-card xp">
+                        <div class="stat-label">Experience</div>
+                        <div class="stat-value xp-val" id="xpDisplay">0 XP</div>
+                        <div class="bar-wrap">
+                            <div class="bar-fill xp-bar" id="xpBar" style="width:0%"></div>
+                        </div>
+                        <div class="info-row"><span id="xpToNext">Next: 200 XP</span><span id="qCount">Q: 0</span></div>
+                    </div>
+                    <div class="stat-card focus">
+                        <div class="stat-label">Focus Meter</div>
+                        <div class="stat-value focus-val" id="focusDisplay">100%</div>
+                        <div class="bar-wrap">
+                            <div class="bar-fill focus-bar" id="focusBar" style="width:100%"></div>
+                        </div>
+                        <div class="info-row"><span>Concentration</span><span id="streakDisplay">Streak: 0</span></div>
+                    </div>
+                    <div class="stat-card rank">
+                        <div class="stat-label">Rank</div>
+                        <div class="stat-value rank-val" id="rankDisplay">🥉 BRONZE</div>
+                        <div class="bar-wrap">
+                            <div class="bar-fill xp-bar" id="rankBar" style="width:0%"></div>
+                        </div>
+                        <div class="info-row"><span id="abilityDisplay">Ability: 0.50</span><span
+                                id="mistakeDisplay">Mistakes: 0</span></div>
+                    </div>
+                </div>
+
+                <!-- DIFFICULTY ROW -->
+                <div class="diff-row">
+                    <span class="diff-label">Difficulty:</span>
+                    <div class="diff-badges">
+                        <span class="diff-badge easy active" id="badgeEasy">Easy</span>
+                        <span class="diff-badge medium" id="badgeMedium">Medium</span>
+                        <span class="diff-badge hard" id="badgeHard">Hard</span>
+                        <span class="diff-badge expert" id="badgeExpert">Expert</span>
+                    </div>
+                    <span class="streak-display" id="streakFire"></span>
+                </div>
+
+                <!-- TOPIC PROGRESS -->
+                <div class="topic-progress-bar" id="topicProgressBar">
+                    <span class="tp-label">TOPIC:</span>
+                    <span class="tp-topic" id="tpTopic">—</span>
+                    <div class="tp-level-dots" id="tpDots">
+                        <div class="tp-dot" id="dot0" title="Easy"></div>
+                        <div class="tp-dot" id="dot1" title="Medium"></div>
+                        <div class="tp-dot" id="dot2" title="Hard"></div>
+                        <div class="tp-dot" id="dot3" title="Expert"></div>
+                    </div>
+                </div>
+
+                <!-- SCORE PANEL -->
+                <div class="score-panel" id="scorePanel">
+                    <div class="score-main">
+                        <span class="score-number" id="scoreDisplay">0</span>
+                        <span class="score-out-of">/ 100</span>
+                        <div>
+                            <div class="score-label">SCORE</div>
+                        </div>
+                    </div>
+                    <div class="score-meta">
+                        <div class="score-chip streak-chip">
+                            <span class="score-chip-val" id="scorePanelStreak">0🔥</span>
+                            <span class="score-chip-lbl">STREAK</span>
+                        </div>
+                        <div class="score-chip mult-chip">
+                            <span class="score-chip-val" id="scorePanelMult">×1.0</span>
+                            <span class="score-chip-lbl">MULTIPLIER</span>
+                        </div>
+                        <div class="score-chip acc-chip">
+                            <span class="score-chip-val" id="scorePanelAcc">—</span>
+                            <span class="score-chip-lbl">ACCURACY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION CARD -->
+                <div id="gameArea">
+                    <div class="question-card" id="questionCard">
+                        <div class="q-meta">
+                            <span class="q-num" id="qNum">QUESTION 01</span>
+                            <span class="q-boss" id="bossBadge" style="display:none">⚡ BOSS QUESTION</span>
+                            <span class="ai-badge" id="aiBadge" style="display:none">⚡ AI</span>
+                            <span id="aiLoadingBadge"
+                                style="display:none;font-family:var(--font-mono);font-size:.6rem;color:var(--accent3);letter-spacing:2px;margin-left:8px;">⚙
+                                AI generating…</span>
+                            <span class="xp-badge" id="xpReward">+20 XP</span>
+                        </div>
+                        <div class="timer-wrap">
+                            <div>
+                                <div class="timer-ring-container">
+                                    <svg class="timer-svg" width="72" height="72" viewBox="0 0 72 72">
+                                        <circle class="timer-track" cx="36" cy="36" r="31" />
+                                        <circle class="timer-arc" id="timerArc" cx="36" cy="36" r="31"
+                                            style="stroke-dasharray:194.78;stroke-dashoffset:0;" />
+                                    </svg>
+                                    <div class="timer-txt" id="timerTxt" style="color:var(--green)">30</div>
+                                </div>
+                                <div class="timer-label">TIME LEFT</div>
+                            </div>
+                        </div>
+                        <div class="q-text" id="questionText">Loading question...</div>
+                        <div class="options" id="optionsContainer"></div>
+                        <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">✓ SUBMIT ANSWER</button>
+                        <div class="feedback" id="feedback"></div>
+                        <div class="weak-topic-alert" id="weakTopicAlert"></div>
+                        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT QUESTION →</button>
+                        <div class="keyboard-hint">
+                            Press <kbd>A</kbd><kbd>B</kbd><kbd>C</kbd><kbd>D</kbd> to select &nbsp;·&nbsp;
+                            <kbd>Enter</kbd> to submit &nbsp;·&nbsp;
+                            <kbd>Space</kbd> for next
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPLETION AREA -->
+                <div class="completion" id="completionArea">
+                    <div class="radar-section">
+                        <h3>◆ MISSION COMPLETE ◆</h3>
+                        <div class="final-rank" id="finalRank"></div>
+                        <div id="finalXP"
+                            style="font-family:'Share Tech Mono',monospace;color:var(--dim);margin-bottom:24px;font-size:.82rem;">
+                        </div>
+                        <h3 style="margin-bottom:16px;">COMPETENCY PROFILE</h3>
+                        <div class="topic-bars" id="topicBars"></div>
+
+                        <!-- ── S&W SECTION ── -->
+                        <div id="swSectionWrap" style="margin-top:24px;">
+                            <h3 style="margin-bottom:14px;">STRENGTHS &amp; WEAKNESSES</h3>
+                            <div id="swSection"></div>
+                        </div>
+
+                        <div class="action-row" style="margin-top:24px;">
+                            <button class="action-btn primary" onclick="goChangeLang()">↺ PLAY AGAIN</button>
+                            <button class="action-btn secondary" onclick="openProfile()">👤 VIEW PROFILE</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /game-center -->
+
+            <!-- ── RIGHT: REVISION SIDEBAR ── -->
+            <aside class="right-sidebar">
+                <div class="rs-title">📋 LIVE REVISION PANEL</div>
+                <div id="revisionList">
+                    <div class="rs-empty">Performing well! 🎯<br>Weak topics will appear here if accuracy drops below
+                        50%.</div>
+                </div>
+            </aside>
+
+        </div><!-- /game-layout -->
+    </div><!-- /screenGame -->
+
+    <!-- ═══════ PROFILE PANEL (slide-in) ═══════ -->
+    <div class="profile-backdrop" id="profileBackdrop" onclick="closeProfile()"></div>
+    <div class="profile-panel" id="profilePanel">
+        <button class="panel-close" onclick="closeProfile()">✕</button>
+        <div class="panel-avatar-row">
+            <div class="panel-avatar" id="panelAvatar">🎮</div>
+            <div>
+                <div class="panel-name" id="panelName">PLAYER</div>
+                <div class="panel-title" id="panelTitle">The Seeker</div>
+                <div class="panel-rank-badge" id="panelRank">🥉 BRONZE</div>
+                <div class="level-badge beginner" id="panelLevel">BEGINNER</div>
+            </div>
+        </div>
+        <div class="divider">· · · · ·</div>
+
+        <div class="session-live-bar" id="sessionLiveBar" style="display:none">
+            <div class="slb-item green"><span class="slb-val" id="slbScore">0/100</span><span
+                    class="slb-lbl">SCORE</span></div>
+            <div class="slb-item gold"><span class="slb-val" id="slbStreak">0🔥</span><span
+                    class="slb-lbl">STREAK</span></div>
+            <div class="slb-item"><span class="slb-val" id="slbAcc">—</span><span class="slb-lbl">ACCURACY</span></div>
+            <div class="slb-item red"><span class="slb-val" id="slbFocus">100%</span><span class="slb-lbl">FOCUS</span>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title">Language Progress</div>
+            <div class="lang-stats-row">
+                <div class="lang-stat-chip java">
+                    <div class="lsc-icon">☕</div>
+                    <div class="lsc-label">JAVA</div>
+                    <div class="lsc-val" id="langStatJava">0 games</div>
+                </div>
+                <div class="lang-stat-chip c">
+                    <div class="lsc-icon">🔷</div>
+                    <div class="lsc-label">C</div>
+                    <div class="lsc-val" id="langStatC">0 games</div>
+                </div>
+                <div class="lang-stat-chip python">
+                    <div class="lsc-icon">🐍</div>
+                    <div class="lsc-label">PYTHON</div>
+                    <div class="lsc-val" id="langStatPython">0 games</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title">Career Statistics</div>
+            <div class="stats-grid">
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Total XP Earned</div>
+                    <div class="mini-stat-val" id="statTotalXP">0</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Games Played</div>
+                    <div class="mini-stat-val gold" id="statGames">0</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Best Score / 100</div>
+                    <div class="mini-stat-val green" id="statBest">0</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Avg Accuracy</div>
+                    <div class="mini-stat-val purple" id="statAccuracy">—</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Best Rank</div>
+                    <div class="mini-stat-val gold" id="statBestRank">🥉 Bronze</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Highest Streak 🔥</div>
+                    <div class="mini-stat-val" id="statStreak">0</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Current Level</div>
+                    <div class="mini-stat-val purple" id="statLevel">Beginner</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-label">Current Score</div>
+                    <div class="mini-stat-val green" id="statSessionScore">— / 100</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div class="panel-section-title">Session History (Last 10)</div>
+            <div class="history-list" id="historyList">
+                <div class="empty-history">No sessions yet.<br>Complete a game to see your history.</div>
+            </div>
+        </div>
+
+        <button class="panel-reset-btn" onclick="resetProfile()">⚠ RESET PROFILE &amp; DATA</button>
+    </div>
+
+    <!-- ═══════ RESTART OVERLAY ═══════ -->
+    <div class="overlay" id="restartOverlay">
+        <h2 style="color:var(--red)">⚠ CRITICAL FAILURE</h2>
+        <p id="restartMsg">Your focus has collapsed. The system demands a restart.</p>
+        <div class="assignment-card" id="assignmentCard" style="display:none">
+            <h3>📋 REVISION ASSIGNMENT</h3>
+            <div id="assignmentItems"></div>
+        </div>
+        <button class="overlay-btn" onclick="forceRestart()">ACCEPT &amp; RESTART</button>
+    </div>
+
+    <!-- ═══════ JS ENTRY POINT ═══════ -->
+    <script type="module" src="src/js/app.js"></script>
+
+</body>
+
+</html>

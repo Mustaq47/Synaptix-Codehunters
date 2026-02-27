@@ -1,0 +1,312 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Question Card, Options, Feedback, Buttons
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── QUESTION CARD ── */
+.question-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: var(--space-md);
+    position: relative;
+    transition: border-color .3s, box-shadow .3s;
+}
+
+.question-card.flash-correct {
+    border-color: var(--green);
+    box-shadow: 0 0 30px rgba(0, 255, 157, .15);
+    animation: flashC .6s ease;
+}
+
+.question-card.flash-wrong {
+    border-color: var(--red);
+    box-shadow: 0 0 30px rgba(255, 59, 92, .15);
+    animation: flashW .6s ease;
+}
+
+/* ── QUESTION META ── */
+.q-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.q-num {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+}
+
+.xp-badge {
+    margin-left: auto;
+    font-family: var(--font-display);
+    font-size: .72rem;
+    color: var(--gold);
+    background: rgba(255, 215, 0, .1);
+    border: 1px solid rgba(255, 215, 0, .3);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.q-boss {
+    font-size: .68rem;
+    color: var(--accent2);
+    letter-spacing: 2px;
+    font-family: var(--font-mono);
+    animation: pulse 1.5s infinite;
+}
+
+/* ── QUESTION TEXT ── */
+.q-text {
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: #e0e8ff;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+/* ── OPTIONS ── */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option-btn {
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 18px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.option-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 212, 255, .04), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, .06);
+    color: white;
+    transform: translateX(4px);
+}
+
+.option-btn:hover:not(:disabled)::after {
+    opacity: 1;
+}
+
+.option-btn:disabled {
+    cursor: default;
+}
+
+.option-btn.correct {
+    border-color: var(--green);
+    background: rgba(0, 255, 157, .1);
+    color: var(--green);
+}
+
+.option-btn.wrong {
+    border-color: var(--red);
+    background: rgba(255, 59, 92, .1);
+    color: var(--red);
+}
+
+/* Option selected (before submit) */
+.option-btn.selected-opt {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, .12);
+    color: white;
+    box-shadow: 0 0 14px rgba(0, 212, 255, .25);
+    transform: translateX(6px);
+}
+
+.option-btn.selected-opt .opt-key {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+.opt-key {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--dim);
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    min-width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all var(--transition-fast);
+}
+
+/* ── FEEDBACK ── */
+.feedback {
+    margin-top: 14px;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: .92rem;
+    display: none;
+    animation: fadeSlide .3s ease;
+}
+
+.feedback.correct {
+    background: rgba(0, 255, 157, .1);
+    border: 1px solid rgba(0, 255, 157, .3);
+    color: var(--green);
+}
+
+.feedback.wrong {
+    background: rgba(255, 59, 92, .1);
+    border: 1px solid rgba(255, 59, 92, .3);
+    color: var(--red);
+}
+
+.feedback.show {
+    display: block;
+}
+
+/* ── WEAK TOPIC ALERT ── */
+.weak-topic-alert {
+    margin-top: 10px;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 107, 53, .08);
+    border: 1px solid rgba(255, 107, 53, .3);
+    color: var(--accent2);
+    font-size: .82rem;
+    font-weight: 600;
+    display: none;
+    animation: fadeSlide .3s ease;
+}
+
+.weak-topic-alert.show {
+    display: block;
+}
+
+/* ── SUBMIT BUTTON ── */
+.submit-btn {
+    display: none;
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--green), var(--accent));
+    border: none;
+    border-radius: var(--radius-md);
+    color: #000;
+    font-family: var(--font-display);
+    font-size: .82rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: 0 0 20px rgba(0, 255, 157, .2);
+}
+
+.submit-btn:hover {
+    opacity: .88;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 157, .35);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.submit-btn.show {
+    display: block;
+}
+
+/* ── NEXT BUTTON ── */
+.next-btn {
+    display: none;
+    width: 100%;
+    margin-top: 14px;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-family: var(--font-display);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.next-btn:hover {
+    opacity: .85;
+    transform: translateY(-1px);
+}
+
+.next-btn.show {
+    display: block;
+}
+
+/* ── XP POPUP ── */
+.xp-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    pointer-events: none;
+    z-index: var(--z-popup);
+    animation: popUp 1.2s ease forwards;
+    opacity: 0;
+    text-shadow: 0 0 20px currentColor;
+}
+
+.xp-popup.gain {
+    color: var(--green);
+}
+
+.xp-popup.loss {
+    color: var(--red);
+}
+
+/* ── KEYBOARD HINT ── */
+.keyboard-hint {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: .6rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-top: 8px;
+    opacity: 0.6;
+}
+
+kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: .6rem;
+    background: rgba(255, 255, 255, .04);
+}

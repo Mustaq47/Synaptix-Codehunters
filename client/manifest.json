@@ -1,0 +1,26 @@
+{
+  "name": "NEXUS ASSESS",
+  "short_name": "Nexus",
+  "description": "AI Adaptive Programming Assessment — Master Java, C & Python through gamified adaptive quizzes.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#05060f",
+  "theme_color": "#05060f",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "games"],
+  "screenshots": []
+}

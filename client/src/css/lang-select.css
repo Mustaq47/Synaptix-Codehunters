@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════════════
+   NEXUS ASSESS — Language Selection Screen
+   ═══════════════════════════════════════════════════════════ */
+
+.lang-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    max-width: 560px;
+    width: 100%;
+    animation: slideUp .5s ease;
+}
+
+.lang-card h2 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 4px;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.lang-card .sub {
+    font-size: .78rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+    font-family: var(--font-mono);
+    margin-bottom: 32px;
+}
+
+/* ── LANGUAGE GRID ── */
+.lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-bottom: 32px;
+}
+
+.lang-opt {
+    background: rgba(255, 255, 255, .03);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 16px 22px;
+    cursor: pointer;
+    transition: all .25s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.lang-opt::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .25s;
+    background: radial-gradient(ellipse at center, color-mix(in srgb, var(--lc) 10%, transparent), transparent 70%);
+}
+
+.lang-opt:hover {
+    transform: translateY(-3px);
+    border-color: var(--lc);
+}
+
+.lang-opt:hover::before {
+    opacity: 1;
+}
+
+.lang-opt.selected {
+    transform: translateY(-3px);
+    border-color: var(--lc);
+    background: color-mix(in srgb, var(--lc) 8%, transparent);
+    box-shadow: 0 0 24px color-mix(in srgb, var(--lc) 20%, transparent);
+}
+
+.lang-opt.selected::before {
+    opacity: 1;
+}
+
+/* Language color vars */
+.lang-opt.java {
+    --lc: var(--java);
+}
+
+.lang-opt.c {
+    --lc: var(--c);
+}
+
+.lang-opt.python {
+    --lc: var(--python);
+}
+
+.lang-icon {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    display: block;
+    line-height: 1;
+}
+
+.lang-name {
+    font-family: var(--font-display);
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.lang-name.java-name {
+    color: var(--java);
+}
+
+.lang-name.c-name {
+    color: var(--c);
+}
+
+.lang-name.python-name {
+    color: var(--python);
+}
+
+.lang-desc {
+    font-size: .68rem;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    line-height: 1.5;
+    position: relative;
+}
+
+/* Selected checkmark */
+.lang-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7rem;
+    transition: all var(--transition-fast);
+}
+
+.lang-opt.selected .lang-check {
+    background: var(--lc);
+    border-color: var(--lc);
+    color: #000;
+}
+
+/* ── START BUTTON ── */
+.lang-start-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-family: var(--font-display);
+    font-size: .88rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.lang-start-btn:hover {
+    opacity: .88;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, .3);
+}
+
+.lang-start-btn:active {
+    transform: translateY(0);
+}
+
+/* ── TOPIC CHIPS (lang select screen) ── */
+.topic-select-section {
+    margin-top: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+}
+
+.topic-select-title {
+    font-size: .62rem;
+    letter-spacing: 3px;
+    color: var(--dim);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.topic-chips-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: 10px;
+}
+
+.topic-chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .03);
+    color: var(--dim);
+    font-size: .68rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.topic-chip.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0, 212, 255, .1);
+}
+
+.topic-chip.locked {
+    opacity: .4;
+    cursor: not-allowed;
+}
