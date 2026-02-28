@@ -11,6 +11,18 @@ import { LANG_META } from './constants.js';
 
 export { loadProfile, saveProfile };
 
+// Expose profile export to global scope for HTML buttons
+window.exportProfileReport = async function (format) {
+    const p = await loadProfile();
+    const h = await loadHistory();
+    if (!p) { alert('No profile data available.'); return; }
+    const mod = await import('./export.js');
+
+    if (format === 'pdf') mod.downloadProfilePDF(p, h);
+    if (format === 'csv') mod.downloadProfileCSV(p, h);
+    if (format === 'xml') mod.downloadProfileXML(p, h);
+};
+
 // Chart.js instances
 let accuracyRadarChart = null;
 let scoresLineChart = null;

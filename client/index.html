@@ -462,6 +462,20 @@
                     <div class="rs-empty">Performing well! 🎯<br>Weak topics will appear here if accuracy drops below
                         50%. Click a topic to revise.</div>
                 </div>
+
+                <!-- EXPORT SECTION -->
+                <div class="rs-export-section"
+                    style="margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <div class="rs-title" style="margin-bottom: 12px; font-size: 0.8rem;">📈 EXPORT CAREER REPORT</div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+                        <button class="action-btn secondary" style="flex:1; padding:8px 0; font-size:0.75rem;"
+                            onclick="exportProfileReport('pdf')">📄 PDF</button>
+                        <button class="action-btn secondary" style="flex:1; padding:8px 0; font-size:0.75rem;"
+                            onclick="exportProfileReport('csv')">📊 CSV</button>
+                        <button class="action-btn secondary" style="flex:1; padding:8px 0; font-size:0.75rem;"
+                            onclick="exportProfileReport('xml')">📁 XML</button>
+                    </div>
+                </div>
             </aside>
 
         </div><!-- /game-layout -->
